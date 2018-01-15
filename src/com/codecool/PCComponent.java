@@ -4,14 +4,14 @@ public class PCComponent {
 
     private String name;
     private String manufacturer;
-    private int powerConsumption;
     private int value;
+    private Tier tier;
 
-    public PCComponent(String name, String manufacturer, int powerConsumption, int value) {
+    public PCComponent(String name, String manufacturer, int value, Tier tier) {
         this.name = name;
         this.manufacturer = manufacturer;
-        this.powerConsumption = powerConsumption;
         this.value = value;
+        this.tier = tier;
     }
 
     public String getName() {
@@ -22,12 +22,12 @@ public class PCComponent {
         return manufacturer;
     }
 
-    public int getPowerConsumption() {
-        return powerConsumption;
-    }
-
     public int getValue() {
         return value;
+    }
+
+    public Tier getTier() {
+        return tier;
     }
 
 }

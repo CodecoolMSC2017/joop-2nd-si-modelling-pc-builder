@@ -2,15 +2,15 @@ package com.codecool;
 
 public class Electronic extends PCComponent {
 
-    private Tier tier;
+    private int powerConsumption;
 
-    public Electronic(Tier tier, String name, String manufacturer, int powerConsumption, int value) {
-        super(name, manufacturer, powerConsumption, value);
-        this.tier = tier;
+    public Electronic(int powerConsumption, String name, String manufacturer, int value, Tier tier) {
+        super(name, manufacturer, value, tier);
+        this.powerConsumption = powerConsumption;
     }
 
-    public Tier getTier() {
-        return tier;
+    public int getPowerConsumption() {
+        return powerConsumption;
     }
 
 }
