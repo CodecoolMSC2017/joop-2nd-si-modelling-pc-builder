@@ -1,5 +1,7 @@
 package com.codecool;
 
+import java.util.Objects;
+
 public class PCComponent {
 
     private String name;
@@ -28,6 +30,25 @@ public class PCComponent {
 
     public Tier getTier() {
         return tier;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        PCComponent component = (PCComponent)o;
+        return Objects.equals(this.getName(), component.getName());
     }
 
 }

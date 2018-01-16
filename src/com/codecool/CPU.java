@@ -1,5 +1,7 @@
 package com.codecool;
 
+import java.util.Objects;
+
 public class CPU extends ProcessingUnit {
 
     private int threads;
@@ -17,6 +19,25 @@ public class CPU extends ProcessingUnit {
 
     public int getCores() {
         return cores;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        CPU cpu = (CPU)o;
+        return Objects.equals(this.getName(), cpu.getName());
     }
 
 }
