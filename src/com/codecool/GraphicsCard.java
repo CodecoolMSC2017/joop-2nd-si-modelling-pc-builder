@@ -9,7 +9,7 @@ public class GraphicsCard extends ProcessingUnit {
 
     public GraphicsCard(String name, String manufacturer, int value, Tier tier,
         int powerConsumption, String memoryType, int coreClock, boolean overclockable, int vram, Size size) {
-        super(name, manufacturer, value, tier, powerConsumption, memoryType, coreClock, verclockable);
+        super(name, manufacturer, value, tier, powerConsumption, memoryType, coreClock, overclockable);
         this.vram = vram;
         this.size = size;
     }

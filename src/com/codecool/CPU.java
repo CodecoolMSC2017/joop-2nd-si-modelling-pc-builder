@@ -11,7 +11,7 @@ public class CPU extends ProcessingUnit {
     public CPU(String name, String manufacturer, int value, Tier tier,
         int powerConsumption, String memoryType, int coreClock, boolean overclockable,
         String socket, int threads, int cores) {
-        super(name, manufacturer, value, tier, powerConsumption, memoryType, coreClock, verclockable);
+        super(name, manufacturer, value, tier, powerConsumption, memoryType, coreClock, overclockable);
         this.socket = socket;
         this.threads = threads;
         this.cores = cores;
