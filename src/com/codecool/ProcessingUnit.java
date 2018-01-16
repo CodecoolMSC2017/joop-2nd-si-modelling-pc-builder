@@ -26,6 +26,14 @@ public class ProcessingUnit extends Electronic {
         return memoryType;
     }
 
+    public int getCoreClock() {
+        return coreClock;
+    }
+
+    public boolean getOverclockable() {
+        return overclockable;
+    }
+
     @Override
 
     public boolean equals(Object o) {
