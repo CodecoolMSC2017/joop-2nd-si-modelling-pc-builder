@@ -2,15 +2,15 @@ package com.codecool;
 
 public class ProcessingUnit extends Electronic {
 
-    private int amountOfCores;
+    private int temperature;
 
-    public ProcessingUnit(int amountOfCores, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
+    public ProcessingUnit(int powerConsumption, String name, String manufacturer, int value, Tier tier) {
         super(powerConsumption, name, manufacturer, value, tier);
-        this.amountOfCores = amountOfCores;
+        this.temperature = 25;
     }
 
-    public int getAmountOfCores() {
-        return amountOfCores;
+    public int getTemperature() {
+        return temperature;
     }
 
 }

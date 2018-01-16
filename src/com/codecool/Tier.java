@@ -12,4 +12,8 @@ public enum Tier {
         this.fanciness = fanciness;
     }
 
+    public int getFanciness() {
+        return fanciness;
+    }
+
 }
