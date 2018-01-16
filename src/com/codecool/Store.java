@@ -89,7 +89,17 @@ public class Store {
     }
 
     private static Heatsink[] readHeatsinkFile() {
-        return new Heatsink[1];
+        String[] fileContent = getFileContent("../store_items/heatsinks.csv");
+        Heatsink[] result = new Heatsink[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new Heatsink(parts[0], parts[1], Integer.parseInt(parts[2]),
+                Tier.valueOf(parts[3]), Size.valueOf(parts[4]));
+            counter++;
+        }
+        return result;
     }
 
     private static Fan[] readFanFile() {
