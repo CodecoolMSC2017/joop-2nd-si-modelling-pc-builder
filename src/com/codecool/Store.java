@@ -110,18 +110,39 @@ public class Store {
         for (String line : fileContent) {
             String[] parts = line.split(";");
             result[counter] = new Fan(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-            Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
             counter++;
         }
         return result;
     }
 
     private static Memory[] readMemoryFile() {
-        return new Memory[1];
+        String[] fileContent = getFileContent("../store_items/rams.csv");
+        Memory[] result = new Memory[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new Memory(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), parts[6], Integer.parseInt(parts[7]));
+            counter++;
+        }
+        return result;
     }
 
     private static GraphicsCard[] readGpuFile() {
-        return new GraphicsCard[1];
+        String[] fileContent = getFileContent("../store_items/gpus.csv");
+        GraphicsCard[] result = new GraphicsCard[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new GraphicsCard(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+                Integer.parseInt(parts[4]), parts[5], Integer.parseInt(parts[6]), Boolean.parseBoolean(parts[7]),
+                Integer.parseInt(parts[8]), Size.valueOf(parts[9]));
+            counter++;
+        }
+        return result;
     }
 
     private static SolidStateDrive[] readSsdFile() {
