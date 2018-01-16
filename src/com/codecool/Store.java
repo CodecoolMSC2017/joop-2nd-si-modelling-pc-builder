@@ -150,4 +150,44 @@ public class Store {
         return content;
     }
 
+    public Case[] getCases() {
+        return cases;
+    }
+
+    public PowerSupply[] getPsus() {
+        return psus;
+    }
+
+    public Motherboard[] getMotherboards() {
+        return motherboards;
+    }
+
+    public CPU[] getCpus() {
+        return cpus;
+    }
+
+    public Heatsink[] getHeatsinks() {
+        return heatsinks;
+    }
+
+    public Fan[] getFans() {
+        return fans;
+    }
+
+    public Memory[] getMemories() {
+        return memories;
+    }
+
+    public GraphicsCard[] getGpus() {
+        return gpus;
+    }
+
+    public SolidStateDrive[] getSsds() {
+        return ssds;
+    }
+
+    public HardDiskDrive[] getHdds() {
+        return hdds;
+    }
+
 }
