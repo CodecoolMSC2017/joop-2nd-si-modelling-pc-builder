@@ -103,7 +103,17 @@ public class Store {
     }
 
     private static Fan[] readFanFile() {
-        return new Fan[1];
+        String[] fileContent = getFileContent("../store_items/fans.csv");
+        Fan[] result = new Fan[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new Fan(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+            Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+            counter++;
+        }
+        return result;
     }
 
     private static Memory[] readMemoryFile() {
