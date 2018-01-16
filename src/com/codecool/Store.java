@@ -160,7 +160,18 @@ public class Store {
     }
 
     private static HardDiskDrive[] readHddFile() {
-        return new HardDiskDrive[1];
+        String[] fileContent = getFileContent("../store_items/hdds.csv");
+        HardDiskDrive[] result = new HardDiskDrive[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new HardDiskDrive(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]),
+                Integer.parseInt(parts[7]));
+            counter++;
+        }
+        return result;
     }
 
     private static int getFileLength(File file) {
