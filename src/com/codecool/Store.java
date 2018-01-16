@@ -146,7 +146,17 @@ public class Store {
     }
 
     private static SolidStateDrive[] readSsdFile() {
-        return new SolidStateDrive[1];
+        String[] fileContent = getFileContent("../store_items/ssds.csv");
+        SolidStateDrive[] result = new SolidStateDrive[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new SolidStateDrive(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+            counter++;
+        }
+        return result;
     }
 
     private static HardDiskDrive[] readHddFile() {
