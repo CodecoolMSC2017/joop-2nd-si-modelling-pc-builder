@@ -74,7 +74,18 @@ public class Store {
     }
 
     private static CPU[] readCpuFile() {
-        return new CPU[1];
+        String[] fileContent = getFileContent("../store_items/cpus.csv");
+        CPU[] result = new CPU[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new CPU(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+                Integer.parseInt(parts[4]), parts[5], Integer.parseInt(parts[6]), Boolean.parseBoolean(parts[7]),
+                parts[8], Integer.parseInt(parts[9]), Integer.parseInt(parts[10]));
+            counter++;
+        }
+        return result;
     }
 
     private static Heatsink[] readHeatsinkFile() {
