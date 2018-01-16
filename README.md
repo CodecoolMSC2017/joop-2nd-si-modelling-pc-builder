@@ -1,14 +1,14 @@
 # joop-2nd-si-modelling-pc-builder
 
 ## `Compilation`
-    `cd <repo>`
-    `cd src`
-    `javac com/codecool/*.java`
+    cd <repo>
+    cd src
+    javac com/codecool/*.java
 
 ## `Execution`
-    `cd <repo>`
-    `cd src`
-    `java com.codecool.Main`
+    cd <repo>
+    cd src
+    java com.codecool.Main
 
 ## `Goals`
 
