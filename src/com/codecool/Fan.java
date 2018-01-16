@@ -6,13 +6,11 @@ public class Fan extends Electronic {
 
     private int rpm;
     private int airflow;
-    private String color;
 
-    public Fan(int rpm, int airflow, String color, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
+    public Fan(int rpm, int airflow, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
         super(powerConsumption, name, manufacturer, value, tier);
         this.rpm = rpm;
         this.airflow = airflow;
-        this.color = color;
     }
 
     public int getRpm() {
