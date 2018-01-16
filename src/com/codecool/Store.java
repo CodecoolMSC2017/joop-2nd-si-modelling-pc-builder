@@ -30,43 +30,54 @@ public class Store {
     }
 
     private static Case[] readCaseFile() {
-        
+        String[] fileContent = getFileContent("../store_items/cases.csv");
+        Case[] result = new Case[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new Case(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+                Size.valueOf(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]),
+                Integer.parseInt(parts[7]), Integer.parseInt(parts[8]));
+            counter++;
+        }
+        return result;
     }
 
     private static PowerSupply[] readPsuFile() {
-
+        return new PowerSupply[1];
     }
 
     private static Motherboard[] readMotherboardFile() {
-
+        return new Motherboard[1];
     }
 
     private static CPU[] readCpuFile() {
-
+        return new CPU[1];
     }
 
     private static Heatsink[] readHeatsinkFile() {
-
+        return new Heatsink[1];
     }
 
     private static Fan[] readFanFile() {
-
+        return new Fan[1];
     }
 
     private static Memory[] readMemoryFile() {
-
+        return new Memory[1];
     }
 
     private static GraphicsCard[] readGpuFile() {
-
+        return new GraphicsCard[1];
     }
 
     private static SolidStateDrive[] readSsdFile() {
-
+        return new SolidStateDrive[1];
     }
 
     private static HardDiskDrive[] readHddFile() {
-
+        return new HardDiskDrive[1];
     }
 
     private static int getFileLength(File file) {
