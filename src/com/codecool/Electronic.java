@@ -6,7 +6,7 @@ public class Electronic extends PCComponent {
 
     private int powerConsumption;
 
-    public Electronic(int powerConsumption, String name, String manufacturer, int value, Tier tier) {
+    public Electronic(String name, String manufacturer, int value, Tier tier, int powerConsumption) {
         super(name, manufacturer, value, tier);
         this.powerConsumption = powerConsumption;
     }
@@ -16,9 +16,6 @@ public class Electronic extends PCComponent {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

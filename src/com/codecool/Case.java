@@ -10,7 +10,8 @@ public class Case extends PCComponent {
     private int frontFanCapacity;
     private int rearFanCapacity;
 
-    public Case(Size size, int ssdCapacity, int hhdCapacity, int frontFanCapacity, int rearFanCapacity, String name, String manufacturer, int value, Tier tier) {
+    public Case(String name, String manufacturer, int value, Tier tier, Size size,
+    int ssdCapacity, int hhdCapacity, int frontFanCapacity, int rearFanCapacity) {
         super(name, manufacturer, value, tier);
         this.size = size;
         this.ssdCapacity = ssdCapacity;
@@ -40,9 +41,6 @@ public class Case extends PCComponent {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

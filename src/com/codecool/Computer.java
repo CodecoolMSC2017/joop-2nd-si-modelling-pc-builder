@@ -10,7 +10,8 @@ public class Computer {
     private GraphicsCard[] gpu;
     private Storage[] storage;
 
-    public Computer(Case casing, PowerSupply psu, Motherboard motherboard, CPU[] cpu, Memory[] ram, GraphicsCard[] gpu, Storage[] storage) {
+    public Computer(Case casing, PowerSupply psu, Motherboard motherboard, CPU[] cpu,
+    Memory[] ram, GraphicsCard[] gpu, Storage[] storage) {
         this.casing = casing;
         this.psu = psu;
         this.motherboard = motherboard;

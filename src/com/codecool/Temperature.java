@@ -8,13 +8,13 @@ public enum Temperature {
     IDLE      (35),
     AMBIENT   (25);
 
-    private final int temperature;
+    private int temperature;
 
     private Temperature(int temperature) {
         this.temperature = temperature;
     }
 
-    public int getTemperature() {
+    public int inDigits() {
         return temperature;
     }
 

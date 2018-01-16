@@ -7,8 +7,9 @@ public class GraphicsCard extends ProcessingUnit {
     private int vram;
     private Size size;
 
-    public GraphicsCard(int vram, Size size, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(powerConsumption, name, manufacturer, value, tier);
+    public GraphicsCard(String name, String manufacturer, int value, Tier tier,
+    int powerConsumption, String memoryType, int vram, Size size) {
+        super(name, manufacturer, value, tier, powerConsumption, memoryType);
         this.vram = vram;
         this.size = size;
     }
@@ -22,9 +23,6 @@ public class GraphicsCard extends ProcessingUnit {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

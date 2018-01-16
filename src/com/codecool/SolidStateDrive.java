@@ -4,14 +4,12 @@ import java.util.Objects;
 
 public class SolidStateDrive extends Storage {
 
-    public SolidStateDrive(int capacity, int transferSpeed, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(capacity, transferSpeed, powerConsumption, name, manufacturer, value, tier);
+    public SolidStateDrive(String name, String manufacturer, int value, Tier tier,
+    int powerConsumption, int capacity, int transferSpeed) {
+        super(name, manufacturer, value, tier, powerConsumption, capacity, transferSpeed);
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

@@ -6,11 +6,14 @@ public class Memory extends Electronic {
 
     private int capacity;
     private String type;
+    private int amountOfSticks;
 
-    public Memory(int capacity, String type, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(powerConsumption, name, manufacturer, value, tier);
+    public Memory(String name, String manufacturer, int value, Tier tier,
+    int powerConsumption, int capacity, String type, int amountOfSticks) {
+        super(name, manufacturer, value, tier, powerConsumption);
         this.capacity = capacity;
         this.type = type;
+        this.amountOfSticks = amountOfSticks;
     }
 
     public int getCapacity() {
@@ -22,9 +25,6 @@ public class Memory extends Electronic {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

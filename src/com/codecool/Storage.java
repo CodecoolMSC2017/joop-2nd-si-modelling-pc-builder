@@ -7,8 +7,9 @@ public class Storage extends Electronic {
     private int capacity;
     private int transferSpeed;
 
-    public Storage(int capacity, int transferSpeed, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(powerConsumption, name, manufacturer, value, tier);
+    public Storage(String name, String manufacturer, int value, Tier tier,
+    int powerConsumption, int capacity, int transferSpeed) {
+        super(name, manufacturer, value, tier, powerConsumption);
         this.capacity = capacity;
         this.transferSpeed = transferSpeed;
     }
@@ -17,10 +18,11 @@ public class Storage extends Electronic {
         return capacity;
     }
 
-    @Override
-    public String toString() {
-        return this.getName();
+    public int getTransferSpeed() {
+        return transferSpeed;
     }
+
+    @Override
 
     public boolean equals(Object o) {
         if (this == o) {

@@ -12,8 +12,10 @@ public class Motherboard extends Electronic {
     private int amountOfPCIESlots;
     private int amountOfSata;
 
-    public Motherboard(Size size, String socket, int amountOfSockets, String memoryType, int amountOfMemorySlots, int amountOfPCIESlots, int amountOfSata, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(powerConsumption, name, manufacturer, value, tier);
+    public Motherboard(String name, String manufacturer, int value, Tier tier, int powerConsumption,
+    Size size, String socket, int amountOfSockets, String memoryType, int amountOfMemorySlots,
+    int amountOfPCIESlots, int amountOfSata) {
+        super(name, manufacturer, value, tier, powerConsumption);
         this.size = size;
         this.socket = socket;
         this.amountOfSockets = amountOfSockets;
@@ -52,9 +54,6 @@ public class Motherboard extends Electronic {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

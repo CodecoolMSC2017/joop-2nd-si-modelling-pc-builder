@@ -7,14 +7,13 @@ public class CPU extends ProcessingUnit {
     private String socket;
     private int threads;
     private int cores;
-    private String memoryType;
 
-    public CPU(String socket, int threads, int cores, String memoryType, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(powerConsumption, name, manufacturer, value, tier);
+    public CPU(String name, String manufacturer, int value, Tier tier,
+    int powerConsumption, String memoryType, String socket, int threads, int cores) {
+        super(name, manufacturer, value, tier, powerConsumption, memoryType);
         this.socket = socket;
         this.threads = threads;
         this.cores = cores;
-        this.memoryType = memoryType;
     }
 
     public String getSocket() {
@@ -30,9 +29,6 @@ public class CPU extends ProcessingUnit {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

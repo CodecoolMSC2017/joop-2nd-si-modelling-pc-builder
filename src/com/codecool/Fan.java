@@ -7,8 +7,8 @@ public class Fan extends Electronic {
     private int rpm;
     private int airflow;
 
-    public Fan(int rpm, int airflow, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(powerConsumption, name, manufacturer, value, tier);
+    public Fan(String name, String manufacturer, int value, Tier tier, int powerConsumption, int rpm, int airflow) {
+        super(name, manufacturer, value, tier, powerConsumption);
         this.rpm = rpm;
         this.airflow = airflow;
     }
@@ -22,9 +22,6 @@ public class Fan extends Electronic {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

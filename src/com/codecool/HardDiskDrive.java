@@ -6,8 +6,9 @@ public class HardDiskDrive extends Storage {
 
     private int rpm;
 
-    public HardDiskDrive(int rpm, int capacity, int transferSpeed, int powerConsumption, String name, String manufacturer, int value, Tier tier) {
-        super(capacity, transferSpeed, powerConsumption, name, manufacturer, value, tier);
+    public HardDiskDrive(String name, String manufacturer, int value, Tier tier,
+    int powerConsumption, int capacity, int transferSpeed, int rpm) {
+        super(name, manufacturer, value, tier, powerConsumption, capacity, transferSpeed);
         this.rpm = rpm;
     }
 
@@ -16,9 +17,6 @@ public class HardDiskDrive extends Storage {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {

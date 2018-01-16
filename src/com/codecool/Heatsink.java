@@ -6,7 +6,7 @@ public class Heatsink extends PCComponent {
 
     private Size size;
 
-    public Heatsink(Size size, String name, String manufacturer, int value, Tier tier) {
+    public Heatsink(String name, String manufacturer, int value, Tier tier, Size size) {
         super(name, manufacturer, value, tier);
         this.size = size;
     }
@@ -16,9 +16,6 @@ public class Heatsink extends PCComponent {
     }
 
     @Override
-    public String toString() {
-        return this.getName();
-    }
 
     public boolean equals(Object o) {
         if (this == o) {
