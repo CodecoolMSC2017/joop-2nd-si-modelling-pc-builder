@@ -66,8 +66,8 @@ public class Store {
         for (String line : fileContent) {
             String[] parts = line.split(";");
             result[counter] = new Motherboard(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4], Size.valueOf(parts[5], parts[6], Integer.parseInt(parts[7], parts[8],
-                Integer.parseInt(parts[9], Integer.parseInt(parts[10], Integer.parseInt(parts[11]);
+                Integer.parseInt(parts[4]), Size.valueOf(parts[5]), parts[6], Integer.parseInt(parts[7]), parts[8],
+                Integer.parseInt(parts[9]), Integer.parseInt(parts[10]), Integer.parseInt(parts[11]));
             counter++;
         }
         return result;
