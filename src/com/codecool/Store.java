@@ -45,11 +45,32 @@ public class Store {
     }
 
     private static PowerSupply[] readPsuFile() {
-        return new PowerSupply[1];
+        String[] fileContent = getFileContent("../store_items/psus.csv");
+        PowerSupply[] result = new PowerSupply[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new PowerSupply(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+            Integer.parseInt(parts[4]), Integer.parseInt(parts[5]));
+            counter++;
+        }
+        return result;
     }
 
     private static Motherboard[] readMotherboardFile() {
-        return new Motherboard[1];
+        String[] fileContent = getFileContent("../store_items/motherboards.csv");
+        Motherboard[] result = new Motherboard[fileContent.length];
+        int counter = 0;
+
+        for (String line : fileContent) {
+            String[] parts = line.split(";");
+            result[counter] = new Motherboard(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
+                Integer.parseInt(parts[4], Size.valueOf(parts[5], parts[6], Integer.parseInt(parts[7], parts[8],
+                Integer.parseInt(parts[9], Integer.parseInt(parts[10], Integer.parseInt(parts[11]);
+            counter++;
+        }
+        return result;
     }
 
     private static CPU[] readCpuFile() {
