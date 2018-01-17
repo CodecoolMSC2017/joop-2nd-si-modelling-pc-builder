@@ -27,7 +27,7 @@ public class Main {
                 break;
             } else
             if (input.equals(":inventory")) {
-                displayInventory(inventory);;
+                displayInventory(store, "Store Menu");
             } else
             if (input.equals(":save")) {
                 break;
@@ -53,22 +53,65 @@ public class Main {
         System.out.println("this is the build menu");
     }
 
-    static void displayInventory(UserInventory inventory) {
-        System.out.println("\nInventory\nCommands: :back (or type corresponding number)\n");
-        System.out.println("0 (" + inventory.getCases().length + ") Cases");
-        System.out.println("1 (" + inventory.getPsus().length + ") Power supplies");
-        System.out.println("2 (" + inventory.getMotherboards().length + ") Motherboards");
-        System.out.println("3 (" + inventory.getCpus().length + ") Processors");
-        System.out.println("4 (" + inventory.getHeatsinks().length + ") Heatsinks");
-        System.out.println("5 (" + inventory.getFans().length + ") Fans");
-        System.out.println("6 (" + inventory.getMemories().length + ") Memories");
-        System.out.println("7 (" + inventory.getGpus().length + ") Graphics cards");
-        System.out.println("8 (" + inventory.getSsds().length + ") Solid state drives");
-        System.out.println("9 (" + inventory.getHdds().length + ") Hard disk drives\n");
-        String input = userInput.nextLine().toLowerCase();
+    static void displayInventory(Inventory inventory, String menuTitle) {
+        while (true) {
+            System.out.println("\n" + menuTitle + "\nCommands: :back (or type corresponding number)\n");
+            System.out.println("0 (" + inventory.getCases().length + " items) Cases");
+            System.out.println("1 (" + inventory.getPsus().length + " items) Power supplies");
+            System.out.println("2 (" + inventory.getMotherboards().length + " items) Motherboards");
+            System.out.println("3 (" + inventory.getCpus().length + " items) Processors");
+            System.out.println("4 (" + inventory.getHeatsinks().length + " items) Heatsinks");
+            System.out.println("5 (" + inventory.getFans().length + " items) Fans");
+            System.out.println("6 (" + inventory.getMemories().length + " items) Memories");
+            System.out.println("7 (" + inventory.getGpus().length + " items) Graphics cards");
+            System.out.println("8 (" + inventory.getSsds().length + " items) Solid state drives");
+            System.out.println("9 (" + inventory.getHdds().length + " items) Hard disk drives\n");
+            String input = userInput.nextLine().toLowerCase();
 
-        if (input.equals(":back")) {
+            if (input.equals(":back")) {
+                return;
+            }
+            if (input.equals("0")) {
+                displayItems(inventory.getCases());
+            } else
+            if (input.equals("1")) {
+                displayItems(inventory.getPsus());
+            } else
+            if (input.equals("2")) {
+                displayItems(inventory.getMotherboards());
+            } else
+            if (input.equals("3")) {
+                displayItems(inventory.getCpus());
+            } else
+            if (input.equals("4")) {
+                displayItems(inventory.getHeatsinks());
+            } else
+            if (input.equals("5")) {
+                displayItems(inventory.getFans());
+            } else
+            if (input.equals("6")) {
+                displayItems(inventory.getMemories());
+            } else
+            if (input.equals("7")) {
+                displayItems(inventory.getGpus());
+            } else
+            if (input.equals("8")) {
+                displayItems(inventory.getSsds());
+            } else
+            if (input.equals("9")) {
+                displayItems(inventory.getHdds());
+            }
+        }
+    }
+
+    static void displayItems(PCComponent[] items) {
+        if (items.length < 1) {
+            System.out.println("You don't have any components of this type.");
             return;
+        }
+        System.out.println();
+        for (PCComponent item : items) {
+            System.out.println(item);
         }
     }
 
