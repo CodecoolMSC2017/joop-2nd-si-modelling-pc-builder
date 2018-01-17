@@ -4,7 +4,6 @@ public class UserInventory extends Inventory {
 
     private int money;
     private Computer[] computers;
-    private static int amountOfItems = 0;
 
     public UserInventory(int money) {
         super(new Case[] {}, new PowerSupply[] {}, new Motherboard[] {}, new CPU[] {},
@@ -28,10 +27,6 @@ public class UserInventory extends Inventory {
 
     public void addComputer(int index, Computer computer) {
         computers[index] = computer;
-    }
-
-    public static int getAmountOfItems() {
-        return amountOfItems;
     }
 
 }
