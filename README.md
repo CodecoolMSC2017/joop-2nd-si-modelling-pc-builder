@@ -10,11 +10,24 @@
     cd src
     java com.codecool.Main
 
-## `Goals`
+## `Description`
 
     This program will allow the user to build custom PCs and use them
     for different task to make progress in the game.
 
-## `Commands`
+## `Main menu commands`
 
-    Will be updated soon.
+### `:store`
+    Enters the store menu where you can browse and buy components.
+### `:build`
+    Modify a PC you have already built or build a brand new one.
+### `:find`
+    Find your PC by typing it's name and displays it's specs.
+### `:inventory`
+    Displays the components you have bought but have not built in yet.
+### `:save`
+    Saves your progress (saved game is loaded automatiaclly upon startup).
+### `:help`
+    Displays this helpful description.
+### `:exit`
+    After asking to save the game exits the program.
