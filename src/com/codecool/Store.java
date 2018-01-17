@@ -3,30 +3,11 @@ package com.codecool;
 import java.io.*;
 import java.util.Scanner;
 
-public class Store {
-
-    private Case[] cases;
-    private PowerSupply[] psus;
-    private Motherboard[] motherboards;
-    private CPU[] cpus;
-    private Heatsink[] heatsinks;
-    private Fan[] fans;
-    private Memory[] memories;
-    private GraphicsCard[] gpus;
-    private SolidStateDrive[] ssds;
-    private HardDiskDrive[] hdds;
+public class Store extends Inventory {
 
     public Store() {
-        this.cases = readCaseFile();
-        this.psus = readPsuFile();
-        this.motherboards = readMotherboardFile();
-        this.cpus = readCpuFile();
-        this.heatsinks = readHeatsinkFile();
-        this.fans = readFanFile();
-        this.memories = readMemoryFile();
-        this.gpus = readGpuFile();
-        this.ssds = readSsdFile();
-        this.hdds = readHddFile();
+        super(readCaseFile(), readPsuFile(), readMotherboardFile(), readCpuFile(), readHeatsinkFile(), 
+            readFanFile(), readMemoryFile(), readGpuFile(), readSsdFile(), readHddFile());
     }
 
     private static Case[] readCaseFile() {
@@ -210,46 +191,6 @@ public class Store {
             e.printStackTrace();
         }
         return content;
-    }
-
-    public Case[] getCases() {
-        return cases;
-    }
-
-    public PowerSupply[] getPsus() {
-        return psus;
-    }
-
-    public Motherboard[] getMotherboards() {
-        return motherboards;
-    }
-
-    public CPU[] getCpus() {
-        return cpus;
-    }
-
-    public Heatsink[] getHeatsinks() {
-        return heatsinks;
-    }
-
-    public Fan[] getFans() {
-        return fans;
-    }
-
-    public Memory[] getMemories() {
-        return memories;
-    }
-
-    public GraphicsCard[] getGpus() {
-        return gpus;
-    }
-
-    public SolidStateDrive[] getSsds() {
-        return ssds;
-    }
-
-    public HardDiskDrive[] getHdds() {
-        return hdds;
     }
 
 }
