@@ -31,11 +31,11 @@ public class Memory extends Electronic {
     public String details() {
         return "\n\033[1m   Name: " + this.getName() + "\n" +
                "   Manufacturer: " + this.getManufacturer() + "\n" +
-               "   Value: " + this.getValue() + "\n" +
+               "   Value: $" + this.getValue() + "\n" +
                "   Tier: " + this.getTier() + "\n" +
                "   Power consumption: " + this.getPowerConsumption() + "W\n" +
-               "   Capacity: " + this.getCapacity() + " GB\n" +
-               "   Memory type: " + this.getType() +
+               "   Capacity: " + this.getCapacity() + "GB\n" +
+               "   Memory type: " + this.getType() + "\n" +
                "   Amount of modules: " + this.getAmountOfSticks();
     }
 

@@ -18,7 +18,7 @@ public class Heatsink extends PCComponent {
     public String details() {
         return "\n\033[1m   Name: " + this.getName() + "\n" +
                "   Manufacturer: " + this.getManufacturer() + "\n" +
-               "   Value: " + this.getValue() + "\n" +
+               "   Value: $" + this.getValue() + "\n" +
                "   Tier: " + this.getTier() + "\n" +
                "   Size: " + this.getSize();
     }

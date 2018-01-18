@@ -25,11 +25,11 @@ public class GraphicsCard extends ProcessingUnit {
     public String details() {
         return "\n\033[1m   Name: " + this.getName() + "\n" +
                "   Manufacturer: " + this.getManufacturer() + "\n" +
-               "   Value: " + this.getValue() + "\n" +
+               "   Value: $" + this.getValue() + "\n" +
                "   Tier: " + this.getTier() + "\n" +
                "   Power consumption: " + this.getPowerConsumption() + "W\n" +
                "   Memory type: " + this.getMemoryType() + "\n" +
-               "   Amount of memory: " + this.getVram() + " GB\n" +
+               "   Amount of memory: " + this.getVram() + "GB\n" +
                "   Core clock: " + this.getCoreClock() + "Mhz\n" +
                "   Overclockable: " + this.getOverclockable() + "\n" +
                "   Size: " + this.getSize();

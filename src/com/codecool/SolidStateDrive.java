@@ -12,11 +12,11 @@ public class SolidStateDrive extends Storage {
     public String details() {
         return "\n\033[1m   Name: " + this.getName() + "\n" +
                "   Manufacturer: " + this.getManufacturer() + "\n" +
-               "   Value: " + this.getValue() + "\n" +
+               "   Value: $" + this.getValue() + "\n" +
                "   Tier: " + this.getTier() + "\n" +
                "   Power consumption: " + this.getPowerConsumption() + "W\n" +
-               "   Capacity: " + this.getCapacity() + " GB\n" +
-               "   Transfer speed: " + this.getTransferSpeed() + " Mb/sec";
+               "   Capacity: " + this.getCapacity() + "GB\n" +
+               "   Transfer speed: " + this.getTransferSpeed() + "Mb/sec";
     }
 
     @Override
