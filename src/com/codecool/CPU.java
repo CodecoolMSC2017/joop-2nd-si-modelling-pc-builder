@@ -29,6 +29,20 @@ public class CPU extends ProcessingUnit {
         return cores;
     }
 
+    public String details() {
+        return "\n\033[1m   Name: " + this.getName() + "\n" +
+               "   Manufacturer: " + this.getManufacturer() + "\n" +
+               "   Value: " + this.getValue() + "\n" +
+               "   Tier: " + this.getTier() + "\n" +
+               "   Power consumption: " + this.getPowerConsumption() + "W\n" +
+               "   Supported memory type: " + this.getMemoryType() + "\n" +
+               "   Core clock: " + this.getCoreClock() + "Mhz\n" +
+               "   Overclockable: " + this.getOverclockable() + "\n" +
+               "   Socket: " + this.getSocket() + "\n" +
+               "   Amount of threads: " + this.getThreads() + "\n" +
+               "   Amount of cores: " + this.getCores();
+    }
+
     @Override
 
     public boolean equals(Object o) {
