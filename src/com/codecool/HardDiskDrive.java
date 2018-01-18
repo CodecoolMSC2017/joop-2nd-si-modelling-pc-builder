@@ -16,6 +16,17 @@ public class HardDiskDrive extends Storage {
         return rpm;
     }
 
+    public String details() {
+        return "\n\033[1m   Name: " + this.getName() + "\n" +
+               "   Manufacturer: " + this.getManufacturer() + "\n" +
+               "   Value: " + this.getValue() + "\n" +
+               "   Tier: " + this.getTier() + "\n" +
+               "   Power consumption: " + this.getPowerConsumption() + "W\n" +
+               "   Capacity: " + this.getCapacity() + " GB\n" +
+               "   Transfer speed: " + this.getTransferSpeed() + " Mb/sec" +
+               "   Rotation speed: " + this.getRpm() + " Rpm\n";
+    }
+
     @Override
 
     public boolean equals(Object o) {

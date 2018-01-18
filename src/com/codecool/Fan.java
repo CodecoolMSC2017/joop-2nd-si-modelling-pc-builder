@@ -21,6 +21,16 @@ public class Fan extends Electronic {
         return airflow;
     }
 
+    public String details() {
+        return "\n\033[1m   Name: " + this.getName() + "\n" +
+               "   Manufacturer: " + this.getManufacturer() + "\n" +
+               "   Value: " + this.getValue() + "\n" +
+               "   Tier: " + this.getTier() + "\n" +
+               "   Power consumption: " + this.getPowerConsumption() + "W\n" +
+               "   Rotation speed: " + this.getRpm() + " Rpm\n" +
+               "   Airflow: " + this.getAirflow() + " Cfm";
+    }
+
     @Override
 
     public boolean equals(Object o) {

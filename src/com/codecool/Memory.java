@@ -24,6 +24,21 @@ public class Memory extends Electronic {
         return type;
     }
 
+    public int getAmountOfSticks() {
+        return amountOfSticks;
+    }
+
+    public String details() {
+        return "\n\033[1m   Name: " + this.getName() + "\n" +
+               "   Manufacturer: " + this.getManufacturer() + "\n" +
+               "   Value: " + this.getValue() + "\n" +
+               "   Tier: " + this.getTier() + "\n" +
+               "   Power consumption: " + this.getPowerConsumption() + "W\n" +
+               "   Capacity: " + this.getCapacity() + " GB\n" +
+               "   Memory type: " + this.getType() +
+               "   Amount of modules: " + this.getAmountOfSticks();
+    }
+
     @Override
 
     public boolean equals(Object o) {
