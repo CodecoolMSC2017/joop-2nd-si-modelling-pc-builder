@@ -18,7 +18,7 @@ public class Main {
                 break;
             } else 
             if (input.equals(":store")) {
-                storeMenu(store);
+                storeMenu(store, inventory);
             } else
             if (input.equals(":build")) {
                 buildMenu(inventory);;
@@ -45,30 +45,62 @@ public class Main {
         }
     }
 
-    static void storeMenu(Store store) {
+    static void storeMenu(Store store, UserInventory inventory) {
         while (true) {
-            String input = displayInventory(store, "Store Menu", ":back (or type corresponding number");
-            if (input.equals(":back")) {
+            String cathegory = displayInventory(store, "Store Menu", ":back (or type corresponding number");
+            if (cathegory.equals(":back")) {
                 return;
             }
             System.out.println("\nCommands: :purchase :back\n");
-            input = userInput.nextLine();
-            if (input.equals(":back")) {
+            String action = userInput.nextLine();
+            if (action.equals(":back")) {
                 continue;
             }
-            if (!input.equals(":purchase")) {
-                System.out.println("\nWrong input!\n");
+            if (!action.equals(":purchase")) {
+                System.out.println("\nWrong input: " + action + "\n");
                 continue;
             }
             System.out.println("Select an item by it's number:");
-            input = userInput.nextLine();
+            String input = userInput.nextLine();
+            int index = 0;
             try {
-                int inputInNumber = Integer.parseInt(input);
+                index = Integer.parseInt(input);
             } catch(NumberFormatException e) {
                 System.out.println("\nWrong input!\n");
                 continue;
             }
-            
+            switch(cathegory) {
+                case "0":
+                    inventory.addItem(store.getCases()[index]);
+                    break;
+                case "1":
+                    inventory.addItem(store.getPsus()[index]);
+                    break;
+                case "2":
+                    inventory.addItem(store.getMotherboards()[index]);
+                    break;
+                case "3":
+                    inventory.addItem(store.getCpus()[index]);
+                    break;
+                case "4":
+                    inventory.addItem(store.getHeatsinks()[index]);
+                    break;
+                case "5":
+                    inventory.addItem(store.getFans()[index]);
+                    break;
+                case "6":
+                    inventory.addItem(store.getMemories()[index]);
+                    break;
+                case "7":
+                    inventory.addItem(store.getGpus()[index]);
+                    break;
+                case "8":
+                    inventory.addItem(store.getSsds()[index]);
+                    break;
+                case "9":
+                    inventory.addItem(store.getHdds()[index]);
+                    break;
+            }
         }
     }
 
