@@ -53,6 +53,21 @@ public class Motherboard extends Electronic {
         return amountOfSata;
     }
 
+    public String details() {
+        return "\n\033[1m   Name: " + this.getName() + "\n" +
+               "   Manufacturer: " + this.getManufacturer() + "\n" +
+               "   Value: " + this.getValue() + "\n" +
+               "   Tier: " + this.getTier() + "\n" +
+               "   Power consumption: " + this.getPowerConsumption() + "W\n" +
+               "   Size: " + this.getSize() + "\n" +
+               "   Socket: " + this.getSocket() + "\n" +
+               "   Amount of sockets: " + this.getAmountOfSockets() + "\n" +
+               "   Supported memory type: " + this.getMemoryType() + "\n" +
+               "   Amount of memory slots " + this.getAmountOfMemorySlots() + "\n" +
+               "   Amount of PCI-e x16 slots " + this.getAmountOfPCIESlots() + "\n" +
+               "   Amount of SATA3 connectors " + this.getAmountOfSata();
+    }
+
     @Override
 
     public boolean equals(Object o) {
