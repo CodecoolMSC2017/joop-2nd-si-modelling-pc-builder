@@ -90,31 +90,31 @@ public class Main {
                 System.out.println(inventory.getCases()[index].details());
                 return;
             case "1":
-                inventory.addItem(inventory.getPsus()[index]);
+                System.out.println(inventory.getPsus()[index].details());
                 break;
             case "2":
-                inventory.addItem(inventory.getMotherboards()[index]);
+                System.out.println(inventory.getMotherboards()[index].details());
                 break;
             case "3":
-                inventory.addItem(inventory.getCpus()[index]);
+                System.out.println(inventory.getCpus()[index].details());
                 break;
             case "4":
-                inventory.addItem(inventory.getHeatsinks()[index]);
+                System.out.println(inventory.getHeatsinks()[index].details());
                 break;
             case "5":
-                inventory.addItem(inventory.getFans()[index]);
+                System.out.println(inventory.getFans()[index].details());
                 break;
             case "6":
-                inventory.addItem(inventory.getMemories()[index]);
+                System.out.println(inventory.getMemories()[index].details());
                 break;
             case "7":
-                inventory.addItem(inventory.getGpus()[index]);
+                System.out.println(inventory.getGpus()[index].details());
                 break;
             case "8":
-                inventory.addItem(inventory.getSsds()[index]);
+                System.out.println(inventory.getSsds()[index].details());
                 break;
             case "9":
-                inventory.addItem(inventory.getHdds()[index]);
+                System.out.println(inventory.getHdds()[index].details());
                 break;
         }
         System.out.println();
