@@ -53,69 +53,115 @@ public class Main {
             }
             while (true) {
                 System.out.println("\nCommands: :details :purchase :back\n");
-                String action = userInput.nextLine();
+                String action = userInput.nextLine().toLowerCase();
 
                 if (action.equals(":back")) {
                     break;
                 }
-                if (action.equals(":purchase")) {
-                    try {
+                try {
+                    if (action.equals(":purchase")) {
                         handlePurchase(store, inventory, cathegory);
-                    } catch(ArrayIndexOutOfBoundsException e) {
-                        System.out.println("\nIncorrect input!");
+                    } else
+                    if (action.equals(":details")) {
+                        showDetails(store, cathegory);
+                    } else {
+                        System.out.println("\nIncorrect input: " + action);
                     }
-                } else
-                if (action.equals(":details")) {
-                    System.out.println("details: ...");
-                } else {
-                    System.out.println("\nWrong input: " + action + "\n");
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    System.out.println("\nIncorrect input!");
                 }
+                displayCathegory(store, cathegory);
             }
         }
     }
 
-    static void handlePurchase(Store store, UserInventory inventory, String cathegory) throws ArrayIndexOutOfBoundsException {
-        System.out.println("Select an item by it's number:");
-            String input = userInput.nextLine();
-            int index = 0;
-            try {
-                index = Integer.parseInt(input);
-            } catch(NumberFormatException e) {
-                System.out.println("\nWrong input!\n");
+    static void showDetails(Inventory inventory, String cathegory) {
+        System.out.print("\nSelect an item by it's number: ");
+        String input = userInput.nextLine().toLowerCase();
+        int index = 0;
+        try {
+            index = Integer.parseInt(input);
+        } catch(NumberFormatException e) {
+            System.out.println("\nWrong input!");
+            return;
+        }
+        switch(cathegory) {
+            case "0":
+                System.out.println(inventory.getCases()[index].details());
                 return;
-            }
-            switch(cathegory) {
-                case "0":
-                    inventory.addItem(store.getCases()[index]);
-                    break;
-                case "1":
-                    inventory.addItem(store.getPsus()[index]);
-                    break;
-                case "2":
-                    inventory.addItem(store.getMotherboards()[index]);
-                    break;
-                case "3":
-                    inventory.addItem(store.getCpus()[index]);
-                    break;
-                case "4":
-                    inventory.addItem(store.getHeatsinks()[index]);
-                    break;
-                case "5":
-                    inventory.addItem(store.getFans()[index]);
-                    break;
-                case "6":
-                    inventory.addItem(store.getMemories()[index]);
-                    break;
-                case "7":
-                    inventory.addItem(store.getGpus()[index]);
-                    break;
-                case "8":
-                    inventory.addItem(store.getSsds()[index]);
-                    break;
-                case "9":
-                    inventory.addItem(store.getHdds()[index]);
-                    break;
-            }
+            case "1":
+                inventory.addItem(inventory.getPsus()[index]);
+                break;
+            case "2":
+                inventory.addItem(inventory.getMotherboards()[index]);
+                break;
+            case "3":
+                inventory.addItem(inventory.getCpus()[index]);
+                break;
+            case "4":
+                inventory.addItem(inventory.getHeatsinks()[index]);
+                break;
+            case "5":
+                inventory.addItem(inventory.getFans()[index]);
+                break;
+            case "6":
+                inventory.addItem(inventory.getMemories()[index]);
+                break;
+            case "7":
+                inventory.addItem(inventory.getGpus()[index]);
+                break;
+            case "8":
+                inventory.addItem(inventory.getSsds()[index]);
+                break;
+            case "9":
+                inventory.addItem(inventory.getHdds()[index]);
+                break;
+        }
+        System.out.println();
+    }
+
+    static void handlePurchase(Store store, UserInventory inventory, String cathegory) throws ArrayIndexOutOfBoundsException {
+        System.out.print("\nSelect an item by it's number: ");
+        String input = userInput.nextLine().toLowerCase();
+        int index = 0;
+        try {
+            index = Integer.parseInt(input);
+        } catch(NumberFormatException e) {
+            System.out.println("\nWrong input!");
+            return;
+        }
+        switch(cathegory) {
+            case "0":
+                inventory.addItem(store.getCases()[index]);
+                break;
+            case "1":
+                inventory.addItem(store.getPsus()[index]);
+                break;
+            case "2":
+                inventory.addItem(store.getMotherboards()[index]);
+                break;
+            case "3":
+                inventory.addItem(store.getCpus()[index]);
+                break;
+            case "4":
+                inventory.addItem(store.getHeatsinks()[index]);
+                break;
+            case "5":
+                inventory.addItem(store.getFans()[index]);
+                break;
+            case "6":
+                inventory.addItem(store.getMemories()[index]);
+                break;
+            case "7":
+                inventory.addItem(store.getGpus()[index]);
+                break;
+            case "8":
+                inventory.addItem(store.getSsds()[index]);
+                break;
+            case "9":
+                inventory.addItem(store.getHdds()[index]);
+                break;
+        }
     }
 
     static void inventoryMenu(UserInventory inventory) {
@@ -144,42 +190,49 @@ public class Main {
         System.out.println("8 (" + inventory.getSsds().length + " items) Solid state drives");
         System.out.println("9 (" + inventory.getHdds().length + " items) Hard disk drives\n");
 
-        String input = userInput.nextLine().toLowerCase();
+        String cathegory = userInput.nextLine().toLowerCase();
 
-        if (input.equals(":back")) {
-            return input;
+        displayCathegory(inventory, cathegory);
+
+        return cathegory;
+    }
+
+    static void displayCathegory(Inventory inventory, String cathegory) {
+        if (cathegory.equals(":back")) {
+            return;
         }
-        if (input.equals("0")) {
+        if (cathegory.equals("0")) {
             displayItems(inventory.getCases());
         } else
-        if (input.equals("1")) {
+        if (cathegory.equals("1")) {
             displayItems(inventory.getPsus());
         } else
-        if (input.equals("2")) {
+        if (cathegory.equals("2")) {
             displayItems(inventory.getMotherboards());
         } else
-        if (input.equals("3")) {
+        if (cathegory.equals("3")) {
             displayItems(inventory.getCpus());
         } else
-        if (input.equals("4")) {
+        if (cathegory.equals("4")) {
             displayItems(inventory.getHeatsinks());
         } else
-        if (input.equals("5")) {
+        if (cathegory.equals("5")) {
             displayItems(inventory.getFans());
         } else
-        if (input.equals("6")) {
+        if (cathegory.equals("6")) {
             displayItems(inventory.getMemories());
         } else
-        if (input.equals("7")) {
+        if (cathegory.equals("7")) {
             displayItems(inventory.getGpus());
         } else
-        if (input.equals("8")) {
+        if (cathegory.equals("8")) {
             displayItems(inventory.getSsds());
         } else
-        if (input.equals("9")) {
+        if (cathegory.equals("9")) {
             displayItems(inventory.getHdds());
+        } else {
+            System.out.println("incorrect");
         }
-        return input;
     }
 
     static void displayItems(PCComponent[] items) {
