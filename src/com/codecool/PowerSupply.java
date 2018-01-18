@@ -15,6 +15,15 @@ public class PowerSupply extends Electronic {
         return performance;
     }
 
+    public String details() {
+        return "\n\033[1m   Name: " + this.getName() + "\n" +
+               "   Manufacturer: " + this.getManufacturer() + "\n" +
+               "   Value: " + this.getValue() + "\n" +
+               "   Tier: " + this.getTier() + "\n" +
+               "   Power consumption: " + this.getPowerConsumption() + "W\n" +
+               "   Performance: " + this.getPerformance() + "W\033[0m";
+    }
+
     @Override
 
     public boolean equals(Object o) {
