@@ -28,6 +28,17 @@ public class Inventory {
         this.hdds = hdds;
     }
 
+    private int getIndexOfItem(PCComponent[] array, PCComponent item) {
+        int counter = 0;
+        for (PCComponent part : array) {
+            if (part.equals(item)) {
+                return counter;
+            }
+            counter++;
+        }
+        return -1;
+    }
+
     public void addItem(Case item) {
         Case[] newArray = new Case[cases.length + 1];
         int counter = 0;
@@ -139,43 +150,143 @@ public class Inventory {
     }
 
     public void deleteItem(Case item) {
-
+        int index = getIndexOfItem(cases, item);
+        Case[] newArray = new Case[cases.length - 1];
+        int counter = 0;
+        for (Case aCase : cases) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = aCase;
+            counter++;
+        }
+        cases = newArray;
     }
 
     public void deleteItem(PowerSupply item) {
-
+        int index = getIndexOfItem(psus, item);
+        PowerSupply[] newArray = new PowerSupply[psus.length - 1];
+        int counter = 0;
+        for (PowerSupply psu : psus) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = psu;
+            counter++;
+        }
+        psus = newArray;
     }
 
     public void deleteItem(Motherboard item) {
-
+        int index = getIndexOfItem(motherboards, item);
+        Motherboard[] newArray = new Motherboard[motherboards.length - 1];
+        int counter = 0;
+        for (Motherboard motherboard : motherboards) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = motherboard;
+            counter++;
+        }
+        motherboards = newArray;
     }
 
     public void deleteItem(CPU item) {
-
+        int index = getIndexOfItem(cpus, item);
+        CPU[] newArray = new CPU[cpus.length - 1];
+        int counter = 0;
+        for (CPU cpu : cpus) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = cpu;
+            counter++;
+        }
+        cpus = newArray;
     }
 
     public void deleteItem(Heatsink item) {
-
+        int index = getIndexOfItem(heatsinks, item);
+        Heatsink[] newArray = new Heatsink[heatsinks.length - 1];
+        int counter = 0;
+        for (Heatsink heatsink : heatsinks) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = heatsink;
+            counter++;
+        }
+        heatsinks = newArray;
     }
 
     public void deleteItem(Fan item) {
-
+        int index = getIndexOfItem(fans, item);
+        Fan[] newArray = new Fan[fans.length - 1];
+        int counter = 0;
+        for (Fan fan : fans) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = fan;
+            counter++;
+        }
+        fans = newArray;
     }
 
     public void deleteItem(Memory item) {
-
+        int index = getIndexOfItem(memories, item);
+        Memory[] newArray = new Memory[memories.length - 1];
+        int counter = 0;
+        for (Memory memory : memories) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = memory;
+            counter++;
+        }
+        memories = newArray;
     }
 
     public void deleteItem(GraphicsCard item) {
-
+        int index = getIndexOfItem(gpus, item);
+        GraphicsCard[] newArray = new GraphicsCard[gpus.length - 1];
+        int counter = 0;
+        for (GraphicsCard gpu : gpus) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = gpu;
+            counter++;
+        }
+        gpus = newArray;
     }
 
     public void deleteItem(SolidStateDrive item) {
-
+        int index = getIndexOfItem(ssds, item);
+        SolidStateDrive[] newArray = new SolidStateDrive[ssds.length - 1];
+        int counter = 0;
+        for (SolidStateDrive ssd : ssds) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = ssd;
+            counter++;
+        }
+        ssds = newArray;
     }
 
     public void deleteItem(HardDiskDrive item) {
-
+        int index = getIndexOfItem(hdds, item);
+        HardDiskDrive[] newArray = new HardDiskDrive[hdds.length - 1];
+        int counter = 0;
+        for (HardDiskDrive hdd : hdds) {
+            if (index == counter) {
+                continue;
+            }
+            newArray[counter] = hdd;
+            counter++;
+        }
+        hdds = newArray;
     }
 
     public Case[] getCases() {
