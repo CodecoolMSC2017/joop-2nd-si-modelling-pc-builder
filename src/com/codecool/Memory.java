@@ -4,16 +4,22 @@ import java.util.Objects;
 
 public class Memory extends Electronic {
 
+    private int speed;
     private int capacity;
     private String type;
     private int amountOfSticks;
 
     public Memory(String name, String manufacturer, int value, Tier tier,
-    int powerConsumption, int capacity, String type, int amountOfSticks) {
+    int powerConsumption, int speed, int capacity, String type, int amountOfSticks) {
         super(name, manufacturer, value, tier, powerConsumption);
+        this.speed = speed;
         this.capacity = capacity;
         this.type = type;
         this.amountOfSticks = amountOfSticks;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 
     public int getCapacity() {
@@ -34,6 +40,7 @@ public class Memory extends Electronic {
                "   Value: $" + this.getValue() + "\n" +
                "   Tier: " + this.getTier() + "\n" +
                "   Power consumption: " + this.getPowerConsumption() + "W\n" +
+               "   Speed: " + this.getSpeed() + "Mhz\n" +
                "   Capacity: " + this.getCapacity() + "GB\n" +
                "   Memory type: " + this.getType() + "\n" +
                "   Amount of modules: " + this.getAmountOfSticks();

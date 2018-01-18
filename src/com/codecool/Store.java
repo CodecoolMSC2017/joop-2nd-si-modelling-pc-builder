@@ -105,7 +105,8 @@ public class Store extends Inventory {
         for (String line : fileContent) {
             String[] parts = line.split(";");
             result[counter] = new Memory(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), parts[6], Integer.parseInt(parts[7]));
+                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]),
+                parts[7], Integer.parseInt(parts[8]));
             counter++;
         }
         return result;
