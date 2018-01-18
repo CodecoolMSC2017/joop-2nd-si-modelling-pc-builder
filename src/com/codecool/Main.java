@@ -51,23 +51,38 @@ public class Main {
             if (cathegory.equals(":back")) {
                 return;
             }
-            System.out.println("\nCommands: :purchase :back\n");
-            String action = userInput.nextLine();
-            if (action.equals(":back")) {
-                continue;
+            while (true) {
+                System.out.println("\nCommands: :details :purchase :back\n");
+                String action = userInput.nextLine();
+
+                if (action.equals(":back")) {
+                    break;
+                }
+                if (action.equals(":purchase")) {
+                    try {
+                        handlePurchase(store, inventory, cathegory);
+                    } catch(ArrayIndexOutOfBoundsException e) {
+                        System.out.println("\nIncorrect input!");
+                    }
+                } else
+                if (action.equals(":details")) {
+                    System.out.println("details: ...");
+                } else {
+                    System.out.println("\nWrong input: " + action + "\n");
+                }
             }
-            if (!action.equals(":purchase")) {
-                System.out.println("\nWrong input: " + action + "\n");
-                continue;
-            }
-            System.out.println("Select an item by it's number:");
+        }
+    }
+
+    static void handlePurchase(Store store, UserInventory inventory, String cathegory) throws ArrayIndexOutOfBoundsException {
+        System.out.println("Select an item by it's number:");
             String input = userInput.nextLine();
             int index = 0;
             try {
                 index = Integer.parseInt(input);
             } catch(NumberFormatException e) {
                 System.out.println("\nWrong input!\n");
-                continue;
+                return;
             }
             switch(cathegory) {
                 case "0":
@@ -101,7 +116,6 @@ public class Main {
                     inventory.addItem(store.getHdds()[index]);
                     break;
             }
-        }
     }
 
     static void inventoryMenu(UserInventory inventory) {
