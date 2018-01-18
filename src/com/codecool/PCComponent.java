@@ -34,7 +34,7 @@ public class PCComponent {
 
     @Override
     public String toString() {
-        return this.getManufacturer() + " " + this.getName();
+        return this.getManufacturer() + " " + this.getName() + " ($" + this.getValue() + ")";
     }
 
     public boolean equals(Object o) {
