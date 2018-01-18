@@ -11,7 +11,7 @@ public class Case extends PCComponent {
     private int rearFanCapacity;
 
     public Case(String name, String manufacturer, int value, Tier tier, Size size,
-    int ssdCapacity, int hhdCapacity, int frontFanCapacity, int rearFanCapacity) {
+    int ssdCapacity, int hddCapacity, int frontFanCapacity, int rearFanCapacity) {
         super(name, manufacturer, value, tier);
         this.size = size;
         this.ssdCapacity = ssdCapacity;
@@ -38,6 +38,18 @@ public class Case extends PCComponent {
 
     public int getRearFanCapacity() {
         return rearFanCapacity;
+    }
+
+    public String details() {
+        return "\n\033[1m   Name: " + this.getName() + "\n" +
+               "   Manufacturer: " + this.getManufacturer() + "\n" +
+               "   Value: " + this.getValue() + "\n" +
+               "   Tier: " + this.getTier() + "\n" +
+               "   Size: " + this.getSize() + "\n" +
+               "   SSD capacity: " + this.getSSDCapacity() + "\n" +
+               "   HDD capacity: " + this.getHDDCapacity() + "\n" +
+               "   Front fan capacity: " + this.getFrontFanCapacity() + "\n" +
+               "   Rear fan capacity: " + this.getRearFanCapacity() + "\033[0m";
     }
 
     @Override
