@@ -1,5 +1,7 @@
 package com.codecool;
 
+import java.util.Objects;
+
 public class Computer {
 
     private String name;
@@ -68,9 +70,22 @@ public class Computer {
     }
 
     @Override
-
     public String toString() {
         return name;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
+        Computer computer = (Computer)o;
+        return Objects.equals(this.getName(), computer.getName());
     }
 
 }
