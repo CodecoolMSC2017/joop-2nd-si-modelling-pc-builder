@@ -17,11 +17,14 @@ public class Main {
             if (input.equals(":exit")) {
                 break;
             } else 
+            if (input.equals(":home")) {
+                break;
+            } else 
             if (input.equals(":store")) {
                 storeMenu(store, inventory);
             } else
             if (input.equals(":build")) {
-                buildMenu(inventory);;
+                buildMenu();
             } else
             if (input.equals(":find")) {
                 break;
@@ -33,16 +36,19 @@ public class Main {
                 break;
             } else
             if (input.equals(":help")) {
-                System.out.println("\t:store     > enters the store menu where you can browse and buy components");
-                System.out.println("\t:build     > modify a PC you have already built or build a brand new one");
-                System.out.println("\t:find      > find your PC by typing it's name and displays it's specs");
-                System.out.println("\t:inventory > displays the components you have bought but have not built in yet");
-                System.out.println("\t:save      > saves your progress (saved game is loaded automatiaclly upon startup)");
-                System.out.println("\t:exit      > after asking to save the game exits the program");
+                printHelp();
             } else {
                 System.out.println("Unknown command: " + input);
             }
         }
+    }
+
+    static void exitMenu() {
+        System.out.println("this is the exit menu");
+    }
+
+    static void homeMenu() {
+        System.out.println("this is the home menu");
     }
 
     static void storeMenu(Store store, UserInventory inventory) {
@@ -77,6 +83,65 @@ public class Main {
                 displayCathegory(store, cathegory);
             }
         }
+    }
+
+    static void buildMenu() {
+        System.out.println("this is the build menu");
+    }
+
+    static void findMenu() {
+        System.out.println("this is the find menu");
+    }
+
+    static void inventoryMenu(UserInventory inventory) {
+        while (true) {
+            String cathegory = displayInventory(inventory, "\033[1mInventory Menu\033[0m", ":back (or type the corresponding number)");
+            if (cathegory.equals(":back")) {
+                break;
+            }
+            if (cathegory.equals("invalid")) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
+            if (cathegory.equals("empty")) {
+                System.out.println("\n\033[91m\033[1mYou don't have any components of this type.\033[0m");
+                continue;
+            }
+            while (true) {
+                System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :sell :back\n");
+                String action = userInput.nextLine().toLowerCase();
+
+                if (action.equals(":back")) {
+                    break;
+                }
+                try {
+                    if (action.equals(":sell")) {
+                        handleSell(inventory, cathegory);
+                    } else
+                    if (action.equals(":details")) {
+                        showDetails(inventory, cathegory);
+                    } else {
+                        System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                    }
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                }
+                displayCathegory(inventory, cathegory);
+            }
+        }
+    }
+
+    static void saveMenu() {
+        System.out.println("this is the save menu");
+    }
+
+    static void printHelp() {
+        System.out.println("\t:store     > enters the store menu where you can browse and buy components");
+        System.out.println("\t:build     > modify a PC you have already built or build a brand new one");
+        System.out.println("\t:find      > find your PC by typing it's name and displays it's specs");
+        System.out.println("\t:inventory > displays the components you have bought but have not built in yet");
+        System.out.println("\t:save      > saves your progress (saved game is loaded automatiaclly upon startup)");
+        System.out.println("\t:exit      > after asking to save the game exits the program");
     }
 
     static void showDetails(Inventory inventory, String cathegory) {
@@ -224,44 +289,6 @@ public class Main {
         System.out.println("\n\033[1m\033[92mItem purchased!\033[0m");
     }
 
-    static void inventoryMenu(UserInventory inventory) {
-        while (true) {
-            String cathegory = displayInventory(inventory, "\033[1mInventory Menu\033[0m", ":back (or type the corresponding number)");
-            if (cathegory.equals(":back")) {
-                break;
-            }
-            if (cathegory.equals("invalid")) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            }
-            if (cathegory.equals("empty")) {
-                System.out.println("\n\033[91m\033[1mYou don't have any components of this type.\033[0m");
-                continue;
-            }
-            while (true) {
-                System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :sell :back\n");
-                String action = userInput.nextLine().toLowerCase();
-
-                if (action.equals(":back")) {
-                    break;
-                }
-                try {
-                    if (action.equals(":sell")) {
-                        handleSell(inventory, cathegory);
-                    } else
-                    if (action.equals(":details")) {
-                        showDetails(inventory, cathegory);
-                    } else {
-                        System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                    }
-                } catch(ArrayIndexOutOfBoundsException e) {
-                    System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                }
-                displayCathegory(inventory, cathegory);
-            }
-        }
-    }
-
     static void handleSell(UserInventory inventory, String cathegory) throws ArrayIndexOutOfBoundsException {
         System.out.print("\nSelect an item by it's number: ");
         String input = userInput.nextLine().toLowerCase();
@@ -325,10 +352,6 @@ public class Main {
                 break;
         }
         System.out.println("\n\033[1m\033[92mItem sold!\033[0m");
-    }
-
-    static void buildMenu(Inventory inventory) {
-        System.out.println("this is the build menu");
     }
 
     static String displayInventory(Inventory inventory, String menuTitle, String commands) {
