@@ -397,33 +397,43 @@ public class Main {
             return;
         }
         if (cathegory.equals("0")) {
+            System.out.println("\n\033[1mCases:\033[0m");
             displayItems(inventory.getCases());
         } else
         if (cathegory.equals("1")) {
+            System.out.println("\n\033[1mPower supplies:\033[0m");
             displayItems(inventory.getPsus());
         } else
         if (cathegory.equals("2")) {
+            System.out.println("\n\033[1mMotherboards:\033[0m");
             displayItems(inventory.getMotherboards());
         } else
         if (cathegory.equals("3")) {
+            System.out.println("\n\033[1mProcessors:\033[0m");
             displayItems(inventory.getCpus());
         } else
         if (cathegory.equals("4")) {
+            System.out.println("\n\033[1mHeatsinks:\033[0m");
             displayItems(inventory.getHeatsinks());
         } else
         if (cathegory.equals("5")) {
+            System.out.println("\n\033[1mFans:\033[0m");
             displayItems(inventory.getFans());
         } else
         if (cathegory.equals("6")) {
+            System.out.println("\n\033[1mMemories:\033[0m");
             displayItems(inventory.getMemories());
         } else
         if (cathegory.equals("7")) {
+            System.out.println("\n\033[1mGrapics cards:\033[0m");
             displayItems(inventory.getGpus());
         } else
         if (cathegory.equals("8")) {
+            System.out.println("\n\033[1mSolid state drives:\033[0m");
             displayItems(inventory.getSsds());
         } else
         if (cathegory.equals("9")) {
+            System.out.println("\n\033[1mHard disk drives:\033[0m");
             displayItems(inventory.getHdds());
         } else {
             System.out.println("\033[1m\033[91mIncorrect input: \033[0m");
@@ -433,7 +443,6 @@ public class Main {
     static void displayItems(PCComponent[] items) {
         int counter = 0;
         String colorCode;
-        System.out.println();
         for (PCComponent item : items) {
             switch(item.getTier()) {
                 case HIGH:
