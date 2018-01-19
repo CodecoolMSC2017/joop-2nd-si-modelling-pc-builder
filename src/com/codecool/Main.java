@@ -51,21 +51,25 @@ public class Main {
             if (cathegory.equals(":back")) {
                 return;
             }
+            if (cathegory.equals("invalid")) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
             while (true) {
-                System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :purchase :back\n");
+                System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :buy :back\n");
                 String action = userInput.nextLine().toLowerCase();
 
                 if (action.equals(":back")) {
                     break;
                 }
                 try {
-                    if (action.equals(":purchase")) {
+                    if (action.equals(":buy")) {
                         handlePurchase(store, inventory, cathegory);
                     } else
                     if (action.equals(":details")) {
                         showDetails(store, cathegory);
                     } else {
-                        System.out.println("\n\033[1m\033[91mIncorrect input: \033[0m" + action);
+                        System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                     }
                 } catch(ArrayIndexOutOfBoundsException e) {
                     System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
@@ -222,11 +226,40 @@ public class Main {
 
     static void inventoryMenu(UserInventory inventory) {
         while (true) {
-            String input = displayInventory(inventory, "Inventory Menu", ":back (or type the corresponding number)");
-            if (input.equals(":back")) {
+            String cathegory = displayInventory(inventory, "Inventory Menu", ":back (or type the corresponding number)");
+            if (cathegory.equals(":back")) {
                 break;
             }
+            if (cathegory.equals("invalid")) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
+            while (true) {
+                System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :sell :back\n");
+                String action = userInput.nextLine().toLowerCase();
+
+                if (action.equals(":back")) {
+                    break;
+                }
+                try {
+                    if (action.equals(":sell")) {
+                        handleSell();
+                    } else
+                    if (action.equals(":details")) {
+                        showDetails(inventory, cathegory);
+                    } else {
+                        System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                    }
+                } catch(ArrayIndexOutOfBoundsException e) {
+                    System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                }
+                displayCathegory(inventory, cathegory);
+            }
         }
+    }
+
+    static void handleSell() {
+
     }
 
     static void buildMenu(Inventory inventory) {
@@ -246,11 +279,21 @@ public class Main {
         System.out.println("8 (" + inventory.getSsds().length + " items) Solid state drives");
         System.out.println("9 (" + inventory.getHdds().length + " items) Hard disk drives\n");
 
-        String cathegory = userInput.nextLine().toLowerCase();
+        String cathegory = checkValidCathegory(userInput.nextLine().toLowerCase());
 
-        displayCathegory(inventory, cathegory);
-
+        if (!cathegory.equals("invalid")){
+            displayCathegory(inventory, cathegory);
+        }
         return cathegory;
+    }
+
+    static String checkValidCathegory(String cathegory) {
+        for(String option : new String[] {":back", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}) {
+            if (option.equals(cathegory)) {
+                return cathegory;
+            }
+        }
+        return "invalid";
     }
 
     static void displayCathegory(Inventory inventory, String cathegory) {
@@ -287,7 +330,7 @@ public class Main {
         if (cathegory.equals("9")) {
             displayItems(inventory.getHdds());
         } else {
-            System.out.println("incorrect");
+            System.out.println("\033[1m\033[91mIncorrect input: \033[0m");
         }
     }
 
