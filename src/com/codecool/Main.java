@@ -243,7 +243,7 @@ public class Main {
                 }
                 try {
                     if (action.equals(":sell")) {
-                        handleSell();
+                        handleSell(inventory, cathegory);
                     } else
                     if (action.equals(":details")) {
                         showDetails(inventory, cathegory);
@@ -258,8 +258,69 @@ public class Main {
         }
     }
 
-    static void handleSell() {
-
+    static void handleSell(UserInventory inventory, String cathegory) throws ArrayIndexOutOfBoundsException {
+        System.out.print("\nSelect an item by it's number: ");
+        String input = userInput.nextLine().toLowerCase();
+        int index = 0;
+        try {
+            index = Integer.parseInt(input);
+        } catch(NumberFormatException e) {
+            System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            return;
+        }
+        switch(cathegory) {
+            case "0":
+                Case aCase = inventory.getCases()[index];
+                inventory.deleteItem(aCase);
+                inventory.manageMoney(aCase.getValue());
+                break;
+            case "1":
+                PowerSupply psu = inventory.getPsus()[index];
+                inventory.deleteItem(psu);
+                inventory.manageMoney(psu.getValue());
+                break;
+            case "2":
+                Motherboard motherboard = inventory.getMotherboards()[index];
+                inventory.deleteItem(motherboard);
+                inventory.manageMoney(motherboard.getValue());
+                break;
+            case "3":
+                CPU cpu = inventory.getCpus()[index];
+                inventory.deleteItem(cpu);
+                inventory.manageMoney(cpu.getValue());
+                break;
+            case "4":
+                Heatsink heatsink = inventory.getHeatsinks()[index];
+                inventory.deleteItem(heatsink);
+                inventory.manageMoney(heatsink.getValue());
+                break;
+            case "5":
+                Fan fan = inventory.getFans()[index];
+                inventory.deleteItem(fan);
+                inventory.manageMoney(fan.getValue());
+                break;
+            case "6":
+                Memory memory = inventory.getMemories()[index];
+                inventory.deleteItem(memory);
+                inventory.manageMoney(memory.getValue());
+                break;
+            case "7":
+                GraphicsCard gpu = inventory.getGpus()[index];
+                inventory.deleteItem(gpu);
+                inventory.manageMoney(gpu.getValue());
+                break;
+            case "8":
+                SolidStateDrive ssd = inventory.getSsds()[index];
+                inventory.deleteItem(ssd);
+                inventory.manageMoney(ssd.getValue());
+                break;
+            case "9":
+                HardDiskDrive hdd = inventory.getHdds()[index];
+                inventory.deleteItem(hdd);
+                inventory.manageMoney(hdd.getValue());
+                break;
+        }
+        System.out.println("\n\033[1m\033[92mItem sold!\033[0m");
     }
 
     static void buildMenu(Inventory inventory) {
