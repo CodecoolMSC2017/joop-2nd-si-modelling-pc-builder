@@ -7,14 +7,14 @@ public class Computer {
     private PowerSupply psu;
     private Motherboard motherboard;
     private CPU[] cpus;
-    private Heatsink heatsink;
+    private Heatsink[] heatsinks;
     private Fan[] fans;
     private Memory[] rams;
     private GraphicsCard[] gpus;
     private Storage[] storages;
 
     public Computer(String name, Case casing, PowerSupply psu, Motherboard motherboard, CPU[] cpus,
-        Heatsink heatsinks, Fan[] fans, Memory[] rams, GraphicsCard[] gpus, Storage[] storages) {
+        Heatsink[] heatsinks, Fan[] fans, Memory[] rams, GraphicsCard[] gpus, Storage[] storages) {
         this.name = name;
         this.casing = casing;
         this.psu = psu;
@@ -47,8 +47,8 @@ public class Computer {
         return cpus;
     }
     
-    public Heatsink getHeatsink() {
-        return heatsink;
+    public Heatsink[] getHeatsinks() {
+        return heatsinks;
     }
 
     public Fan[] getFans() {
@@ -65,6 +65,12 @@ public class Computer {
 
     public Storage[] getStorages() {
         return storages;
+    }
+
+    @Override
+
+    public String toString() {
+        return name;
     }
 
 }
