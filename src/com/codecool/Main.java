@@ -11,14 +11,15 @@ public class Main {
         UserInventory inventory = new UserInventory(1000);
 
         while (true) {
-            System.out.println("\n\033[1mMain Menu\033[0m\nCommands: :home :store :build :find :inventory :save :help :exit");
+            System.out.println("\n\033[1mMain Menu\033[0m\nCommands: :home :store :build :find :inventory :save :help :exit\n");
             String input = userInput.nextLine().toLowerCase();
             System.out.println();
             if (input.equals(":exit")) {
+                exitMenu();
                 break;
             } else 
             if (input.equals(":home")) {
-                break;
+                homeMenu();
             } else 
             if (input.equals(":store")) {
                 storeMenu(store, inventory);
@@ -27,13 +28,13 @@ public class Main {
                 buildMenu();
             } else
             if (input.equals(":find")) {
-                break;
+                findMenu();
             } else
             if (input.equals(":inventory")) {
                 inventoryMenu(inventory);
             } else
             if (input.equals(":save")) {
-                break;
+                saveMenu();
             } else
             if (input.equals(":help")) {
                 printHelp();
@@ -44,11 +45,11 @@ public class Main {
     }
 
     static void exitMenu() {
-        System.out.println("this is the exit menu");
+        System.out.println("exit menu is in progress");
     }
 
     static void homeMenu() {
-        System.out.println("this is the home menu");
+        System.out.println("home menu is in progress");
     }
 
     static void storeMenu(Store store, UserInventory inventory) {
@@ -86,11 +87,11 @@ public class Main {
     }
 
     static void buildMenu() {
-        System.out.println("this is the build menu");
+        System.out.println("build menu is in progress");
     }
 
     static void findMenu() {
-        System.out.println("this is the find menu");
+        System.out.println("find menu is in progress");
     }
 
     static void inventoryMenu(UserInventory inventory) {
@@ -132,16 +133,19 @@ public class Main {
     }
 
     static void saveMenu() {
-        System.out.println("this is the save menu");
+        System.out.println("save menu is in progress");
     }
 
     static void printHelp() {
-        System.out.println("\t:store     > enters the store menu where you can browse and buy components");
-        System.out.println("\t:build     > modify a PC you have already built or build a brand new one");
-        System.out.println("\t:find      > find your PC by typing it's name and displays it's specs");
-        System.out.println("\t:inventory > displays the components you have bought but have not built in yet");
-        System.out.println("\t:save      > saves your progress (saved game is loaded automatiaclly upon startup)");
-        System.out.println("\t:exit      > after asking to save the game exits the program");
+        System.out.println("   \033[1mMain Menu commands\033[0m");
+        System.out.println("   :home      > this is where you can use your PCs");
+        System.out.println("   :store     > enters the store menu where you can browse and buy components");
+        System.out.println("   :build     > modify a PC you have already built or build a brand new one");
+        System.out.println("   :find      > type the name of your PC to display it's specs");
+        System.out.println("   :inventory > displays the components you have bought but have not built in yet");
+        System.out.println("   :save      > saves your progress (saved game is loaded automatiaclly upon startup)");
+        System.out.println("   :help      > displays this helpful description");
+        System.out.println("   :exit      > after asking to save the game exits the program");
     }
 
     static void showDetails(Inventory inventory, String cathegory) {
