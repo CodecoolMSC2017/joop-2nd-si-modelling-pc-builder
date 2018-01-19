@@ -6,25 +6,65 @@ public class Computer {
     private Case casing;
     private PowerSupply psu;
     private Motherboard motherboard;
+    private CPU[] cpus;
     private Heatsink heatsink;
     private Fan[] fans;
-    private CPU[] cpu;
-    private Memory[] ram;
-    private GraphicsCard[] gpu;
-    private Storage[] storage;
+    private Memory[] rams;
+    private GraphicsCard[] gpus;
+    private Storage[] storages;
 
-    public Computer(String name, Case casing, PowerSupply psu, Motherboard motherboard, Heatsink heatsink,
-    Fan[] fans, CPU[] cpu, Memory[] ram, GraphicsCard[] gpu, Storage[] storage) {
+    public Computer(String name, Case casing, PowerSupply psu, Motherboard motherboard, CPU[] cpus,
+        Heatsink heatsinks, Fan[] fans, Memory[] rams, GraphicsCard[] gpus, Storage[] storages) {
         this.name = name;
         this.casing = casing;
         this.psu = psu;
         this.motherboard = motherboard;
-        this.heatsink = heatsink;
+        this.cpus = cpus;
+        this.heatsinks = heatsinks;
         this.fans = fans;
-        this.cpu = cpu;
-        this.ram = ram;
-        this.gpu = gpu;
-        this.storage = storage;
+        this.rams = rams;
+        this.gpus = gpus;
+        this.storages = storages;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Case getCase() {
+        return casing;
+    }
+
+    public PowerSupply getPsu() {
+        return psu;
+    }
+
+    public Motherboard getMotherboard() {
+        return motherboard;
+    }
+
+    public CPU[] getCPUs() {
+        return cpus;
+    }
+    
+    public Heatsink getHeatsink() {
+        return heatsink;
+    }
+
+    public Fan[] getFans() {
+        return fans;
+    }
+
+    public Memory[] getMemories() {
+        return rams;
+    }
+
+    public GraphicsCard[] getGraphicsCards() {
+        return gpus;
+    }
+
+    public Storage[] getStorages() {
+        return storages;
     }
 
 }
