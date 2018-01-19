@@ -87,7 +87,21 @@ public class Main {
     }
 
     static void buildMenu() {
-        System.out.println("build menu is in progress");
+        while(true) {
+            System.out.println("\033[1mBuild Menu\033[0m\nCommands: :back :new :modify\n");
+            String input = userInput.nextLine().toLowerCase();
+            if (input.equals(":back")) {
+                break;
+            }
+            if (input.equals(":new")) {
+                continue;
+            }
+            if (input.equals(":modify")) {
+                continue;
+            } else {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m\n");
+            }
+        }
     }
 
     static void findMenu() {
@@ -146,6 +160,17 @@ public class Main {
         System.out.println("   :save      > saves your progress (saved game is loaded automatiaclly upon startup)");
         System.out.println("   :help      > displays this helpful description");
         System.out.println("   :exit      > after asking to save the game exits the program");
+    }
+
+    static void displayComputers(UserInventory inventory) {
+        Computer[] computers = inventory.getComputers();
+        if (computers.length < 1) {
+            System.out.println("You don't have any PCs.");
+            return;
+        }
+        for (Computer computer : computers) {
+            System.out.println(computer);
+        }
     }
 
     static void showDetails(Inventory inventory, String cathegory) {
