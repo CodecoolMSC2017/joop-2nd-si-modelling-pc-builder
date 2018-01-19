@@ -47,12 +47,12 @@ public class Main {
 
     static void storeMenu(Store store, UserInventory inventory) {
         while (true) {
-            String cathegory = displayInventory(store, "Store Menu", ":back (or type corresponding number)");
+            String cathegory = displayInventory(store, "Store Menu", ":back (or type the corresponding number)");
             if (cathegory.equals(":back")) {
                 return;
             }
             while (true) {
-                System.out.println("\nCommands: :details :purchase :back\n");
+                System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :purchase :back\n");
                 String action = userInput.nextLine().toLowerCase();
 
                 if (action.equals(":back")) {
@@ -65,10 +65,10 @@ public class Main {
                     if (action.equals(":details")) {
                         showDetails(store, cathegory);
                     } else {
-                        System.out.println("\nIncorrect input: " + action);
+                        System.out.println("\n\033[1m\033[91mIncorrect input: \033[0m" + action);
                     }
                 } catch(ArrayIndexOutOfBoundsException e) {
-                    System.out.println("\nIncorrect input!");
+                    System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                 }
                 displayCathegory(store, cathegory);
             }
@@ -82,7 +82,7 @@ public class Main {
         try {
             index = Integer.parseInt(input);
         } catch(NumberFormatException e) {
-            System.out.println("\nWrong input!");
+            System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
             return;
         }
         switch(cathegory) {
@@ -127,46 +127,102 @@ public class Main {
         try {
             index = Integer.parseInt(input);
         } catch(NumberFormatException e) {
-            System.out.println("\nWrong input!");
+            System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
             return;
         }
-        switch(cathegory) {
-            case "0":
-                inventory.addItem(store.getCases()[index]);
-                break;
-            case "1":
-                inventory.addItem(store.getPsus()[index]);
-                break;
-            case "2":
-                inventory.addItem(store.getMotherboards()[index]);
-                break;
-            case "3":
-                inventory.addItem(store.getCpus()[index]);
-                break;
-            case "4":
-                inventory.addItem(store.getHeatsinks()[index]);
-                break;
-            case "5":
-                inventory.addItem(store.getFans()[index]);
-                break;
-            case "6":
-                inventory.addItem(store.getMemories()[index]);
-                break;
-            case "7":
-                inventory.addItem(store.getGpus()[index]);
-                break;
-            case "8":
-                inventory.addItem(store.getSsds()[index]);
-                break;
-            case "9":
-                inventory.addItem(store.getHdds()[index]);
-                break;
+        try {
+            switch(cathegory) {
+                case "0":
+                    Case aCase = store.getCases()[index];
+                    if (inventory.getMoney() < aCase.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(aCase);
+                    inventory.manageMoney(-aCase.getValue());
+                    break;
+                case "1":
+                    PowerSupply psu = store.getPsus()[index];
+                    if (inventory.getMoney() < psu.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(psu);
+                    inventory.manageMoney(-psu.getValue());
+                    break;
+                case "2":
+                    Motherboard motherboard = store.getMotherboards()[index];
+                    if (inventory.getMoney() < motherboard.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(motherboard);
+                    inventory.manageMoney(-motherboard.getValue());
+                    break;
+                case "3":
+                    CPU cpu = store.getCpus()[index];
+                    if (inventory.getMoney() < cpu.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(cpu);
+                    inventory.manageMoney(-cpu.getValue());
+                    break;
+                case "4":
+                    Heatsink heatsink = store.getHeatsinks()[index];
+                    if (inventory.getMoney() < heatsink.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(heatsink);
+                    inventory.manageMoney(-heatsink.getValue());
+                    break;
+                case "5":
+                    Fan fan = store.getFans()[index];
+                    if (inventory.getMoney() < fan.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(fan);
+                    inventory.manageMoney(-fan.getValue());
+                    break;
+                case "6":
+                    Memory memory = store.getMemories()[index];
+                    if (inventory.getMoney() < memory.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(memory);
+                    inventory.manageMoney(-memory.getValue());
+                    break;
+                case "7":
+                    GraphicsCard gpu = store.getGpus()[index];
+                    if (inventory.getMoney() < gpu.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(gpu);
+                    inventory.manageMoney(-gpu.getValue());
+                    break;
+                case "8":
+                    SolidStateDrive ssd = store.getSsds()[index];
+                    if (inventory.getMoney() < ssd.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(ssd);
+                    inventory.manageMoney(-ssd.getValue());
+                    break;
+                case "9":
+                    HardDiskDrive hdd = store.getHdds()[index];
+                    if (inventory.getMoney() < hdd.getValue()) {
+                        throw new NotEnoughMoneyException();
+                    }
+                    inventory.addItem(hdd);
+                    inventory.manageMoney(-hdd.getValue());
+                    break;
+            }
+        } catch(NotEnoughMoneyException e) {
+            System.out.println("\n\033[1m\033[91mYou don't have enough money to purchase this item!\033[0m");
+            return;
         }
+        System.out.println("\n\033[1m\033[92mItem purchased!\033[0m");
     }
 
     static void inventoryMenu(UserInventory inventory) {
         while (true) {
-            String input = displayInventory(inventory, "Inventory Menu", ":back (or type corresponding number)");
+            String input = displayInventory(inventory, "Inventory Menu", ":back (or type the corresponding number)");
             if (input.equals(":back")) {
                 break;
             }
