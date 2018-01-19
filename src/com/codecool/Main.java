@@ -11,7 +11,7 @@ public class Main {
         UserInventory inventory = new UserInventory(1000);
 
         while (true) {
-            System.out.println("\nMain Menu\nCommands: :store :build :find :inventory :save :help :exit");
+            System.out.println("\n\033[1mMain Menu\033[0m\nCommands: :store :build :find :inventory :save :help :exit");
             String input = userInput.nextLine().toLowerCase();
             System.out.println();
             if (input.equals(":exit")) {
@@ -47,7 +47,7 @@ public class Main {
 
     static void storeMenu(Store store, UserInventory inventory) {
         while (true) {
-            String cathegory = displayInventory(store, "Store Menu", ":back (or type the corresponding number)");
+            String cathegory = displayInventory(store, "\033[1mStore Menu\033[0m", ":back (or type the corresponding number)");
             if (cathegory.equals(":back")) {
                 return;
             }
@@ -226,12 +226,16 @@ public class Main {
 
     static void inventoryMenu(UserInventory inventory) {
         while (true) {
-            String cathegory = displayInventory(inventory, "Inventory Menu", ":back (or type the corresponding number)");
+            String cathegory = displayInventory(inventory, "\033[1mInventory Menu\033[0m", ":back (or type the corresponding number)");
             if (cathegory.equals(":back")) {
                 break;
             }
             if (cathegory.equals("invalid")) {
                 System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
+            if (cathegory.equals("empty")) {
+                System.out.println("\n\033[91m\033[1mYou don't have any components of this type.\033[0m");
                 continue;
             }
             while (true) {
@@ -342,10 +346,41 @@ public class Main {
 
         String cathegory = checkValidCathegory(userInput.nextLine().toLowerCase());
 
+        if (!checkEmptyCathegory(cathegory, inventory)) {
+            return "empty";
+        }
         if (!cathegory.equals("invalid")){
             displayCathegory(inventory, cathegory);
         }
         return cathegory;
+    }
+
+    static boolean checkEmptyCathegory(String cathegory, Inventory inventory) {
+        switch(cathegory) {
+            case ":back":
+                return true;
+            case "0":
+                return inventory.getCases().length > 0;
+            case "1":
+                return inventory.getPsus().length > 0;
+            case "2":
+                return inventory.getMotherboards().length > 0;
+            case "3":
+                return inventory.getCpus().length > 0;
+            case "4":
+                return inventory.getHeatsinks().length > 0;
+            case "5":
+                return inventory.getFans().length > 0;
+            case "6":
+                return inventory.getMemories().length > 0;
+            case "7":
+                return inventory.getGpus().length > 0;
+            case "8":
+                return inventory.getSsds().length > 0;
+            case "9":
+                return inventory.getHdds().length > 0;
+        }
+        return true;
     }
 
     static String checkValidCathegory(String cathegory) {
@@ -396,10 +431,6 @@ public class Main {
     }
 
     static void displayItems(PCComponent[] items) {
-        if (items.length < 1) {
-            System.out.println("\nYou don't have any components of this type.");
-            return;
-        }
         int counter = 0;
         String colorCode;
         System.out.println();
