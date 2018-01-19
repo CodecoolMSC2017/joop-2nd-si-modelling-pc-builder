@@ -17,12 +17,14 @@
 
 ## `Main menu commands`
 
+### `:home`
+    This is where you can use your PCs.
 ### `:store`
     Enters the store menu where you can browse and buy components.
 ### `:build`
     Modify a PC you have already built or build a brand new one.
 ### `:find`
-    Find your PC by typing it's name and displays it's specs.
+    Type the name of your PC to display it's specs.
 ### `:inventory`
     Displays the components you have bought but have not built in yet.
 ### `:save`

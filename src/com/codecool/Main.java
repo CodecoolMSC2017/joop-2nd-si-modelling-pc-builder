@@ -11,7 +11,7 @@ public class Main {
         UserInventory inventory = new UserInventory(1000);
 
         while (true) {
-            System.out.println("\n\033[1mMain Menu\033[0m\nCommands: :store :build :find :inventory :save :help :exit");
+            System.out.println("\n\033[1mMain Menu\033[0m\nCommands: :home :store :build :find :inventory :save :help :exit");
             String input = userInput.nextLine().toLowerCase();
             System.out.println();
             if (input.equals(":exit")) {
