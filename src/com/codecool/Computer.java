@@ -2,6 +2,7 @@ package com.codecool;
 
 public class Computer {
 
+    private String name;
     private Case casing;
     private PowerSupply psu;
     private Motherboard motherboard;
@@ -12,8 +13,9 @@ public class Computer {
     private GraphicsCard[] gpu;
     private Storage[] storage;
 
-    public Computer(Case casing, PowerSupply psu, Motherboard motherboard, Heatsink heatsink,
+    public Computer(String name, Case casing, PowerSupply psu, Motherboard motherboard, Heatsink heatsink,
     Fan[] fans, CPU[] cpu, Memory[] ram, GraphicsCard[] gpu, Storage[] storage) {
+        this.name = name;
         this.casing = casing;
         this.psu = psu;
         this.motherboard = motherboard;
