@@ -63,9 +63,9 @@ public class Motherboard extends Electronic {
                "   Socket: " + this.getSocket() + "\n" +
                "   Amount of sockets: " + this.getAmountOfSockets() + "\n" +
                "   Supported memory type: " + this.getMemoryType() + "\n" +
-               "   Amount of memory slots " + this.getAmountOfMemorySlots() + "\n" +
-               "   Amount of PCI-e x16 slots " + this.getAmountOfPCIESlots() + "\n" +
-               "   Amount of SATA3 connectors " + this.getAmountOfSata();
+               "   Amount of memory slots: " + this.getAmountOfMemorySlots() + "\n" +
+               "   Amount of PCI-e x16 slots: " + this.getAmountOfPCIESlots() + "\n" +
+               "   Amount of SATA3 connectors: " + this.getAmountOfSata() + "\033[0m";
     }
 
     @Override

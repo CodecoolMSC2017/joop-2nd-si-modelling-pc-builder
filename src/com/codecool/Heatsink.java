@@ -20,7 +20,7 @@ public class Heatsink extends PCComponent {
                "   Manufacturer: " + this.getManufacturer() + "\n" +
                "   Value: $" + this.getValue() + "\n" +
                "   Tier: " + this.getTier() + "\n" +
-               "   Size: " + this.getSize();
+               "   Size: " + this.getSize() + "\033[0m";
     }
 
     @Override

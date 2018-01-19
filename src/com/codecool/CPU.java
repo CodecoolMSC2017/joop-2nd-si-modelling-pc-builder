@@ -40,7 +40,7 @@ public class CPU extends ProcessingUnit {
                "   Overclockable: " + this.getOverclockable() + "\n" +
                "   Socket: " + this.getSocket() + "\n" +
                "   Amount of threads: " + this.getThreads() + "\n" +
-               "   Amount of cores: " + this.getCores();
+               "   Amount of cores: " + this.getCores() + "\033[0m";
     }
 
     @Override

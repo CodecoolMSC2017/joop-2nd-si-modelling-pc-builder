@@ -47,7 +47,7 @@ public class Main {
 
     static void storeMenu(Store store, UserInventory inventory) {
         while (true) {
-            String cathegory = displayInventory(store, "Store Menu", ":back (or type corresponding number");
+            String cathegory = displayInventory(store, "Store Menu", ":back (or type corresponding number)");
             if (cathegory.equals(":back")) {
                 return;
             }
@@ -166,7 +166,7 @@ public class Main {
 
     static void inventoryMenu(UserInventory inventory) {
         while (true) {
-            String input = displayInventory(inventory, "Inventory Menu", ":back (or type corresponding number");
+            String input = displayInventory(inventory, "Inventory Menu", ":back (or type corresponding number)");
             if (input.equals(":back")) {
                 break;
             }

@@ -32,7 +32,7 @@ public class GraphicsCard extends ProcessingUnit {
                "   Amount of memory: " + this.getVram() + "GB\n" +
                "   Core clock: " + this.getCoreClock() + "Mhz\n" +
                "   Overclockable: " + this.getOverclockable() + "\n" +
-               "   Size: " + this.getSize();
+               "   Size: " + this.getSize() + "\033[0m";
     }
 
     @Override

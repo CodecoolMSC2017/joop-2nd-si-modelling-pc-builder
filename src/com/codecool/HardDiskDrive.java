@@ -23,8 +23,8 @@ public class HardDiskDrive extends Storage {
                "   Tier: " + this.getTier() + "\n" +
                "   Power consumption: " + this.getPowerConsumption() + "W\n" +
                "   Capacity: " + this.getCapacity() + "GB\n" +
-               "   Transfer speed: " + this.getTransferSpeed() + "Mb/sec" +
-               "   Rotation speed: " + this.getRpm() + " Rpm\n";
+               "   Transfer speed: " + this.getTransferSpeed() + "Mb/sec\n" +
+               "   Rotation speed: " + this.getRpm() + " Rpm\033[0m";
     }
 
     @Override

@@ -43,7 +43,7 @@ public class Memory extends Electronic {
                "   Speed: " + this.getSpeed() + "Mhz\n" +
                "   Capacity: " + this.getCapacity() + "GB\n" +
                "   Memory type: " + this.getType() + "\n" +
-               "   Amount of modules: " + this.getAmountOfSticks();
+               "   Amount of modules: " + this.getAmountOfSticks() + "\033[0m";
     }
 
     @Override

@@ -16,7 +16,7 @@ public class SolidStateDrive extends Storage {
                "   Tier: " + this.getTier() + "\n" +
                "   Power consumption: " + this.getPowerConsumption() + "W\n" +
                "   Capacity: " + this.getCapacity() + "GB\n" +
-               "   Transfer speed: " + this.getTransferSpeed() + "Mb/sec";
+               "   Transfer speed: " + this.getTransferSpeed() + "Mb/sec\033[0m";
     }
 
     @Override

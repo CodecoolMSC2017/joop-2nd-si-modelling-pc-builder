@@ -28,7 +28,7 @@ public class Fan extends Electronic {
                "   Tier: " + this.getTier() + "\n" +
                "   Power consumption: " + this.getPowerConsumption() + "W\n" +
                "   Rotation speed: " + this.getRpm() + " Rpm\n" +
-               "   Airflow: " + this.getAirflow() + " Cfm";
+               "   Airflow: " + this.getAirflow() + " Cfm\033[0m";
     }
 
     @Override
