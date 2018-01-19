@@ -10,7 +10,7 @@ public class UserInventory extends Inventory {
             new Heatsink[] {}, new Fan[] {}, new Memory[] {}, new GraphicsCard[] {},
             new SolidStateDrive[] {}, new HardDiskDrive[] {});
         this.money = money;
-        this.computers = new Computer[3];
+        this.computers = new Computer[] {};
     }
 
     public int getMoney() {
