@@ -138,8 +138,15 @@ public class UserInventory extends Inventory {
         return computers;
     }
 
-    public void addComputer(int index, Computer computer) {
-        computers[index] = computer;
+    public void addComputer(Computer computer) {
+        Computer[] newArray = new Computer[computers.length + 1];
+        int counter = 0;
+        for (Computer motherboard : computers) {
+            newArray[counter] = motherboard;
+            counter++;
+        }
+        newArray[computers.length] = computer;
+        computers = newArray;
     }
 
 }

@@ -54,16 +54,7 @@ public class Main {
 
     static void storeMenu(Store store, UserInventory inventory) {
         while (true) {
-            String cathegory;
-            try {
-                cathegory = store.displayInventory("\033[1mStore Menu\033[0m", ":back (or type the corresponding number)");
-            } catch (InvalidCathegoryException e) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            } catch (EmptyCathegoryException e) {
-                System.out.println("\n\033[91m\033[1mThe store has no components of this type.\033[0m");
-                continue;
-            }
+            String cathegory = chooseCathegory(store, "\033[1mStore Menu\033[0m");
             if (cathegory.equals(":back")) {
                 return;
             }
@@ -93,13 +84,13 @@ public class Main {
 
     static void buildMenu(UserInventory inventory) {
         while(true) {
-            String input = inventory.displayComputers("\033[1mBuild Menu\033[0m", ":back :new :modify");
+            String input = inventory.displayComputers("\033[1mBuild Menu\033[0m", ":back :create :modify");
             if (input.equals(":back")) {
                 break;
             }
-            if (input.equals(":new")) {
-                continue;
-            }
+            if (input.equals(":create")) {
+                handleCreate(inventory);
+            } else
             if (input.equals(":modify")) {
                 continue;
             }
@@ -113,16 +104,7 @@ public class Main {
 
     static void inventoryMenu(UserInventory inventory) {
         while (true) {
-            String cathegory;
-            try {
-                cathegory = inventory.displayInventory("\033[1mInventory Menu\033[0m", ":back (or type the corresponding number)");
-            } catch (InvalidCathegoryException e) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            } catch (EmptyCathegoryException e) {
-                System.out.println("\n\033[91m\033[1mYou don't have any components of this type.\033[0m");
-                continue;
-            }
+            String cathegory = chooseCathegory(inventory, "\033[1mInventory Menu\033[0m");
             if (cathegory.equals(":back")) {
                 break;
             }
@@ -167,6 +149,35 @@ public class Main {
         System.out.println("   :save      > saves your progress (saved game is loaded automatiaclly upon startup)");
         System.out.println("   :help      > displays this helpful description");
         System.out.println("   :exit      > after asking to save the game exits the program");
+    }
+
+    static String chooseCathegory(Inventory inventory, String menuTitle) {
+        String cathegory;
+        while (true) {
+            try {
+                cathegory = inventory.displayInventory(menuTitle, ":back (or type the corresponding number)");
+                break;
+            } catch (InvalidCathegoryException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            } catch (EmptyCathegoryException e) {
+                System.out.println("\n\033[91m\033[1mThere are no components of this type.\033[0m");
+            }
+        }
+        return cathegory;
+    }
+
+    static void handleCreate(UserInventory inventory) {
+        if (inventory.getComputers().length == 3) {
+            System.out.println("\n\033[1m\033[91mYou can only have 3 computers at the same time!\033[0m\n" +
+                "\033[1m(You don't want to get the attention of the authorities with your high power bill)\033[0m");
+            continue;
+        }
+        System.out.println("\033[1mTo create a new PC you have to name it first:\033[0m\n");
+        String name = userInput.nextLine();
+        inventory.addComputer(new Computer(name, null, null, null, new CPU[0], new Heatsink[0], new Fan[0],
+            new Memory[0], new GraphicsCard[0], new Storage[0]));
+        System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
+        System.out.println("See :modify to select it's components");
     }
 
 }
