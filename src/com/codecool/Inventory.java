@@ -335,6 +335,7 @@ public class Inventory {
         int counter = 0;
         for (Case aCase : cases) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = aCase;
@@ -349,6 +350,7 @@ public class Inventory {
         int counter = 0;
         for (PowerSupply psu : psus) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = psu;
@@ -363,6 +365,7 @@ public class Inventory {
         int counter = 0;
         for (Motherboard motherboard : motherboards) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = motherboard;
@@ -377,6 +380,7 @@ public class Inventory {
         int counter = 0;
         for (CPU cpu : cpus) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = cpu;
@@ -391,6 +395,7 @@ public class Inventory {
         int counter = 0;
         for (Heatsink heatsink : heatsinks) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = heatsink;
@@ -405,6 +410,7 @@ public class Inventory {
         int counter = 0;
         for (Fan fan : fans) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = fan;
@@ -419,6 +425,7 @@ public class Inventory {
         int counter = 0;
         for (Memory memory : memories) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = memory;
@@ -433,6 +440,7 @@ public class Inventory {
         int counter = 0;
         for (GraphicsCard gpu : gpus) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = gpu;
@@ -447,6 +455,7 @@ public class Inventory {
         int counter = 0;
         for (SolidStateDrive ssd : ssds) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = ssd;
@@ -461,6 +470,7 @@ public class Inventory {
         int counter = 0;
         for (HardDiskDrive hdd : hdds) {
             if (index == counter) {
+                index = -1;
                 continue;
             }
             newArray[counter] = hdd;
