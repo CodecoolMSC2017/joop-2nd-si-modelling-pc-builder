@@ -25,7 +25,7 @@ public class Main {
                 storeMenu(store, inventory);
             } else
             if (input.equals(":build")) {
-                buildMenu();
+                buildMenu(inventory);
             } else
             if (input.equals(":find")) {
                 findMenu();
@@ -54,13 +54,18 @@ public class Main {
 
     static void storeMenu(Store store, UserInventory inventory) {
         while (true) {
-            String cathegory = store.displayInventory("\033[1mStore Menu\033[0m", ":back (or type the corresponding number)");
-            if (cathegory.equals(":back")) {
-                return;
-            }
-            if (cathegory.equals("invalid")) {
+            String cathegory;
+            try {
+                cathegory = store.displayInventory("\033[1mStore Menu\033[0m", ":back (or type the corresponding number)");
+            } catch (InvalidCathegoryException e) {
                 System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                 continue;
+            } catch (EmptyCathegoryException e) {
+                System.out.println("\n\033[91m\033[1mThe store has no components of this type.\033[0m");
+                continue;
+            }
+            if (cathegory.equals(":back")) {
+                return;
             }
             while (true) {
                 System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :buy :back\n");
@@ -78,7 +83,7 @@ public class Main {
                     } else {
                         System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                     }
-                } catch(ArrayIndexOutOfBoundsException e) {
+                } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                 }
                 store.displayCathegory(cathegory);
@@ -86,10 +91,9 @@ public class Main {
         }
     }
 
-    static void buildMenu() {
+    static void buildMenu(UserInventory inventory) {
         while(true) {
-            System.out.println("\033[1mBuild Menu\033[0m\nCommands: :back :new :modify\n");
-            String input = userInput.nextLine().toLowerCase();
+            String input = inventory.displayComputers("\033[1mBuild Menu\033[0m", ":back :new :modify");
             if (input.equals(":back")) {
                 break;
             }
@@ -98,9 +102,8 @@ public class Main {
             }
             if (input.equals(":modify")) {
                 continue;
-            } else {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m\n");
             }
+
         }
     }
 
@@ -110,17 +113,18 @@ public class Main {
 
     static void inventoryMenu(UserInventory inventory) {
         while (true) {
-            String cathegory = inventory.displayInventory("\033[1mInventory Menu\033[0m", ":back (or type the corresponding number)");
-            if (cathegory.equals(":back")) {
-                break;
-            }
-            if (cathegory.equals("invalid")) {
+            String cathegory;
+            try {
+                cathegory = inventory.displayInventory("\033[1mInventory Menu\033[0m", ":back (or type the corresponding number)");
+            } catch (InvalidCathegoryException e) {
                 System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                 continue;
-            }
-            if (cathegory.equals("empty")) {
+            } catch (EmptyCathegoryException e) {
                 System.out.println("\n\033[91m\033[1mYou don't have any components of this type.\033[0m");
                 continue;
+            }
+            if (cathegory.equals(":back")) {
+                break;
             }
             while (true) {
                 System.out.println("\nYour money: \033[1m$" + inventory.getMoney() + "\033[0m\nCommands: :details :sell :back\n");
@@ -138,7 +142,7 @@ public class Main {
                     } else {
                         System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                     }
-                } catch(ArrayIndexOutOfBoundsException e) {
+                } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                 }
                 inventory.displayCathegory(cathegory);

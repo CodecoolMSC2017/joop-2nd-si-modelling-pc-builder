@@ -32,7 +32,7 @@ public class Inventory {
         this.userInput = new Scanner(System.in);
     }
 
-    public String displayInventory(String menuTitle, String commands) {
+    public String displayInventory(String menuTitle, String commands) throws InvalidCathegoryException, EmptyCathegoryException {
         System.out.println("\n" + menuTitle + "\nCommands: " + commands + "\n");
         System.out.println("0 (" + this.getCases().length + " items) Cases");
         System.out.println("1 (" + this.getPsus().length + " items) Power supplies");
@@ -45,24 +45,26 @@ public class Inventory {
         System.out.println("8 (" + this.getSsds().length + " items) Solid state drives");
         System.out.println("9 (" + this.getHdds().length + " items) Hard disk drives\n");
 
-        String cathegory = checkValidCathegory(userInput.nextLine().toLowerCase());
+        String cathegory = userInput.nextLine().toLowerCase();
+
+        checkValidCathegory(cathegory);
 
         if (!checkEmptyCathegory(cathegory)) {
-            return "empty";
+            throw new EmptyCathegoryException();
         }
-        if (!cathegory.equals("invalid")){
-            displayCathegory(cathegory);
-        }
+
+        displayCathegory(cathegory);
+
         return cathegory;
     }
 
-    private String checkValidCathegory(String cathegory) {
+    private void checkValidCathegory(String cathegory) throws InvalidCathegoryException {
         for(String option : new String[] {":back", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}) {
             if (option.equals(cathegory)) {
-                return cathegory;
+                return;
             }
         }
-        return "invalid";
+        throw new InvalidCathegoryException();
     }
 
     private boolean checkEmptyCathegory(String cathegory) {
