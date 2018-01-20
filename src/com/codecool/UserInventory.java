@@ -13,22 +13,17 @@ public class UserInventory extends Inventory {
         this.computers = new Computer[] {};
     }
 
-    public String displayComputers(String menuTitle, String commands) {
-        System.out.println("\n" + menuTitle + "\nCommands: " + commands + "\n");
-        
-        String input = userInput.nextLine().toLowerCase();
-        return input;
-    }
-
-    public void printEachComputer() {
+    public void displayComputers() {
         Computer[] computers = this.getComputers();
         if (computers.length < 1) {
             System.out.println("You don't have any PCs.");
             return;
         }
+        int counter = 0;
         for (Computer computer : computers) {
-            System.out.println(computer);
+            System.out.println(counter + " " + computer);
         }
+        System.out.println();
     }
 
     public void handleSell(String cathegory) throws ArrayIndexOutOfBoundsException, EmptyCathegoryException {

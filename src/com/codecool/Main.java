@@ -13,7 +13,6 @@ public class Main {
         while (true) {
             System.out.println("\n\033[1mMain Menu\033[0m\nCommands: :home :store :build :find :inventory :save :help :exit\n");
             String input = userInput.nextLine().toLowerCase();
-            System.out.println();
             if (input.equals(":exit")) {
                 exitMenu();
                 break;
@@ -28,7 +27,7 @@ public class Main {
                 buildMenu(inventory);
             } else
             if (input.equals(":find")) {
-                findMenu();
+                findMenu(inventory);
             } else
             if (input.equals(":inventory")) {
                 inventoryMenu(inventory);
@@ -84,7 +83,8 @@ public class Main {
 
     static void buildMenu(UserInventory inventory) {
         while(true) {
-            String input = inventory.displayComputers("\033[1mBuild Menu\033[0m", ":back :create :modify");
+            System.out.println("\n\033[1mBuild Menu\033[0m\nCommands: :back :create :modify\n");
+            String input = userInput.nextLine().toLowerCase();
             if (input.equals(":back")) {
                 break;
             }
@@ -98,8 +98,31 @@ public class Main {
         }
     }
 
-    static void findMenu() {
-        System.out.println("find menu is in progress");
+    static void findMenu(UserInventory inventory) {
+        if (inventory.getComputers().length < 1) {
+            System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
+            return;
+        }
+        String input;
+        while (true) {
+            System.out.println("\n\033[1mSelect a PC to see it's specs\033[0m");
+            System.out.println("Commands: :back (or type the corresponding number)\n");
+            inventory.displayComputers();
+            input = userInput.nextLine();
+            if (input.equals(":back")) {
+                break;
+            }
+            try {
+                int index = Integer.parseInt(input);
+                System.out.println(inventory.getComputers()[index].details());
+            } catch(NumberFormatException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            } catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
+        }
     }
 
     static void inventoryMenu(UserInventory inventory) {
@@ -177,7 +200,7 @@ public class Main {
         inventory.addComputer(new Computer(name, null, null, null, new CPU[0], new Heatsink[0], new Fan[0],
             new Memory[0], new GraphicsCard[0], new Storage[0]));
         System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
-        System.out.println("See :modify to select it's components");
+        System.out.println("See :modify to select it's components\n");
     }
 
 }
