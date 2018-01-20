@@ -1,5 +1,7 @@
 package com.codecool;
 
+import java.util.Scanner;
+
 public class Inventory {
 
     private Case[] cases;
@@ -12,6 +14,7 @@ public class Inventory {
     private GraphicsCard[] gpus;
     private SolidStateDrive[] ssds;
     private HardDiskDrive[] hdds;
+    protected Scanner userInput;
 
     public Inventory(Case[] cases, PowerSupply[] psus, Motherboard[] motherboards, CPU[] cpus,
         Heatsink[] heatsinks, Fan[] fans, Memory[] memories, GraphicsCard[] gpus,
@@ -26,6 +29,181 @@ public class Inventory {
         this.gpus = gpus;
         this.ssds = ssds;
         this.hdds = hdds;
+        this.userInput = new Scanner(System.in);
+    }
+
+    public String displayInventory(String menuTitle, String commands) {
+        System.out.println("\n" + menuTitle + "\nCommands: " + commands + "\n");
+        System.out.println("0 (" + this.getCases().length + " items) Cases");
+        System.out.println("1 (" + this.getPsus().length + " items) Power supplies");
+        System.out.println("2 (" + this.getMotherboards().length + " items) Motherboards");
+        System.out.println("3 (" + this.getCpus().length + " items) Processors");
+        System.out.println("4 (" + this.getHeatsinks().length + " items) Heatsinks");
+        System.out.println("5 (" + this.getFans().length + " items) Fans");
+        System.out.println("6 (" + this.getMemories().length + " items) Memories");
+        System.out.println("7 (" + this.getGpus().length + " items) Graphics cards");
+        System.out.println("8 (" + this.getSsds().length + " items) Solid state drives");
+        System.out.println("9 (" + this.getHdds().length + " items) Hard disk drives\n");
+
+        String cathegory = checkValidCathegory(userInput.nextLine().toLowerCase());
+
+        if (!checkEmptyCathegory(cathegory)) {
+            return "empty";
+        }
+        if (!cathegory.equals("invalid")){
+            displayCathegory(cathegory);
+        }
+        return cathegory;
+    }
+
+    private String checkValidCathegory(String cathegory) {
+        for(String option : new String[] {":back", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}) {
+            if (option.equals(cathegory)) {
+                return cathegory;
+            }
+        }
+        return "invalid";
+    }
+
+    private boolean checkEmptyCathegory(String cathegory) {
+        switch(cathegory) {
+            case "0":
+                return this.getCases().length > 0;
+            case "1":
+                return this.getPsus().length > 0;
+            case "2":
+                return this.getMotherboards().length > 0;
+            case "3":
+                return this.getCpus().length > 0;
+            case "4":
+                return this.getHeatsinks().length > 0;
+            case "5":
+                return this.getFans().length > 0;
+            case "6":
+                return this.getMemories().length > 0;
+            case "7":
+                return this.getGpus().length > 0;
+            case "8":
+                return this.getSsds().length > 0;
+            case "9":
+                return this.getHdds().length > 0;
+        }
+        return true;
+    }
+
+    public void displayCathegory(String cathegory) {
+        if (cathegory.equals(":back")) {
+            return;
+        }
+        if (cathegory.equals("0")) {
+            System.out.println("\n\033[1mCases:\033[0m");
+            displayItems(this.getCases());
+        } else
+        if (cathegory.equals("1")) {
+            System.out.println("\n\033[1mPower supplies:\033[0m");
+            displayItems(this.getPsus());
+        } else
+        if (cathegory.equals("2")) {
+            System.out.println("\n\033[1mMotherboards:\033[0m");
+            displayItems(this.getMotherboards());
+        } else
+        if (cathegory.equals("3")) {
+            System.out.println("\n\033[1mProcessors:\033[0m");
+            displayItems(this.getCpus());
+        } else
+        if (cathegory.equals("4")) {
+            System.out.println("\n\033[1mHeatsinks:\033[0m");
+            displayItems(this.getHeatsinks());
+        } else
+        if (cathegory.equals("5")) {
+            System.out.println("\n\033[1mFans:\033[0m");
+            displayItems(this.getFans());
+        } else
+        if (cathegory.equals("6")) {
+            System.out.println("\n\033[1mMemories:\033[0m");
+            displayItems(this.getMemories());
+        } else
+        if (cathegory.equals("7")) {
+            System.out.println("\n\033[1mGrapics cards:\033[0m");
+            displayItems(this.getGpus());
+        } else
+        if (cathegory.equals("8")) {
+            System.out.println("\n\033[1mSolid state drives:\033[0m");
+            displayItems(this.getSsds());
+        } else
+        if (cathegory.equals("9")) {
+            System.out.println("\n\033[1mHard disk drives:\033[0m");
+            displayItems(this.getHdds());
+        } else {
+            System.out.println("\033[1m\033[91mIncorrect input: \033[0m");
+        }
+    }
+
+    private void displayItems(PCComponent[] items) {
+        int counter = 0;
+        String colorCode;
+        for (PCComponent item : items) {
+            switch(item.getTier()) {
+                case HIGH:
+                    colorCode = "\033[91m";
+                    break;
+                case MEDIUM:
+                    colorCode = "\033[93m";
+                    break;
+                case LOW:
+                    colorCode = "\033[92m";
+                    break;
+                default:
+                    colorCode = "\033[0m";
+            }
+            System.out.println(counter + " " + colorCode + item + "\033[0m");
+            counter++;
+        }
+    }
+
+    public void showDetails(String cathegory) {
+        System.out.print("\nSelect an item by it's number: ");
+        String input = userInput.nextLine().toLowerCase();
+        int index = 0;
+        try {
+            index = Integer.parseInt(input);
+        } catch(NumberFormatException e) {
+            System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            return;
+        }
+        switch(cathegory) {
+            case "0":
+                System.out.println(this.getCases()[index].details());
+                return;
+            case "1":
+                System.out.println(this.getPsus()[index].details());
+                break;
+            case "2":
+                System.out.println(this.getMotherboards()[index].details());
+                break;
+            case "3":
+                System.out.println(this.getCpus()[index].details());
+                break;
+            case "4":
+                System.out.println(this.getHeatsinks()[index].details());
+                break;
+            case "5":
+                System.out.println(this.getFans()[index].details());
+                break;
+            case "6":
+                System.out.println(this.getMemories()[index].details());
+                break;
+            case "7":
+                System.out.println(this.getGpus()[index].details());
+                break;
+            case "8":
+                System.out.println(this.getSsds()[index].details());
+                break;
+            case "9":
+                System.out.println(this.getHdds()[index].details());
+                break;
+        }
+        System.out.println();
     }
 
     private int getIndexOfItem(PCComponent[] array, PCComponent item) {
