@@ -103,7 +103,7 @@ public class Main {
             if (input.equals(":modify")) {
                 continue;
             }
-
+            
         }
     }
 
@@ -144,6 +144,9 @@ public class Main {
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                } catch (EmptyCathegoryException e) {
+                    System.out.println("\n\033[91m\033[1mYou don't have any components of this type.\033[0m");
+                    break;
                 }
                 inventory.displayCathegory(cathegory);
             }
