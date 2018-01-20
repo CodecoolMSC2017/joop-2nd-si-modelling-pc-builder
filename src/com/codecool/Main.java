@@ -170,7 +170,7 @@ public class Main {
         if (inventory.getComputers().length == 3) {
             System.out.println("\n\033[1m\033[91mYou can only have 3 computers at the same time!\033[0m\n" +
                 "\033[1m(You don't want to get the attention of the authorities with your high power bill)\033[0m");
-            continue;
+            return;
         }
         System.out.println("\033[1mTo create a new PC you have to name it first:\033[0m\n");
         String name = userInput.nextLine();
