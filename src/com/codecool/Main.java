@@ -167,7 +167,7 @@ public class Main {
         System.out.println("   :home      > this is where you can use your PCs");
         System.out.println("   :store     > enters the store menu where you can browse and buy components");
         System.out.println("   :build     > modify a PC you have already built or build a brand new one");
-        System.out.println("   :find      > type the name of your PC to display it's specs");
+        System.out.println("   :find      > select one of your PCs to display it's specs");
         System.out.println("   :inventory > displays the components you have bought but have not built in yet");
         System.out.println("   :save      > saves your progress (saved game is loaded automatiaclly upon startup)");
         System.out.println("   :help      > displays this helpful description");

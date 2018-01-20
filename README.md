@@ -24,7 +24,7 @@
 ### `:build`
     Modify a PC you have already built or build a brand new one.
 ### `:find`
-    Type the name of your PC to display it's specs.
+    Select one of your PCs to display it's specs.
 ### `:inventory`
     Displays the components you have bought but have not built in yet.
 ### `:save`
