@@ -37,13 +37,13 @@ public class Computer {
         if (this.getCase() == null) {
             theCase = "\033[91m   None\n\033[0m";
         } else {
-            theCase = "   " + this.getCase().toString();
+            theCase = "   " + this.getCase().toString() + "\n";
         }
         String psu = "";
         if (this.getPsu() == null) {
             psu = "\033[91m   None\n\033[0m";
         } else {
-            psu = "   " + this.getPsu().toString();
+            psu = "   " + this.getPsu().toString() + "\n";
         }
         String motherboard = "";
         if (this.getMotherboard() == null) {
