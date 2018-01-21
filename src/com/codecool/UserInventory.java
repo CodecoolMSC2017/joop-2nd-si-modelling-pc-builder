@@ -35,7 +35,7 @@ public class UserInventory extends Inventory {
                     this.handleAdd(pc);
                 } else
                 if (action.equals(":remove")) {
-                    this.handleRemove();
+                    this.handleRemove(pc);
                 } else {
                     System.out.println("Unknown command: " + action);
                 }
@@ -75,51 +75,81 @@ public class UserInventory extends Inventory {
         try {
             switch(cathegory) {
                 case "0":
+                    if (pc.getCases().length > 0) {
+                        throw new NoMoreRoomException();
+                    }
                     Case aCase = this.getCases()[index];
                     pc.addItem(aCase);
                     this.deleteItem(aCase);
                     return;
                 case "1":
+                    if (pc.getPsus().length > 0) {
+                        throw new NoMoreRoomException();
+                    }
                     PowerSupply psu = this.getPsus()[index];
                     pc.addItem(psu);
                     this.deleteItem(psu);
                     return;
                 case "2":
+                    if (pc.getMotherboards().length > 0) {
+                        throw new NoMoreRoomException();
+                    }
                     Motherboard motherboard = this.getMotherboards()[index];
                     pc.addItem(motherboard);
                     this.deleteItem(motherboard);
                     return;
                 case "3":
+                    if (pc.getCpus().length == pc.getMotherboards()[0].getAmountOfSockets()) {
+                        throw new NoMoreRoomException();
+                    }
                     CPU cpu = this.getCpus()[index];
                     pc.addItem(cpu);
                     this.deleteItem(cpu);
                     return;
                 case "4":
+                    if (pc.getHeatsinks().length == pc.getMotherboards()[0].getAmountOfSockets()) {
+                        throw new NoMoreRoomException();
+                    }
                     Heatsink heatsink = this.getHeatsinks()[index];
                     pc.addItem(heatsink);
                     this.deleteItem(heatsink);
                     return;
                 case "5":
+                    if (pc.getFans().length == pc.getCases()[0].getFrontFanCapacity() + pc.getCases()[0].getRearFanCapacity()) {
+                        throw new NoMoreRoomException();
+                    }
                     Fan fan = this.getFans()[index];
                     pc.addItem(fan);
                     this.deleteItem(fan);
                     return;
                 case "6":
                     Memory memory = this.getMemories()[index];
+                    if (memory.getAmountOfSticks() > amountOfFreeMemorySlots(pc)) {
+                        throw new NoMoreRoomException();
+                    }
                     pc.addItem(memory);
                     this.deleteItem(memory);
                     return;
                 case "7":
+                    if (pc.getMotherboards()[0].getAmountOfPCIESlots() == pc.getGpus().length) {
+                        throw new NoMoreRoomException();
+                    }
                     GraphicsCard gpu = this.getGpus()[index];
                     pc.addItem(gpu);
                     this.deleteItem(gpu);
                     return;
                 case "8":
+                    if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
+                        throw new NoMoreRoomException();
+                    }
                     SolidStateDrive ssd = this.getSsds()[index];
                     pc.addItem(ssd);
                     this.deleteItem(ssd);
                     return;
                 case "9":
+                    if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
+                        throw new NoMoreRoomException();
+                    }
                     HardDiskDrive hdd = this.getHdds()[index];
                     pc.addItem(hdd);
                     this.deleteItem(hdd);
@@ -131,8 +161,28 @@ public class UserInventory extends Inventory {
         }
     }
 
-    public void handleRemove() {
+    public void handleRemove(Computer pc) {
+        String cathegory = pc.chooseCathegory("\033[1mSelect an item\033[0m", pc);
+        if (cathegory.equals(":back")) {
+            return;
+        }
+        System.out.print("\nSelect an item by it's number: ");
+        String input = userInput.nextLine().toLowerCase();
+        int index = 0;
+        try {
+            index = Integer.parseInt(input);
+        } catch(NumberFormatException e) {
+            System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            return;
+        }
+    }
 
+    private int amountOfFreeMemorySlots(Computer pc) {
+        int amountOfSticks = 0;
+        for (Memory ram : pc.getMemories()) {
+            amountOfSticks += ram.getAmountOfSticks();
+        }
+        return pc.getMotherboards()[0].getAmountOfMemorySlots() - amountOfSticks;
     }
 
     public Computer selectPC() {

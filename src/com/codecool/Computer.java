@@ -2,60 +2,42 @@ package com.codecool;
 
 import java.util.Objects;
 
-public class Computer {
+public class Computer extends Inventory {
 
     private String name;
-    private Case casing;
-    private PowerSupply psu;
-    private Motherboard motherboard;
-    private CPU[] cpus;
-    private Heatsink[] heatsinks;
-    private Fan[] fans;
-    private Memory[] rams;
-    private GraphicsCard[] gpus;
-    private SolidStateDrive[] ssds;
-    private HardDiskDrive[] hdds;
     private boolean functional;
 
     public Computer(String name) {
+        super(new Case[0], new PowerSupply[0], new Motherboard[0], new CPU[0], new Heatsink[0],
+            new Fan[0], new Memory[0], new GraphicsCard[0], new SolidStateDrive[0], new HardDiskDrive[0]);
         this.name = name;
-        this.casing = null;
-        this.psu = null;
-        this.motherboard = null;
-        this.cpus = new CPU[0];
-        this.heatsinks = new Heatsink[0];
-        this.fans = new Fan[0];
-        this.rams = new Memory[0];
-        this.gpus = new GraphicsCard[0];
-        this.ssds = new SolidStateDrive[0];
-        this.hdds = new HardDiskDrive[0];
         this.functional = false;
     }
 
     public String details() {
         String theCase = "";
-        if (this.getCase() == null) {
+        if (this.getCases().length == 0) {
             theCase = "\033[91m   None\n\033[0m";
         } else {
-            theCase = "   " + this.getCase().toString() + "\n";
+            theCase = "   " + this.getCases()[0].toString() + "\n";
         }
         String psu = "";
-        if (this.getPsu() == null) {
+        if (this.getPsus().length == 0) {
             psu = "\033[91m   None\n\033[0m";
         } else {
-            psu = "   " + this.getPsu().toString() + "\n";
+            psu = "   " + this.getPsus()[0].toString() + "\n";
         }
         String motherboard = "";
-        if (this.getMotherboard() == null) {
+        if (this.getMotherboards().length == 0) {
             motherboard = "\033[91m   None\n\033[0m";
         } else {
-            motherboard = "   " + this.getMotherboard().toString() + "\n";
+            motherboard = "   " + this.getMotherboards()[0].toString() + "\n";
         }
         String cpus = "";
-        if (this.getCPUs().length == 0) {
+        if (this.getCpus().length == 0) {
             cpus = "\033[91m   None\n\033[0m";
         } else {
-            for (CPU cpu : this.getCPUs()) {
+            for (CPU cpu : this.getCpus()) {
                 cpus += "   " + cpu.toString() + "\n";
             }
         }
@@ -124,179 +106,8 @@ public class Computer {
         System.out.println("in progress");
     }
 
-    public void addItem(Case item) throws NoMoreRoomException {
-        if (this.casing != null) {
-            throw new NoMoreRoomException();
-        }
-        this.casing = item;
-    }
-
-    public void addItem(PowerSupply item) throws NoMoreRoomException {
-        if (this.psu != null) {
-            throw new NoMoreRoomException();
-        }
-        this.psu = item;
-    }
-
-    public void addItem(Motherboard item) throws NoMoreRoomException {
-        if (this.motherboard != null) {
-            throw new NoMoreRoomException();
-        }
-        this.motherboard = item;
-    }
-    
-    public void addItem(CPU item) throws NoMoreRoomException {
-        if (cpus.length == motherboard.getAmountOfSockets()) {
-            throw new NoMoreRoomException();
-        }
-        CPU[] newArray = new CPU[cpus.length + 1];
-        int counter = 0;
-        for (CPU cpu : cpus) {
-            newArray[counter] = cpu;
-            counter++;
-        }
-        newArray[cpus.length] = item;
-        cpus = newArray;
-    }
-    
-    public void addItem(Heatsink item) throws NoMoreRoomException {
-        if (heatsinks.length == motherboard.getAmountOfSockets()) {
-            throw new NoMoreRoomException();
-        }
-        Heatsink[] newArray = new Heatsink[heatsinks.length + 1];
-        int counter = 0;
-        for (Heatsink heatsink : heatsinks) {
-            newArray[counter] = heatsink;
-            counter++;
-        }
-        newArray[heatsinks.length] = item;
-        heatsinks = newArray;
-    }
-
-    public void addItem(Fan item) throws NoMoreRoomException {
-        if (fans.length == casing.getFrontFanCapacity() + casing.getRearFanCapacity()) {
-            throw new NoMoreRoomException();
-        }
-        Fan[] newArray = new Fan[fans.length + 1];
-        int counter = 0;
-        for (Fan fan : fans) {
-            newArray[counter] = fan;
-            counter++;
-        }
-        newArray[fans.length] = item;
-        fans = newArray;
-    }
-
-    public void addItem(Memory item) throws NoMoreRoomException {
-        if (item.getAmountOfSticks() > amountOfFreeMemorySlots()) {
-            throw new NoMoreRoomException();
-        }
-        Memory[] newArray = new Memory[rams.length + 1];
-        int counter = 0;
-        for (Memory memory : rams) {
-            newArray[counter] = memory;
-            counter++;
-        }
-        newArray[rams.length] = item;
-        rams = newArray;
-    }
-
-    public void addItem(GraphicsCard item) throws NoMoreRoomException {
-        if (motherboard.getAmountOfPCIESlots() == gpus.length) {
-            throw new NoMoreRoomException();
-        }
-        GraphicsCard[] newArray = new GraphicsCard[gpus.length + 1];
-        int counter = 0;
-        for (GraphicsCard gpu : gpus) {
-            newArray[counter] = gpu;
-            counter++;
-        }
-        newArray[gpus.length] = item;
-        gpus = newArray;
-    }
-    
-    public void addItem(SolidStateDrive item) throws NoMoreRoomException {
-        if (ssds.length + hdds.length == motherboard.getAmountOfSata()) {
-            throw new NoMoreRoomException();
-        }
-        SolidStateDrive[] newArray = new SolidStateDrive[ssds.length + 1];
-        int counter = 0;
-        for (SolidStateDrive ssd : ssds) {
-            newArray[counter] = ssd;
-            counter++;
-        }
-        newArray[ssds.length] = item;
-        ssds = newArray;
-    }
-
-    public void addItem(HardDiskDrive item) throws NoMoreRoomException {
-        if (ssds.length + hdds.length == motherboard.getAmountOfSata()) {
-            throw new NoMoreRoomException();
-        }
-        HardDiskDrive[] newArray = new HardDiskDrive[hdds.length + 1];
-        int counter = 0;
-        for (HardDiskDrive hdd : hdds) {
-            newArray[counter] = hdd;
-            counter++;
-        }
-        newArray[hdds.length] = item;
-        hdds = newArray;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public Case getCase() {
-        return casing;
-    }
-
-    public PowerSupply getPsu() {
-        return psu;
-    }
-
-    public Motherboard getMotherboard() {
-        return motherboard;
-    }
-
-    public CPU[] getCPUs() {
-        return cpus;
-    }
-    
-    public Heatsink[] getHeatsinks() {
-        return heatsinks;
-    }
-
-    public Fan[] getFans() {
-        return fans;
-    }
-
-    public Memory[] getMemories() {
-        return rams;
-    }
-
-    public GraphicsCard[] getGpus() {
-        return gpus;
-    }
-
-    public SolidStateDrive[] getSsds() {
-        return ssds;
-    }
-
-    public HardDiskDrive[] getHdds() {
-        return hdds;
-    }
-
-    public boolean getFunctional() {
-        return functional;
-    }
-
-    private int amountOfFreeMemorySlots() {
-        int amountOfSticks = 0;
-        for (Memory ram : rams) {
-            amountOfSticks += ram.getAmountOfSticks();
-        }
-        return motherboard.getAmountOfMemorySlots() - amountOfSticks;
     }
 
     @Override

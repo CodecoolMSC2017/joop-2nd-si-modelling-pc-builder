@@ -50,7 +50,7 @@ public class Inventory {
         return cathegory;
     }
 
-    public String displayInventory(String menuTitle, String commands) throws InvalidCathegoryException, EmptyCathegoryException {
+    private String displayInventory(String menuTitle, String commands) throws InvalidCathegoryException, EmptyCathegoryException {
         System.out.println("\n" + menuTitle + "\nCommands: " + commands + "\n");
         System.out.println("0 (" + this.getCases().length + " items) Cases");
         System.out.println("1 (" + this.getPsus().length + " items) Power supplies");
@@ -161,7 +161,6 @@ public class Inventory {
 
     private void displayItems(PCComponent[] items) {
         int counter = 0;
-        String colorCode;
         for (PCComponent item : items) {
             System.out.println(counter + " " + item);
             counter++;
