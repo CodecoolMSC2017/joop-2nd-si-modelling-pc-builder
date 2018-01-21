@@ -53,7 +53,7 @@ public class Main {
 
     static void storeMenu(Store store, UserInventory inventory) {
         while (true) {
-            String cathegory = chooseCathegory(store, "\033[1mStore Menu\033[0m");
+            String cathegory = chooseCathegory(store, "\033[1mStore Menu\033[0m", null);
             if (cathegory.equals(":back")) {
                 return;
             }
@@ -92,7 +92,9 @@ public class Main {
                 handleCreate(inventory);
             } else
             if (input.equals(":modify")) {
-                continue;
+                handleModify(inventory);
+            } else {
+                System.out.println("Unknown command: " + input);
             }
             
         }
@@ -103,31 +105,18 @@ public class Main {
             System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
             return;
         }
-        String input;
         while (true) {
-            System.out.println("\n\033[1mSelect a PC to see it's specs\033[0m");
-            System.out.println("Commands: :back (or type the corresponding number)\n");
-            inventory.displayComputers();
-            input = userInput.nextLine();
-            if (input.equals(":back")) {
+            Computer pc = selectPC(inventory);
+            if (pc == null) {
                 break;
             }
-            try {
-                int index = Integer.parseInt(input);
-                System.out.println(inventory.getComputers()[index].details());
-            } catch(NumberFormatException e) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            } catch(ArrayIndexOutOfBoundsException e) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            }
+            System.out.println(pc.details());
         }
     }
 
     static void inventoryMenu(UserInventory inventory) {
         while (true) {
-            String cathegory = chooseCathegory(inventory, "\033[1mInventory Menu\033[0m");
+            String cathegory = chooseCathegory(inventory, "\033[1mInventory Menu\033[0m", null);
             if (cathegory.equals(":back")) {
                 break;
             }
@@ -174,9 +163,12 @@ public class Main {
         System.out.println("   :exit      > after asking to save the game exits the program");
     }
 
-    static String chooseCathegory(Inventory inventory, String menuTitle) {
+    static String chooseCathegory(Inventory inventory, String menuTitle, Computer pc) {
         String cathegory;
         while (true) {
+            if (pc != null) {
+                System.out.println(pc.details());
+            }
             try {
                 cathegory = inventory.displayInventory(menuTitle, ":back (or type the corresponding number)");
                 break;
@@ -187,6 +179,29 @@ public class Main {
             }
         }
         return cathegory;
+    }
+
+    static Computer selectPC(UserInventory inventory) {
+        String input;
+        while (true) {
+            System.out.println("\n\033[1mSelect a PC\033[0m");
+            System.out.println("Commands: :back (or type the corresponding number)\n");
+            inventory.displayComputers();
+            input = userInput.nextLine();
+            if (input.equals(":back")) {
+                return null;
+            }
+            try {
+                int index = Integer.parseInt(input);
+                return inventory.getComputers()[index];
+            } catch(NumberFormatException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            } catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
+        }
     }
 
     static void handleCreate(UserInventory inventory) {
@@ -201,6 +216,78 @@ public class Main {
             new Memory[0], new GraphicsCard[0], new Storage[0]));
         System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
         System.out.println("See :modify to select it's components\n");
+    }
+
+    static void handleModify(UserInventory inventory) {
+        if (inventory.getComputers().length < 1) {
+            System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
+            return;
+        }
+        Computer pc = selectPC(inventory);
+        if (pc == null) {
+            return;
+        }
+        while (true) {
+            String cathegory = chooseCathegory(inventory, "\033[1mSelect a component\033[0m", pc);
+            if (cathegory.equals(":back")) {
+                break;
+            }
+            while (true) {
+                System.out.println("\nCommands: :add :remove :back\n");
+                String action = userInput.nextLine().toLowerCase();
+
+                if (action.equals(":back")) {
+                    break;
+                }
+                if (action.equals(":add")) {
+                    handleBuildIn(pc, inventory, cathegory);
+                }
+            }
+        }
+    }
+
+    static void handleBuildIn(Computer pc, UserInventory inventory, String cathegory) {
+        System.out.print("\nSelect an item by it's number: ");
+        String input = userInput.nextLine().toLowerCase();
+        int index = 0;
+        try {
+            index = Integer.parseInt(input);
+        } catch(NumberFormatException e) {
+            System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            return;
+        }
+        switch(cathegory) {
+            case "0":
+                pc.addItem(inventory.getCases()[index]);
+                return;
+            case "1":
+                pc.addItem(inventory.getPsus()[index]);
+                break;
+            case "2":
+                pc.addItem(inventory.getMotherboards()[index]);
+                break;
+            case "3":
+                pc.addItem(inventory.getCpus()[index]);
+                break;
+            case "4":
+                pc.addItem(inventory.getHeatsinks()[index]);
+                break;
+            case "5":
+                pc.addItem(inventory.getFans()[index]);
+                break;
+            case "6":
+                pc.addItem(inventory.getMemories()[index]);
+                break;
+            case "7":
+                pc.addItem(inventory.getGpus()[index]);
+                break;
+            case "8":
+                pc.addItem(inventory.getSsds()[index]);
+                break;
+            case "9":
+                pc.addItem(inventory.getHdds()[index]);
+                break;
+        }
     }
 
 }
