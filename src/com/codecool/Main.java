@@ -212,8 +212,7 @@ public class Main {
         }
         System.out.println("\033[1mTo create a new PC you have to name it first:\033[0m\n");
         String name = userInput.nextLine();
-        inventory.addComputer(new Computer(name, null, null, null, new CPU[0], new Heatsink[0], new Fan[0],
-            new Memory[0], new GraphicsCard[0], new Storage[0]));
+        inventory.addComputer(new Computer(name));
         System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
         System.out.println("See :modify to select it's components\n");
     }

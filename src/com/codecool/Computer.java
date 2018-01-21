@@ -13,21 +13,22 @@ public class Computer {
     private Fan[] fans;
     private Memory[] rams;
     private GraphicsCard[] gpus;
-    private Storage[] storages;
+    private SolidStateDrive[] ssds;
+    private HardDiskDrive[] hdds;
     private boolean functional;
 
-    public Computer(String name, Case casing, PowerSupply psu, Motherboard motherboard, CPU[] cpus,
-        Heatsink[] heatsinks, Fan[] fans, Memory[] rams, GraphicsCard[] gpus, Storage[] storages) {
+    public Computer(String name) {
         this.name = name;
-        this.casing = casing;
-        this.psu = psu;
-        this.motherboard = motherboard;
-        this.cpus = cpus;
-        this.heatsinks = heatsinks;
-        this.fans = fans;
-        this.rams = rams;
-        this.gpus = gpus;
-        this.storages = storages;
+        this.casing = null;
+        this.psu = null;
+        this.motherboard = null;
+        this.cpus = new CPU[0];
+        this.heatsinks = new Heatsink[0];
+        this.fans = new Fan[0];
+        this.rams = new Memory[0];
+        this.gpus = new GraphicsCard[0];
+        this.ssds = new SolidStateDrive[0];
+        this.hdds = new HardDiskDrive[0];
         this.functional = false;
     }
 
@@ -90,12 +91,20 @@ public class Computer {
                 gpus += "   " + gpu.toString() + "\n";
             }
         }
-        String storage = "";
-        if (this.getStorages().length == 0) {
-            storage = "\033[91m   None\n\033[0m";
+        String ssds = "";
+        if (this.getSsds().length == 0) {
+            ssds = "\033[91m   None\n\033[0m";
         } else {
-            for (Storage stor : storages) {
-                storage += "   " + stor.toString() + "\n";
+            for (SolidStateDrive ssd : this.getSsds()) {
+                ssds += "   " + ssd.toString() + "\n";
+            }
+        }
+        String hdds = "";
+        if (this.getHdds().length == 0) {
+            hdds = "\033[91m   None\n\033[0m";
+        } else {
+            for (Storage hdd : this.getHdds()) {
+                hdds += "   " + hdd.toString() + "\n";
             }
         }
         return "\n\033[1mComponents of " + this.getName() + ":" +
@@ -107,7 +116,8 @@ public class Computer {
             "\033[1mFan(s):\033[0m\n" + fans +
             "\033[1mMemory:\033[0m\n" + memories +
             "\033[1mGraphics card(s):\033[0m\n" + gpus +
-            "\033[1mStorage:\033[0m\n" + storage;
+            "\033[1mSolid state drives:\033[0m\n" + ssds +
+            "\033[1mHard disk drives:\033[0m\n" + hdds;
     }
 
     public void checkFunctional() {
@@ -181,15 +191,26 @@ public class Computer {
         gpus = newArray;
     }
     
-    public void addItem(Storage item) {
-        Storage[] newArray = new Storage[storages.length + 1];
+    public void addItem(SolidStateDrive item) {
+        SolidStateDrive[] newArray = new SolidStateDrive[ssds.length + 1];
         int counter = 0;
-        for (Storage storage : storages) {
-            newArray[counter] = storage;
+        for (SolidStateDrive ssd : ssds) {
+            newArray[counter] = ssd;
             counter++;
         }
-        newArray[storages.length] = item;
-        storages = newArray;
+        newArray[ssds.length] = item;
+        ssds = newArray;
+    }
+
+    public void addItem(HardDiskDrive item) {
+        HardDiskDrive[] newArray = new HardDiskDrive[hdds.length + 1];
+        int counter = 0;
+        for (HardDiskDrive hdd : hdds) {
+            newArray[counter] = hdd;
+            counter++;
+        }
+        newArray[hdds.length] = item;
+        hdds = newArray;
     }
 
     public String getName() {
@@ -228,8 +249,12 @@ public class Computer {
         return gpus;
     }
 
-    public Storage[] getStorages() {
-        return storages;
+    public SolidStateDrive[] getSsds() {
+        return ssds;
+    }
+
+    public HardDiskDrive[] getHdds() {
+        return hdds;
     }
 
     public boolean getFunctional() {
