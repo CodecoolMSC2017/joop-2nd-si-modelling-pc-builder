@@ -14,6 +14,7 @@ public class Computer {
     private Memory[] rams;
     private GraphicsCard[] gpus;
     private Storage[] storages;
+    private boolean functional;
 
     public Computer(String name, Case casing, PowerSupply psu, Motherboard motherboard, CPU[] cpus,
         Heatsink[] heatsinks, Fan[] fans, Memory[] rams, GraphicsCard[] gpus, Storage[] storages) {
@@ -27,6 +28,47 @@ public class Computer {
         this.rams = rams;
         this.gpus = gpus;
         this.storages = storages;
+        this.functional = false;
+    }
+
+    public String details() {
+        String cpus = "";
+        for (CPU cpu : this.getCPUs()) {
+            cpus += cpu.getName() + "\n";
+        }
+        String heatsinks = "";
+        for (Heatsink heatsink : this.getHeatsinks()) {
+            heatsinks += heatsink.getName() + "\n";
+        }
+        String fans = "";
+        for (Fan fan : this.getFans()) {
+            fans += fan.getName() + "\n";
+        }
+        String memories = "";
+        for (Memory memory : this.getMemories()) {
+            memories += memory.getName() + "\n";
+        }
+        String gpus = "";
+        for (GraphicsCard gpu : this.getGpus()) {
+            gpus += gpu.getName() + "\n";
+        }
+        String storage = "";
+        for (Storage stor : storages) {
+            storage += stor.getName() + "\n";
+        }
+        return "\nCase:\n   " + this.getCase() + "\n" +
+            "Power supply:\n   " + this.getPsu() + "\n" +
+            "Motherboard:\n   " + this.getMotherboard() + "\n" +
+            "Processor(s):\n   " + cpus +
+            "Heatsink(s):\n   " + heatsinks +
+            "Fan(s):\n   " + fans +
+            "Memory:\n   " + memories +
+            "Graphics card(s)\n   " + gpus +
+            "Storage\n   " + storage;
+    }
+
+    public void checkFunctional() {
+        
     }
 
     public String getName() {
@@ -61,12 +103,16 @@ public class Computer {
         return rams;
     }
 
-    public GraphicsCard[] getGraphicsCards() {
+    public GraphicsCard[] getGpus() {
         return gpus;
     }
 
     public Storage[] getStorages() {
         return storages;
+    }
+
+    public boolean getFunctional() {
+        return functional;
     }
 
     @Override
