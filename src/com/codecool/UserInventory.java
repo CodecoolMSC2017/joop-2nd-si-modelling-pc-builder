@@ -13,6 +13,29 @@ public class UserInventory extends Inventory {
         this.computers = new Computer[] {};
     }
 
+    public Computer selectPC() {
+        String input;
+        while (true) {
+            System.out.println("\n\033[1mSelect a PC\033[0m");
+            System.out.println("Commands: :back (or type the corresponding number)\n");
+            this.displayComputers();
+            input = userInput.nextLine();
+            if (input.equals(":back")) {
+                return null;
+            }
+            try {
+                int index = Integer.parseInt(input);
+                return this.getComputers()[index];
+            } catch(NumberFormatException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            } catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
+        }
+    }
+
     public void displayComputers() {
         Computer[] computers = this.getComputers();
         if (computers.length < 1) {
