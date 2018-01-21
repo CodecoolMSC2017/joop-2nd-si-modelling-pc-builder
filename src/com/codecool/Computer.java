@@ -124,19 +124,31 @@ public class Computer {
         System.out.println("in progress");
     }
 
-    public void addItem(Case item) {
+    public void addItem(Case item) throws NoMoreRoomException {
+        if (this.casing != null) {
+            throw new NoMoreRoomException();
+        }
         this.casing = item;
     }
 
-    public void addItem(PowerSupply item) {
+    public void addItem(PowerSupply item) throws NoMoreRoomException {
+        if (this.psu != null) {
+            throw new NoMoreRoomException();
+        }
         this.psu = item;
     }
 
-    public void addItem(Motherboard item) {
+    public void addItem(Motherboard item) throws NoMoreRoomException {
+        if (this.motherboard != null) {
+            throw new NoMoreRoomException();
+        }
         this.motherboard = item;
     }
     
-    public void addItem(CPU item) {
+    public void addItem(CPU item) throws NoMoreRoomException {
+        if (cpus.length == motherboard.getAmountOfSockets()) {
+            throw new NoMoreRoomException();
+        }
         CPU[] newArray = new CPU[cpus.length + 1];
         int counter = 0;
         for (CPU cpu : cpus) {
@@ -147,7 +159,10 @@ public class Computer {
         cpus = newArray;
     }
     
-    public void addItem(Heatsink item) {
+    public void addItem(Heatsink item) throws NoMoreRoomException {
+        if (heatsinks.length == motherboard.getAmountOfSockets()) {
+            throw new NoMoreRoomException();
+        }
         Heatsink[] newArray = new Heatsink[heatsinks.length + 1];
         int counter = 0;
         for (Heatsink heatsink : heatsinks) {
@@ -158,7 +173,10 @@ public class Computer {
         heatsinks = newArray;
     }
 
-    public void addItem(Fan item) {
+    public void addItem(Fan item) throws NoMoreRoomException {
+        if (fans.length == casing.getFrontFanCapacity() + casing.getRearFanCapacity()) {
+            throw new NoMoreRoomException();
+        }
         Fan[] newArray = new Fan[fans.length + 1];
         int counter = 0;
         for (Fan fan : fans) {
@@ -169,7 +187,10 @@ public class Computer {
         fans = newArray;
     }
 
-    public void addItem(Memory item) {
+    public void addItem(Memory item) throws NoMoreRoomException {
+        if (item.getAmountOfSticks() > amountOfFreeMemorySlots()) {
+            throw new NoMoreRoomException();
+        }
         Memory[] newArray = new Memory[rams.length + 1];
         int counter = 0;
         for (Memory memory : rams) {
@@ -180,7 +201,10 @@ public class Computer {
         rams = newArray;
     }
 
-    public void addItem(GraphicsCard item) {
+    public void addItem(GraphicsCard item) throws NoMoreRoomException {
+        if (motherboard.getAmountOfPCIESlots() == gpus.length) {
+            throw new NoMoreRoomException();
+        }
         GraphicsCard[] newArray = new GraphicsCard[gpus.length + 1];
         int counter = 0;
         for (GraphicsCard gpu : gpus) {
@@ -191,7 +215,10 @@ public class Computer {
         gpus = newArray;
     }
     
-    public void addItem(SolidStateDrive item) {
+    public void addItem(SolidStateDrive item) throws NoMoreRoomException {
+        if (ssds.length + hdds.length == motherboard.getAmountOfSata()) {
+            throw new NoMoreRoomException();
+        }
         SolidStateDrive[] newArray = new SolidStateDrive[ssds.length + 1];
         int counter = 0;
         for (SolidStateDrive ssd : ssds) {
@@ -202,7 +229,10 @@ public class Computer {
         ssds = newArray;
     }
 
-    public void addItem(HardDiskDrive item) {
+    public void addItem(HardDiskDrive item) throws NoMoreRoomException {
+        if (ssds.length + hdds.length == motherboard.getAmountOfSata()) {
+            throw new NoMoreRoomException();
+        }
         HardDiskDrive[] newArray = new HardDiskDrive[hdds.length + 1];
         int counter = 0;
         for (HardDiskDrive hdd : hdds) {
@@ -259,6 +289,14 @@ public class Computer {
 
     public boolean getFunctional() {
         return functional;
+    }
+
+    private int amountOfFreeMemorySlots() {
+        int amountOfSticks = 0;
+        for (Memory ram : rams) {
+            amountOfSticks += ram.getAmountOfSticks();
+        }
+        return motherboard.getAmountOfMemorySlots() - amountOfSticks;
     }
 
     @Override

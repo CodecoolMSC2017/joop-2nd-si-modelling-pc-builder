@@ -240,57 +240,62 @@ public class Main {
             System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
             return;
         }
-        switch(cathegory) {
-            case "0":
-                Case aCase = inventory.getCases()[index];
-                pc.addItem(aCase);
-                inventory.deleteItem(aCase);
-                return;
-            case "1":
-                PowerSupply psu = inventory.getPsus()[index];
-                pc.addItem(psu);
-                inventory.deleteItem(psu);
-                return;
-            case "2":
-                Motherboard motherboard = inventory.getMotherboards()[index];
-                pc.addItem(motherboard);
-                inventory.deleteItem(motherboard);
-                return;
-            case "3":
-                CPU cpu = inventory.getCpus()[index];
-                pc.addItem(cpu);
-                inventory.deleteItem(cpu);
-                return;
-            case "4":
-                Heatsink heatsink = inventory.getHeatsinks()[index];
-                pc.addItem(heatsink);
-                inventory.deleteItem(heatsink);
-                return;
-            case "5":
-                Fan fan = inventory.getFans()[index];
-                pc.addItem(fan);
-                inventory.deleteItem(fan);
-                return;
-            case "6":
-                Memory memory = inventory.getMemories()[index];
-                pc.addItem(memory);
-                inventory.deleteItem(memory);
-                return;
-            case "7":
-                GraphicsCard gpu = inventory.getGpus()[index];
-                pc.addItem(gpu);
-                inventory.deleteItem(gpu);
-                return;
-            case "8":
-                SolidStateDrive ssd = inventory.getSsds()[index];
-                pc.addItem(ssd);
-                inventory.deleteItem(ssd);
-                return;
-            case "9":
-                HardDiskDrive hdd = inventory.getHdds()[index];
-                pc.addItem(hdd);
-                inventory.deleteItem(hdd);
-                return;
+        try {
+            switch(cathegory) {
+                case "0":
+                    Case aCase = inventory.getCases()[index];
+                    pc.addItem(aCase);
+                    inventory.deleteItem(aCase);
+                    return;
+                case "1":
+                    PowerSupply psu = inventory.getPsus()[index];
+                    pc.addItem(psu);
+                    inventory.deleteItem(psu);
+                    return;
+                case "2":
+                    Motherboard motherboard = inventory.getMotherboards()[index];
+                    pc.addItem(motherboard);
+                    inventory.deleteItem(motherboard);
+                    return;
+                case "3":
+                    CPU cpu = inventory.getCpus()[index];
+                    pc.addItem(cpu);
+                    inventory.deleteItem(cpu);
+                    return;
+                case "4":
+                    Heatsink heatsink = inventory.getHeatsinks()[index];
+                    pc.addItem(heatsink);
+                    inventory.deleteItem(heatsink);
+                    return;
+                case "5":
+                    Fan fan = inventory.getFans()[index];
+                    pc.addItem(fan);
+                    inventory.deleteItem(fan);
+                    return;
+                case "6":
+                    Memory memory = inventory.getMemories()[index];
+                    pc.addItem(memory);
+                    inventory.deleteItem(memory);
+                    return;
+                case "7":
+                    GraphicsCard gpu = inventory.getGpus()[index];
+                    pc.addItem(gpu);
+                    inventory.deleteItem(gpu);
+                    return;
+                case "8":
+                    SolidStateDrive ssd = inventory.getSsds()[index];
+                    pc.addItem(ssd);
+                    inventory.deleteItem(ssd);
+                    return;
+                case "9":
+                    HardDiskDrive hdd = inventory.getHdds()[index];
+                    pc.addItem(hdd);
+                    inventory.deleteItem(hdd);
+                    return;
+            }
+        } catch (NoMoreRoomException e) {
+            System.out.println("\n\033[1m\033[91mThere is no more room for that component!\n" +
+                "You must remove another component of that type first.\033[0m");
         }
     }
 
