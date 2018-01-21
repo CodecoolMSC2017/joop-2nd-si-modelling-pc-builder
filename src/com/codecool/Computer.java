@@ -34,25 +34,25 @@ public class Computer {
     public String details() {
         String theCase = "";
         if (this.getCase() == null) {
-            theCase = "None\n";
+            theCase = "\033[91mNone\n\033[0m";
         } else {
             theCase = this.getCase().getName();
         }
         String psu = "";
         if (this.getPsu() == null) {
-            psu = "None\n";
+            psu = "\033[91mNone\n\033[0m";
         } else {
             psu = this.getPsu().getName();
         }
         String motherboard = "";
         if (this.getMotherboard() == null) {
-            motherboard = "None\n";
+            motherboard = "\033[91mNone\n\033[0m";
         } else {
             motherboard = this.getMotherboard().getName();
         }
         String cpus = "";
         if (this.getCPUs().length == 0) {
-            cpus = "None\n";
+            cpus = "\033[91mNone\n\033[0m";
         } else {
             for (CPU cpu : this.getCPUs()) {
                 cpus += cpu.getName() + "\n";
@@ -60,7 +60,7 @@ public class Computer {
         }
         String heatsinks = "";
         if (this.getHeatsinks().length == 0) {
-            heatsinks = "None\n";
+            heatsinks = "\033[91mNone\n\033[0m";
         } else {
             for (Heatsink heatsink : this.getHeatsinks()) {
                 heatsinks += heatsink.getName() + "\n";
@@ -68,7 +68,7 @@ public class Computer {
         }
         String fans = "";
         if (this.getFans().length == 0) {
-            fans = "None\n";
+            fans = "\033[91mNone\n\033[0m";
         } else {
             for (Fan fan : this.getFans()) {
                 fans += fan.getName() + "\n";
@@ -76,7 +76,7 @@ public class Computer {
         }
         String memories = "";
         if (this.getMemories().length == 0) {
-            memories = "None\n";
+            memories = "\033[91mNone\n\033[0m";
         } else {
             for (Memory memory : this.getMemories()) {
                 memories += memory.getName() + "\n";
@@ -84,7 +84,7 @@ public class Computer {
         }
         String gpus = "";
         if (this.getGpus().length == 0) {
-            gpus = "None\n";
+            gpus = "\033[91mNone\n\033[0m";
         } else {
             for (GraphicsCard gpu : this.getGpus()) {
                 gpus += gpu.getName() + "\n";
@@ -92,7 +92,7 @@ public class Computer {
         }
         String storage = "";
         if (this.getStorages().length == 0) {
-            storage = "None\n";
+            storage = "\033[91mNone\n\033[0m";
         } else {
             for (Storage stor : storages) {
                 storage += stor.getName() + "\n";
@@ -110,7 +110,7 @@ public class Computer {
     }
 
     public void checkFunctional() {
-        
+        System.out.println("in progress");
     }
 
     public String getName() {
