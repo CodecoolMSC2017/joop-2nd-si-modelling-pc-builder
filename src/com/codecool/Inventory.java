@@ -145,20 +145,7 @@ public class Inventory {
         int counter = 0;
         String colorCode;
         for (PCComponent item : items) {
-            switch(item.getTier()) {
-                case HIGH:
-                    colorCode = "\033[91m";
-                    break;
-                case MEDIUM:
-                    colorCode = "\033[93m";
-                    break;
-                case LOW:
-                    colorCode = "\033[92m";
-                    break;
-                default:
-                    colorCode = "\033[0m";
-            }
-            System.out.println(counter + " " + colorCode + item + "\033[0m");
+            System.out.println(counter + " " + item);
             counter++;
         }
     }

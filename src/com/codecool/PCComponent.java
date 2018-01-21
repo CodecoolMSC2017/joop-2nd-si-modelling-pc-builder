@@ -34,7 +34,21 @@ public class PCComponent {
 
     @Override
     public String toString() {
-        return this.getManufacturer() + " " + this.getName() + " ($" + this.getValue() + ")";
+        String colorCode;
+        switch(this.getTier()) {
+            case HIGH:
+                colorCode = "\033[91m";
+                break;
+            case MEDIUM:
+                colorCode = "\033[93m";
+                break;
+            case LOW:
+                colorCode = "\033[92m";
+                break;
+            default:
+                colorCode = "\033[0m";
+        }
+        return colorCode + this.getManufacturer() + " " + this.getName() + " ($" + this.getValue() + ")\033[0m";
     }
 
     public boolean equals(Object o) {
