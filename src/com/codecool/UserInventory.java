@@ -13,6 +13,128 @@ public class UserInventory extends Inventory {
         this.computers = new Computer[] {};
     }
 
+    public void handleModify() {
+        if (this.getComputers().length < 1) {
+            System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
+            return;
+        }
+        Computer pc = this.selectPC();
+        if (pc == null) {
+            return;
+        }
+        while (true) {
+            System.out.println(pc.details());
+            System.out.println("\nCommands: :add :remove :back\n");
+            String action = userInput.nextLine().toLowerCase();
+
+            if (action.equals(":back")) {
+                break;
+            }
+            try {
+                if (action.equals(":add")) {
+                    this.handleAdd(pc);
+                } else
+                if (action.equals(":remove")) {
+                    this.handleRemove();
+                } else {
+                    System.out.println("Unknown command: " + action);
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            }
+        }
+    }
+
+    public void handleCreate() {
+        if (this.getComputers().length == 3) {
+            System.out.println("\n\033[1m\033[91mYou can only have 3 computers at the same time!\033[0m\n" +
+                "\033[1m(You don't want to get the attention of the authorities with your high power bill)\033[0m");
+            return;
+        }
+        System.out.println("\033[1mTo create a new PC you have to name it first:\033[0m\n");
+        String name = userInput.nextLine();
+        this.addComputer(new Computer(name));
+        System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
+        System.out.println("See :modify to select it's components\n");
+    }
+
+    public void handleAdd(Computer pc) throws ArrayIndexOutOfBoundsException {
+        String cathegory = this.chooseCathegory("\033[1mSelect an item\033[0m", pc);
+        if (cathegory.equals(":back")) {
+            return;
+        }
+        System.out.print("\nSelect an item by it's number: ");
+        String input = userInput.nextLine().toLowerCase();
+        int index = 0;
+        try {
+            index = Integer.parseInt(input);
+        } catch(NumberFormatException e) {
+            System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            return;
+        }
+        try {
+            switch(cathegory) {
+                case "0":
+                    Case aCase = this.getCases()[index];
+                    pc.addItem(aCase);
+                    this.deleteItem(aCase);
+                    return;
+                case "1":
+                    PowerSupply psu = this.getPsus()[index];
+                    pc.addItem(psu);
+                    this.deleteItem(psu);
+                    return;
+                case "2":
+                    Motherboard motherboard = this.getMotherboards()[index];
+                    pc.addItem(motherboard);
+                    this.deleteItem(motherboard);
+                    return;
+                case "3":
+                    CPU cpu = this.getCpus()[index];
+                    pc.addItem(cpu);
+                    this.deleteItem(cpu);
+                    return;
+                case "4":
+                    Heatsink heatsink = this.getHeatsinks()[index];
+                    pc.addItem(heatsink);
+                    this.deleteItem(heatsink);
+                    return;
+                case "5":
+                    Fan fan = this.getFans()[index];
+                    pc.addItem(fan);
+                    this.deleteItem(fan);
+                    return;
+                case "6":
+                    Memory memory = this.getMemories()[index];
+                    pc.addItem(memory);
+                    this.deleteItem(memory);
+                    return;
+                case "7":
+                    GraphicsCard gpu = this.getGpus()[index];
+                    pc.addItem(gpu);
+                    this.deleteItem(gpu);
+                    return;
+                case "8":
+                    SolidStateDrive ssd = this.getSsds()[index];
+                    pc.addItem(ssd);
+                    this.deleteItem(ssd);
+                    return;
+                case "9":
+                    HardDiskDrive hdd = this.getHdds()[index];
+                    pc.addItem(hdd);
+                    this.deleteItem(hdd);
+                    return;
+            }
+        } catch (NoMoreRoomException e) {
+            System.out.println("\n\033[1m\033[91mThere is no more room for that component!\n" +
+                "You must remove another component of that type first.\033[0m");
+        }
+    }
+
+    public void handleRemove() {
+
+    }
+
     public Computer selectPC() {
         String input;
         while (true) {

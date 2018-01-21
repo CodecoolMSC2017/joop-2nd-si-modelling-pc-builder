@@ -32,6 +32,24 @@ public class Inventory {
         this.userInput = new Scanner(System.in);
     }
 
+    public String chooseCathegory(String menuTitle, Computer pc) {
+        String cathegory;
+        while (true) {
+            if (pc != null) {
+                System.out.println(pc.details());
+            }
+            try {
+                cathegory = this.displayInventory(menuTitle, ":back (or type the corresponding number)");
+                break;
+            } catch (InvalidCathegoryException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+            } catch (EmptyCathegoryException e) {
+                System.out.println("\n\033[91m\033[1mThere are no components of this type.\033[0m");
+            }
+        }
+        return cathegory;
+    }
+
     public String displayInventory(String menuTitle, String commands) throws InvalidCathegoryException, EmptyCathegoryException {
         System.out.println("\n" + menuTitle + "\nCommands: " + commands + "\n");
         System.out.println("0 (" + this.getCases().length + " items) Cases");
