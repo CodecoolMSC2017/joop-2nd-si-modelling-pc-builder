@@ -49,7 +49,7 @@ public class Computer {
         if (this.getMotherboard() == null) {
             motherboard = "\033[91m   None\n\033[0m";
         } else {
-            motherboard = "   " + this.getMotherboard().toString();
+            motherboard = "   " + this.getMotherboard().toString() + "\n";
         }
         String cpus = "";
         if (this.getCPUs().length == 0) {
