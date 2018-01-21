@@ -32,39 +32,81 @@ public class Computer {
     }
 
     public String details() {
+        String theCase = "";
+        if (this.getCase() == null) {
+            theCase = "None\n";
+        } else {
+            theCase = this.getCase().getName();
+        }
+        String psu = "";
+        if (this.getPsu() == null) {
+            psu = "None\n";
+        } else {
+            psu = this.getPsu().getName();
+        }
+        String motherboard = "";
+        if (this.getMotherboard() == null) {
+            motherboard = "None\n";
+        } else {
+            motherboard = this.getMotherboard().getName();
+        }
         String cpus = "";
-        for (CPU cpu : this.getCPUs()) {
-            cpus += cpu.getName() + "\n";
+        if (this.getCPUs().length == 0) {
+            cpus = "None\n";
+        } else {
+            for (CPU cpu : this.getCPUs()) {
+                cpus += cpu.getName() + "\n";
+            }
         }
         String heatsinks = "";
-        for (Heatsink heatsink : this.getHeatsinks()) {
-            heatsinks += heatsink.getName() + "\n";
+        if (this.getHeatsinks().length == 0) {
+            heatsinks = "None\n";
+        } else {
+            for (Heatsink heatsink : this.getHeatsinks()) {
+                heatsinks += heatsink.getName() + "\n";
+            }
         }
         String fans = "";
-        for (Fan fan : this.getFans()) {
-            fans += fan.getName() + "\n";
+        if (this.getFans().length == 0) {
+            fans = "None\n";
+        } else {
+            for (Fan fan : this.getFans()) {
+                fans += fan.getName() + "\n";
+            }
         }
         String memories = "";
-        for (Memory memory : this.getMemories()) {
-            memories += memory.getName() + "\n";
+        if (this.getMemories().length == 0) {
+            memories = "None\n";
+        } else {
+            for (Memory memory : this.getMemories()) {
+                memories += memory.getName() + "\n";
+            }
         }
         String gpus = "";
-        for (GraphicsCard gpu : this.getGpus()) {
-            gpus += gpu.getName() + "\n";
+        if (this.getGpus().length == 0) {
+            gpus = "None\n";
+        } else {
+            for (GraphicsCard gpu : this.getGpus()) {
+                gpus += gpu.getName() + "\n";
+            }
         }
         String storage = "";
-        for (Storage stor : storages) {
-            storage += stor.getName() + "\n";
+        if (this.getStorages().length == 0) {
+            storage = "None\n";
+        } else {
+            for (Storage stor : storages) {
+                storage += stor.getName() + "\n";
+            }
         }
-        return "\nCase:\n   " + this.getCase() + "\n" +
-            "Power supply:\n   " + this.getPsu() + "\n" +
-            "Motherboard:\n   " + this.getMotherboard() + "\n" +
-            "Processor(s):\n   " + cpus +
-            "Heatsink(s):\n   " + heatsinks +
-            "Fan(s):\n   " + fans +
-            "Memory:\n   " + memories +
-            "Graphics card(s)\n   " + gpus +
-            "Storage\n   " + storage;
+        return "\n\033[1mCase:\033[0m\n   " + theCase +
+            "\033[1mPower supply:\033[0m\n   " + psu +
+            "\033[1mMotherboard:\033[0m\n   " + motherboard +
+            "\033[1mProcessor(s):\033[0m\n   " + cpus +
+            "\033[1mHeatsink(s):\033[0m\n   " + heatsinks +
+            "\033[1mFan(s):\033[0m\n   " + fans +
+            "\033[1mMemory:\033[0m\n   " + memories +
+            "\033[1mGraphics card(s):\033[0m\n   " + gpus +
+            "\033[1mStorage:\033[0m\n   " + storage;
     }
 
     public void checkFunctional() {
