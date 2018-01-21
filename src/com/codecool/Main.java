@@ -83,12 +83,12 @@ public class Main {
 
     static void buildMenu(UserInventory inventory) {
         while(true) {
-            System.out.println("\n\033[1mBuild Menu\033[0m\nCommands: :back :create :modify\n");
+            System.out.println("\n\033[1mBuild Menu\033[0m\nCommands: :back :new :modify\n");
             String input = userInput.nextLine().toLowerCase();
             if (input.equals(":back")) {
                 break;
             }
-            if (input.equals(":create")) {
+            if (input.equals(":new")) {
                 handleCreate(inventory);
             } else
             if (input.equals(":modify")) {
@@ -106,7 +106,7 @@ public class Main {
             return;
         }
         while (true) {
-            Computer pc = selectPC(inventory);
+            Computer pc = inventory.selectPC();
             if (pc == null) {
                 break;
             }
@@ -181,29 +181,6 @@ public class Main {
         return cathegory;
     }
 
-    static Computer selectPC(UserInventory inventory) {
-        String input;
-        while (true) {
-            System.out.println("\n\033[1mSelect a PC\033[0m");
-            System.out.println("Commands: :back (or type the corresponding number)\n");
-            inventory.displayComputers();
-            input = userInput.nextLine();
-            if (input.equals(":back")) {
-                return null;
-            }
-            try {
-                int index = Integer.parseInt(input);
-                return inventory.getComputers()[index];
-            } catch(NumberFormatException e) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            } catch(ArrayIndexOutOfBoundsException e) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            }
-        }
-    }
-
     static void handleCreate(UserInventory inventory) {
         if (inventory.getComputers().length == 3) {
             System.out.println("\n\033[1m\033[91mYou can only have 3 computers at the same time!\033[0m\n" +
@@ -222,30 +199,38 @@ public class Main {
             System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
             return;
         }
-        Computer pc = selectPC(inventory);
+        Computer pc = inventory.selectPC();
         if (pc == null) {
             return;
         }
         while (true) {
-            String cathegory = chooseCathegory(inventory, "\033[1mSelect a component\033[0m", pc);
-            if (cathegory.equals(":back")) {
+            System.out.println(pc.details());
+            System.out.println("\nCommands: :add :remove :back\n");
+            String action = userInput.nextLine().toLowerCase();
+
+            if (action.equals(":back")) {
                 break;
             }
-            while (true) {
-                System.out.println("\nCommands: :add :remove :back\n");
-                String action = userInput.nextLine().toLowerCase();
-
-                if (action.equals(":back")) {
-                    break;
-                }
+            try {
                 if (action.equals(":add")) {
-                    handleBuildIn(pc, inventory, cathegory);
+                    handleAdd(pc, inventory);
+                } else
+                if (action.equals(":remove")) {
+                    handleRemove();
+                } else {
+                    System.out.println("Unknown command: " + action);
                 }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
             }
         }
     }
 
-    static void handleBuildIn(Computer pc, UserInventory inventory, String cathegory) {
+    static void handleAdd(Computer pc, UserInventory inventory) throws ArrayIndexOutOfBoundsException {
+        String cathegory = chooseCathegory(inventory, "\033[1mSelect an item\033[0m", pc);
+        if (cathegory.equals(":back")) {
+            return;
+        }
         System.out.print("\nSelect an item by it's number: ");
         String input = userInput.nextLine().toLowerCase();
         int index = 0;
@@ -257,36 +242,60 @@ public class Main {
         }
         switch(cathegory) {
             case "0":
-                pc.addItem(inventory.getCases()[index]);
+                Case aCase = inventory.getCases()[index];
+                pc.addItem(aCase);
+                inventory.deleteItem(aCase);
                 return;
             case "1":
-                pc.addItem(inventory.getPsus()[index]);
-                break;
+                PowerSupply psu = inventory.getPsus()[index];
+                pc.addItem(psu);
+                inventory.deleteItem(psu);
+                return;
             case "2":
-                pc.addItem(inventory.getMotherboards()[index]);
-                break;
+                Motherboard motherboard = inventory.getMotherboards()[index];
+                pc.addItem(motherboard);
+                inventory.deleteItem(motherboard);
+                return;
             case "3":
-                pc.addItem(inventory.getCpus()[index]);
-                break;
+                CPU cpu = inventory.getCpus()[index];
+                pc.addItem(cpu);
+                inventory.deleteItem(cpu);
+                return;
             case "4":
-                pc.addItem(inventory.getHeatsinks()[index]);
-                break;
+                Heatsink heatsink = inventory.getHeatsinks()[index];
+                pc.addItem(heatsink);
+                inventory.deleteItem(heatsink);
+                return;
             case "5":
-                pc.addItem(inventory.getFans()[index]);
-                break;
+                Fan fan = inventory.getFans()[index];
+                pc.addItem(fan);
+                inventory.deleteItem(fan);
+                return;
             case "6":
-                pc.addItem(inventory.getMemories()[index]);
-                break;
+                Memory memory = inventory.getMemories()[index];
+                pc.addItem(memory);
+                inventory.deleteItem(memory);
+                return;
             case "7":
-                pc.addItem(inventory.getGpus()[index]);
-                break;
+                GraphicsCard gpu = inventory.getGpus()[index];
+                pc.addItem(gpu);
+                inventory.deleteItem(gpu);
+                return;
             case "8":
-                pc.addItem(inventory.getSsds()[index]);
-                break;
+                SolidStateDrive ssd = inventory.getSsds()[index];
+                pc.addItem(ssd);
+                inventory.deleteItem(ssd);
+                return;
             case "9":
-                pc.addItem(inventory.getHdds()[index]);
-                break;
+                HardDiskDrive hdd = inventory.getHdds()[index];
+                pc.addItem(hdd);
+                inventory.deleteItem(hdd);
+                return;
         }
+    }
+
+    static void handleRemove() {
+
     }
 
 }
