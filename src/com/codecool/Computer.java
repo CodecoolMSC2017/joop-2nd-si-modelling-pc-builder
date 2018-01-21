@@ -98,7 +98,8 @@ public class Computer {
                 storage += stor.getName() + "\n";
             }
         }
-        return "\n\033[1mCase:\033[0m\n   " + theCase +
+        return "\n\033[1mComponents of " + this.getName() + ":" +
+            "\nCase:\033[0m\n   " + theCase +
             "\033[1mPower supply:\033[0m\n   " + psu +
             "\033[1mMotherboard:\033[0m\n   " + motherboard +
             "\033[1mProcessor(s):\033[0m\n   " + cpus +
