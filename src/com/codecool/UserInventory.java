@@ -99,24 +99,42 @@ public class UserInventory extends Inventory {
                     this.deleteItem(motherboard);
                     return;
                 case "3":
-                    if (pc.getCpus().length == pc.getMotherboards()[0].getAmountOfSockets()) {
-                        throw new NoMoreRoomException();
+                    try {
+                        if (pc.getCpus().length == pc.getMotherboards()[0].getAmountOfSockets()) {
+                            throw new NoMoreRoomException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        if (pc.getCpus().length == 1) {
+                            throw new NoMoreRoomException();
+                        }
                     }
                     CPU cpu = this.getCpus()[index];
                     pc.addItem(cpu);
                     this.deleteItem(cpu);
                     return;
                 case "4":
-                    if (pc.getHeatsinks().length == pc.getMotherboards()[0].getAmountOfSockets()) {
-                        throw new NoMoreRoomException();
+                    try {
+                        if (pc.getHeatsinks().length == pc.getMotherboards()[0].getAmountOfSockets()) {
+                            throw new NoMoreRoomException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        if (pc.getHeatsinks().length == 1) {
+                            throw new NoMoreRoomException();
+                        }
                     }
                     Heatsink heatsink = this.getHeatsinks()[index];
                     pc.addItem(heatsink);
                     this.deleteItem(heatsink);
                     return;
                 case "5":
-                    if (pc.getFans().length == pc.getCases()[0].getFrontFanCapacity() + pc.getCases()[0].getRearFanCapacity()) {
-                        throw new NoMoreRoomException();
+                    try {
+                        if (pc.getFans().length == pc.getCases()[0].getFrontFanCapacity() + pc.getCases()[0].getRearFanCapacity()) {
+                            throw new NoMoreRoomException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        if (pc.getFans().length == 2) {
+                            throw new NoMoreRoomException();
+                        }
                     }
                     Fan fan = this.getFans()[index];
                     pc.addItem(fan);
@@ -124,31 +142,55 @@ public class UserInventory extends Inventory {
                     return;
                 case "6":
                     Memory memory = this.getMemories()[index];
-                    if (memory.getAmountOfSticks() > amountOfFreeMemorySlots(pc)) {
-                        throw new NoMoreRoomException();
+                    try {
+                        if (memory.getAmountOfSticks() > amountOfFreeMemorySlots(pc)) {
+                            throw new NoMoreRoomException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        if (pc.getMemories().length == 1) {
+                            throw new NoMoreRoomException();
+                        }
                     }
                     pc.addItem(memory);
                     this.deleteItem(memory);
                     return;
                 case "7":
-                    if (pc.getMotherboards()[0].getAmountOfPCIESlots() == pc.getGpus().length) {
-                        throw new NoMoreRoomException();
+                    try {
+                        if (pc.getMotherboards()[0].getAmountOfPCIESlots() == pc.getGpus().length) {
+                            throw new NoMoreRoomException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        if (pc.getGpus().length == 1) {
+                            throw new NoMoreRoomException();
+                        }
                     }
                     GraphicsCard gpu = this.getGpus()[index];
                     pc.addItem(gpu);
                     this.deleteItem(gpu);
                     return;
                 case "8":
-                    if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
-                        throw new NoMoreRoomException();
+                    try {
+                        if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
+                            throw new NoMoreRoomException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        if (pc.getSsds().length + pc.getHdds().length == 2) {
+                            throw new NoMoreRoomException();
+                        }
                     }
                     SolidStateDrive ssd = this.getSsds()[index];
                     pc.addItem(ssd);
                     this.deleteItem(ssd);
                     return;
                 case "9":
-                    if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
-                        throw new NoMoreRoomException();
+                    try {
+                        if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
+                            throw new NoMoreRoomException();
+                        }
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        if (pc.getSsds().length + pc.getHdds().length == 2) {
+                            throw new NoMoreRoomException();
+                        }
                     }
                     HardDiskDrive hdd = this.getHdds()[index];
                     pc.addItem(hdd);
@@ -177,7 +219,7 @@ public class UserInventory extends Inventory {
         }
     }
 
-    private int amountOfFreeMemorySlots(Computer pc) {
+    private int amountOfFreeMemorySlots(Computer pc) throws ArrayIndexOutOfBoundsException {
         int amountOfSticks = 0;
         for (Memory ram : pc.getMemories()) {
             amountOfSticks += ram.getAmountOfSticks();
