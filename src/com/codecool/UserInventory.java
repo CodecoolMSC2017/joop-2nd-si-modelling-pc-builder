@@ -6,11 +6,11 @@ public class UserInventory extends Inventory {
     private Computer[] computers;
 
     public UserInventory(int money) {
-        super(new Case[] {}, new PowerSupply[] {}, new Motherboard[] {}, new CPU[] {},
-            new Heatsink[] {}, new Fan[] {}, new Memory[] {}, new GraphicsCard[] {},
-            new SolidStateDrive[] {}, new HardDiskDrive[] {});
+        super(new Case[0], new PowerSupply[0], new Motherboard[0], new CPU[0],
+            new Heatsink[0], new Fan[0], new Memory[0], new GraphicsCard[0],
+            new SolidStateDrive[0], new HardDiskDrive[0]);
         this.money = money;
-        this.computers = new Computer[] {};
+        this.computers = new Computer[0];
     }
 
     public void handleModify() {
@@ -203,7 +203,7 @@ public class UserInventory extends Inventory {
         }
     }
 
-    public void handleRemove(Computer pc) {
+    public void handleRemove(Computer pc) throws ArrayIndexOutOfBoundsException {
         String cathegory = pc.chooseCathegory("\033[1mSelect an item\033[0m", pc);
         if (cathegory.equals(":back")) {
             return;
@@ -216,6 +216,58 @@ public class UserInventory extends Inventory {
         } catch(NumberFormatException e) {
             System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
             return;
+        }
+        switch(cathegory) {
+            case "0":
+                Case aCase = pc.getCases()[index];
+                pc.deleteItem(aCase);
+                this.addItem(aCase);
+                return;
+            case "1":
+                PowerSupply psu = pc.getPsus()[index];
+                pc.deleteItem(psu);
+                this.addItem(psu);
+                return;
+            case "2":
+                Motherboard motherboard = pc.getMotherboards()[index];
+                pc.deleteItem(motherboard);
+                this.addItem(motherboard);
+                return;
+            case "3":
+                CPU cpu = pc.getCpus()[index];
+                pc.deleteItem(cpu);
+                this.addItem(cpu);
+                return;
+            case "4":
+                Heatsink heatsink = pc.getHeatsinks()[index];
+                pc.deleteItem(heatsink);
+                this.addItem(heatsink);
+                return;
+            case "5":
+                Fan fan = pc.getFans()[index];
+                pc.deleteItem(fan);
+                this.addItem(fan);
+                return;
+            case "6":
+                Memory memory = pc.getMemories()[index];
+                pc.deleteItem(memory);
+                this.addItem(memory);
+                return;
+            case "7":
+                GraphicsCard gpu = pc.getGpus()[index];
+                pc.deleteItem(gpu);
+                this.addItem(gpu);
+                return;
+            case "8":
+                SolidStateDrive ssd = pc.getSsds()[index];
+                pc.deleteItem(ssd);
+                this.addItem(ssd);
+                return;
+            case "9":
+                HardDiskDrive hdd = pc.getHdds()[index];
+                pc.deleteItem(hdd);
+                this.addItem(hdd);
+                return;
         }
     }
 
