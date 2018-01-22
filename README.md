@@ -33,3 +33,17 @@
     Displays this helpful description.
 ### `:exit`
     After asking to save the game exits the program.
+
+## `Progress`
+
+### `Week 1`
+    Started the project, created class hierarchy. The program has many
+    functional features, Store, Inventory and Find are completely
+    functional. Started implementing Build, new computers can be created,
+    parts can be built in but compatibility is not checked yet.
+
+    Plans for next week:
+    Make parts removable from computers
+    Add disassemble option for computers
+    Compatibilty check when adding parts to computers
+    Saving/loading to/from files
