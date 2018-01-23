@@ -16,7 +16,6 @@ public class Main {
             String input = userInput.nextLine().toLowerCase();
             if (input.equals(":exit")) {
                 exitMenu();
-                break;
             } else 
             if (input.equals(":home")) {
                 homeMenu();
@@ -45,7 +44,11 @@ public class Main {
     }
 
     static void exitMenu() {
-        System.out.println("exit menu is in progress");
+        System.out.println("\n\033[1mDo you really want exit? (y/n)\033[0m\n");
+        String choice = userInput.nextLine().toLowerCase();
+        if (choice.equals("y")) {
+            System.exit(0);
+        }
     }
 
     static void homeMenu() {
