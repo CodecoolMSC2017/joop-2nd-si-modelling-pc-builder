@@ -84,7 +84,7 @@ public class Main {
 
     static void buildMenu(UserInventory inventory) {
         while(true) {
-            System.out.println("\n\033[1mBuild Menu\033[0m\nCommands: :back :new :modify\n");
+            System.out.println("\n\033[1mBuild Menu\033[0m\nCommands: :new :modify :disassemble :back\n");
             String input = userInput.nextLine().toLowerCase();
             if (input.equals(":back")) {
                 break;
@@ -94,6 +94,9 @@ public class Main {
             } else
             if (input.equals(":modify")) {
                 inventory.handleModify();
+            } else
+            if (input.equals(":disassemble")){
+                inventory.handleDisassemble();
             } else {
                 System.out.println("Unknown command: " + input);
             }

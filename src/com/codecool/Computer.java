@@ -14,6 +14,25 @@ public class Computer extends Inventory {
         this.functional = false;
     }
 
+    public int getAmountOfFreeMemorySlots() throws ArrayIndexOutOfBoundsException {
+        int amountOfSticks = 0;
+        for (Memory ram : this.getMemories()) {
+            amountOfSticks += ram.getAmountOfSticks();
+        }
+        return this.getMotherboards()[0].getAmountOfMemorySlots() - amountOfSticks;
+    }
+
+    public void checkIfFunctional() {
+        if (this.getCases().length > 0 || this.getPsus().length > 0 || this.getMotherboards().length > 0 ||
+        this.getCpus().length > 0 ||    this.getHeatsinks().length > 0 || this.getFans().length > 0 ||
+        this.getMemories().length > 0 || this.getGpus().length > 0 || this.getSsds().length +
+        this.getHdds().length > 0) {
+            this.functional = true;
+            return;
+        }
+        this.functional = false;
+    }
+
     public int getPowerConsumption() {
         int powerConsumption = 0;
         if (this.getMotherboards().length > 0) {
@@ -140,17 +159,6 @@ public class Computer extends Inventory {
             "\033[1mHard disk drives:\033[0m\n" + hdds +
             "\n\033[1mFunctional: " + functional +
             "\n\033[1mPower consumption: " + getPowerConsumption() + "\033[0m\n";
-    }
-
-    public void checkIfFunctional() {
-        if (this.getCases().length > 0 || this.getPsus().length > 0 || this.getMotherboards().length > 0 ||
-        this.getCpus().length > 0 ||    this.getHeatsinks().length > 0 || this.getFans().length > 0 ||
-        this.getMemories().length > 0 || this.getGpus().length > 0 || this.getSsds().length +
-        this.getHdds().length > 0) {
-            this.functional = true;
-            return;
-        }
-        this.functional = false;
     }
 
     public boolean getFunctional() {

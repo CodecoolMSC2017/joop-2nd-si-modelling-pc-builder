@@ -51,11 +51,12 @@ public class UserInventory extends Inventory {
                 "\033[1m(You don't want to get the attention of the authorities with your high power bill)\033[0m");
             return;
         }
-        System.out.println("\033[1mTo create a new PC you have to name it first:\033[0m\n");
+        System.out.println("\n\033[1mTo create a new PC you have to name it first:\033[0m\n");
         String name = userInput.nextLine();
         this.addComputer(new Computer(name));
         System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
-        System.out.println("See :modify to select it's components\n");
+        System.out.println("\033[1mMay your framerates be high and temperatures low!\033[0m");
+        System.out.println("See :modify to select it's components");
     }
 
     public void handleAdd(Computer pc) throws ArrayIndexOutOfBoundsException {
@@ -216,7 +217,7 @@ public class UserInventory extends Inventory {
                 case "6":
                     Memory memory = this.getMemories()[index];
                     try {
-                        if (memory.getAmountOfSticks() > amountOfFreeMemorySlots(pc)) {
+                        if (memory.getAmountOfSticks() > pc.getAmountOfFreeMemorySlots()) {
                             throw new NoMoreRoomException();
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
@@ -323,6 +324,7 @@ public class UserInventory extends Inventory {
         } catch (ComponentsDoNotMatchException e) {
             System.out.println("\n\033[1m\033[91m" + e.getMessage() + "\033[0m");
         }
+        pc.checkIfFunctional();
     }
 
     public void handleRemove(Computer pc) throws ArrayIndexOutOfBoundsException {
@@ -393,12 +395,27 @@ public class UserInventory extends Inventory {
         }
     }
 
-    private int amountOfFreeMemorySlots(Computer pc) throws ArrayIndexOutOfBoundsException {
-        int amountOfSticks = 0;
-        for (Memory ram : pc.getMemories()) {
-            amountOfSticks += ram.getAmountOfSticks();
+    public void handleDisassemble() {
+        if (this.getComputers().length < 1) {
+            System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
+            return;
         }
-        return pc.getMotherboards()[0].getAmountOfMemorySlots() - amountOfSticks;
+        Integer index = selectPCByIndex();
+        if (index == null) {
+            return;
+        }
+        System.out.println("\n\033[1mAll components will be returned to your inventory and the PC will be deleted.\n" +
+            "\033[91mAre you sure you want to disassemble this PC? (y/n)\033[0m\n");
+        String choice = userInput.nextLine().toLowerCase();
+        index = (int)index;
+        String pcName = computers[index].getName();
+        if (choice.equals("y")) {
+            addComponentsFromPC(index);
+            deleteComputer(index);
+            System.out.println("\n\033[1m" + pcName + " has been disassembled.");
+            return;
+        }
+        System.out.println("\n\033[1m" + pcName + " remains untouched.");
     }
 
     public Computer selectPC() {
@@ -414,6 +431,29 @@ public class UserInventory extends Inventory {
             try {
                 int index = Integer.parseInt(input);
                 return this.getComputers()[index];
+            } catch(NumberFormatException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            } catch(ArrayIndexOutOfBoundsException e) {
+                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
+                continue;
+            }
+        }
+    }
+
+    public Integer selectPCByIndex() {
+        String input;
+        while (true) {
+            System.out.println("\n\033[1mSelect a PC\033[0m");
+            System.out.println("Commands: :back (or type the corresponding number)\n");
+            this.displayComputers();
+            input = userInput.nextLine();
+            if (input.equals(":back")) {
+                return null;
+            }
+            try {
+                int index = Integer.parseInt(input);
+                return index;
             } catch(NumberFormatException e) {
                 System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                 continue;
@@ -544,11 +584,73 @@ public class UserInventory extends Inventory {
         return computers;
     }
 
+    private void addComponentsFromPC(int index) {
+        Computer pc = computers[index];
+        if (pc.getCases().length > 0) {
+            this.addItem(pc.getCases()[0]);
+        }
+        if (pc.getPsus().length > 0) {
+            this.addItem(pc.getPsus()[0]);
+        }
+        if (pc.getMotherboards().length > 0) {
+            this.addItem(pc.getMotherboards()[0]);
+        }
+        if (pc.getCpus().length > 0) {
+            for (CPU cpu : pc.getCpus()) {
+                this.addItem(cpu);
+            }
+        }
+        if (pc.getHeatsinks().length > 0) {
+            for (Heatsink heatsink : pc.getHeatsinks()) {
+                this.addItem(heatsink);
+            }
+        }
+        if (pc.getFans().length > 0) {
+            for (Fan fan : pc.getFans()) {
+                this.addItem(fan);
+            }
+        }
+        if (pc.getMemories().length > 0) {
+            for (Memory memory : pc.getMemories()) {
+                this.addItem(memory);
+            }
+        }
+        if (pc.getGpus().length > 0) {
+            for (GraphicsCard gpu : pc.getGpus()) {
+                this.addItem(gpu);
+            }
+        }
+        if (pc.getSsds().length > 0) {
+            for (SolidStateDrive ssd : pc.getSsds()) {
+                this.addItem(ssd);
+            }
+        }
+        if (pc.getHdds().length > 0) {
+            for (HardDiskDrive hdd : pc.getHdds()) {
+                this.addItem(hdd);
+            }
+        }
+    }
+
+    private void deleteComputer(int index) {
+        Computer[] newArray = new Computer[computers.length - 1];
+        int counter = 0;
+        for (Computer comp : computers) {
+            if (index == counter) {
+                index = -1;
+                continue;
+            }
+            newArray[counter] = comp;
+            counter++;
+        }
+        computers = newArray;
+    }
+
     public void addComputer(Computer computer) {
         Computer[] newArray = new Computer[computers.length + 1];
         int counter = 0;
-        for (Computer motherboard : computers) {
-            newArray[counter] = motherboard;
+        for (Computer comp : computers) {
+            newArray[counter] = comp;
             counter++;
         }
         newArray[computers.length] = computer;
