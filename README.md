@@ -32,7 +32,7 @@
 ### `:help`
     Displays this helpful description.
 ### `:exit`
-    After asking to save the game exits the program.
+    Exits the program after saving automatically.
 
 ## `Progress`
 
