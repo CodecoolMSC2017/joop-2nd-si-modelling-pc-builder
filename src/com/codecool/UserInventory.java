@@ -106,6 +106,9 @@ public class UserInventory extends Inventory {
                         throw new NoMoreRoomException();
                     }
                     PowerSupply psu = this.getPsus()[index];
+                    if (pc.getPowerConsumption() > psu.getPerformance()) {
+                        throw new ComponentsDoNotMatchException("This power supply is not enough to power this beast of a system.");
+                    }
                     pc.addItem(psu);
                     this.deleteItem(psu);
                     return;
@@ -133,6 +136,11 @@ public class UserInventory extends Inventory {
                             }
                         }
                     }
+                    if (pc.getPsus().length > 0) {
+                        if (pc.getPsus()[0].getPerformance() < pc.getPowerConsumption() + motherboard.getPowerConsumption()) {
+                            throw new ComponentsDoNotMatchException("The current power supply will not enough to power the computer with this component.");
+                        }
+                    }
                     pc.addItem(motherboard);
                     this.deleteItem(motherboard);
                     return;
@@ -157,6 +165,11 @@ public class UserInventory extends Inventory {
                             if (!ram.getType().equals(cpu.getMemoryType())) {
                                 throw new ComponentsDoNotMatchException("The type of current memory does not match the memory type of this processor.");
                             }
+                        }
+                    }
+                    if (pc.getPsus().length > 0) {
+                        if (pc.getPsus()[0].getPerformance() < pc.getPowerConsumption() + cpu.getPowerConsumption()) {
+                            throw new ComponentsDoNotMatchException("The current power supply will not enough to power the computer with this component.");
                         }
                     }
                     pc.addItem(cpu);
@@ -192,6 +205,11 @@ public class UserInventory extends Inventory {
                         }
                     }
                     Fan fan = this.getFans()[index];
+                    if (pc.getPsus().length > 0) {
+                        if (pc.getPsus()[0].getPerformance() < pc.getPowerConsumption() + fan.getPowerConsumption()) {
+                            throw new ComponentsDoNotMatchException("The current power supply will not enough to power the computer with this component.");
+                        }
+                    }
                     pc.addItem(fan);
                     this.deleteItem(fan);
                     return;
@@ -218,6 +236,11 @@ public class UserInventory extends Inventory {
                             }
                         }
                     }
+                    if (pc.getPsus().length > 0) {
+                        if (pc.getPsus()[0].getPerformance() < pc.getPowerConsumption() + memory.getPowerConsumption()) {
+                            throw new ComponentsDoNotMatchException("The current power supply will not enough to power the computer with this component.");
+                        }
+                    }
                     pc.addItem(memory);
                     this.deleteItem(memory);
                     return;
@@ -235,6 +258,11 @@ public class UserInventory extends Inventory {
                     if (pc.getCases().length > 0) {
                         if (pc.getCases()[0].getSize().getValue() < gpu.getSize().getValue()) {
                             throw new ComponentsDoNotMatchException("The current case cannot fit this graphics card.");
+                        }
+                    }
+                    if (pc.getPsus().length > 0) {
+                        if (pc.getPsus()[0].getPerformance() < pc.getPowerConsumption() + gpu.getPowerConsumption()) {
+                            throw new ComponentsDoNotMatchException("The current power supply will not enough to power the computer with this component.");
                         }
                     }
                     pc.addItem(gpu);
@@ -256,6 +284,11 @@ public class UserInventory extends Inventory {
                         }
                     }
                     SolidStateDrive ssd = this.getSsds()[index];
+                    if (pc.getPsus().length > 0) {
+                        if (pc.getPsus()[0].getPerformance() < pc.getPowerConsumption() + ssd.getPowerConsumption()) {
+                            throw new ComponentsDoNotMatchException("The current power supply will not enough to power the computer with this component.");
+                        }
+                    }
                     pc.addItem(ssd);
                     this.deleteItem(ssd);
                     return;
@@ -275,6 +308,11 @@ public class UserInventory extends Inventory {
                         }
                     }
                     HardDiskDrive hdd = this.getHdds()[index];
+                    if (pc.getPsus().length > 0) {
+                        if (pc.getPsus()[0].getPerformance() < pc.getPowerConsumption() + hdd.getPowerConsumption()) {
+                            throw new ComponentsDoNotMatchException("The current power supply will not enough to power the computer with this component.");
+                        }
+                    }
                     pc.addItem(hdd);
                     this.deleteItem(hdd);
                     return;

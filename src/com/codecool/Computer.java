@@ -137,11 +137,24 @@ public class Computer extends Inventory {
             "\033[1mMemory:\033[0m\n" + memories +
             "\033[1mGraphics card(s):\033[0m\n" + gpus +
             "\033[1mSolid state drives:\033[0m\n" + ssds +
-            "\033[1mHard disk drives:\033[0m\n" + hdds;
+            "\033[1mHard disk drives:\033[0m\n" + hdds +
+            "\n\033[1mFunctional: " + functional +
+            "\n\033[1mPower consumption: " + getPowerConsumption() + "\033[0m\n";
     }
 
-    public void checkFunctional() {
-        System.out.println("in progress");
+    public void checkIfFunctional() {
+        if (this.getCases().length > 0 || this.getPsus().length > 0 || this.getMotherboards().length > 0 ||
+        this.getCpus().length > 0 ||    this.getHeatsinks().length > 0 || this.getFans().length > 0 ||
+        this.getMemories().length > 0 || this.getGpus().length > 0 || this.getSsds().length +
+        this.getHdds().length > 0) {
+            this.functional = true;
+            return;
+        }
+        this.functional = false;
+    }
+
+    public boolean getFunctional() {
+        return functional;
     }
 
     public String getName() {
