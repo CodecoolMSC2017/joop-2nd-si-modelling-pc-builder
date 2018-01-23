@@ -79,6 +79,25 @@ public class UserInventory extends Inventory {
                         throw new NoMoreRoomException();
                     }
                     Case aCase = this.getCases()[index];
+                    if (pc.getMotherboards().length != 0) {
+                        if (pc.getMotherboards()[0].getSize().getValue() > aCase.getSize().getValue()) {
+                            throw new ComponentsDoNotMatchException("This case cannot fit the current motherboard.");
+                        }
+                    }
+                    if (pc.getHeatsinks().length > 0) {
+                        for (Heatsink heatsink : pc.getHeatsinks()) {
+                            if (heatsink.getSize().getValue() > aCase.getSize().getValue()) {
+                                throw new ComponentsDoNotMatchException("This case cannot fit the current heatsink.");
+                            }
+                        }
+                    }
+                    if (pc.getGpus().length > 0) {
+                        for (GraphicsCard gpu : pc.getGpus()) {
+                            if (gpu.getSize().getValue() > aCase.getSize().getValue()) {
+                                throw new ComponentsDoNotMatchException("This case cannot fit the current graphics card.");
+                            }
+                        }
+                    }
                     pc.addItem(aCase);
                     this.deleteItem(aCase);
                     return;
@@ -95,6 +114,25 @@ public class UserInventory extends Inventory {
                         throw new NoMoreRoomException();
                     }
                     Motherboard motherboard = this.getMotherboards()[index];
+                    if (pc.getCases().length != 0) {
+                        if (pc.getCases()[0].getSize().getValue() < motherboard.getSize().getValue()) {
+                            throw new ComponentsDoNotMatchException("The current case cannot fit this motherboard.");
+                        }
+                    }
+                    if (pc.getCpus().length > 0) {
+                        for (CPU cpu : pc.getCpus()) {
+                            if (!cpu.getSocket().equals(motherboard.getSocket())) {
+                                throw new ComponentsDoNotMatchException("The current processor's socket does not match the socket of this motherboard.");
+                            }
+                        }
+                    }
+                    if (pc.getMemories().length > 0) {
+                        for (Memory memory : pc.getMemories()) {
+                            if (!memory.getType().equals(motherboard.getMemoryType())) {
+                                throw new ComponentsDoNotMatchException("The type of current memory does not match the memory type of this motherboard.");
+                            }
+                        }
+                    }
                     pc.addItem(motherboard);
                     this.deleteItem(motherboard);
                     return;
@@ -109,6 +147,18 @@ public class UserInventory extends Inventory {
                         }
                     }
                     CPU cpu = this.getCpus()[index];
+                    if (pc.getMotherboards().length > 0) {
+                        if (!pc.getMotherboards()[0].getMemoryType().equals(cpu.getMemoryType())) {
+                            throw new ComponentsDoNotMatchException("The memory type of the current mmotherboard does not match the memory type of this processor.");
+                        }
+                    }
+                    if (pc.getMemories().length > 0) {
+                        for (Memory ram : pc.getMemories()) {
+                            if (!ram.getType().equals(cpu.getMemoryType())) {
+                                throw new ComponentsDoNotMatchException("The type of current memory does not match the memory type of this processor.");
+                            }
+                        }
+                    }
                     pc.addItem(cpu);
                     this.deleteItem(cpu);
                     return;
@@ -123,6 +173,11 @@ public class UserInventory extends Inventory {
                         }
                     }
                     Heatsink heatsink = this.getHeatsinks()[index];
+                    if (pc.getCases().length > 0) {
+                        if (pc.getCases()[0].getSize().getValue() < heatsink.getSize().getValue()) {
+                            throw new ComponentsDoNotMatchException("The current case cannot fit this heatsink.");
+                        }
+                    }
                     pc.addItem(heatsink);
                     this.deleteItem(heatsink);
                     return;
@@ -151,6 +206,18 @@ public class UserInventory extends Inventory {
                             throw new NoMoreRoomException();
                         }
                     }
+                    if (pc.getMotherboards().length > 0) {
+                        if (!pc.getMotherboards()[0].getMemoryType().equals(memory.getType())) {
+                            throw new ComponentsDoNotMatchException("The memory type of the current motherboard does not match the type of this memory.");
+                        }
+                    }
+                    if (pc.getCpus().length > 0) {
+                        for (CPU aCpu : pc.getCpus()) {
+                            if (!aCpu.getMemoryType().equals(memory.getType())) {
+                                throw new ComponentsDoNotMatchException("The memory type of the current processor does not match the type of this memory.");
+                            }
+                        }
+                    }
                     pc.addItem(memory);
                     this.deleteItem(memory);
                     return;
@@ -165,6 +232,11 @@ public class UserInventory extends Inventory {
                         }
                     }
                     GraphicsCard gpu = this.getGpus()[index];
+                    if (pc.getCases().length > 0) {
+                        if (pc.getCases()[0].getSize().getValue() < gpu.getSize().getValue()) {
+                            throw new ComponentsDoNotMatchException("The current case cannot fit this graphics card.");
+                        }
+                    }
                     pc.addItem(gpu);
                     this.deleteItem(gpu);
                     return;
@@ -174,7 +246,12 @@ public class UserInventory extends Inventory {
                             throw new NoMoreRoomException();
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getSsds().length + pc.getHdds().length == 2) {
+                        if (pc.getSsds().length + pc.getHdds().length == 1) {
+                            throw new NoMoreRoomException();
+                        }
+                    }
+                    if (pc.getCases().length > 0) {
+                        if (pc.getCases()[0].getSSDCapacity() == pc.getSsds().length) {
                             throw new NoMoreRoomException();
                         }
                     }
@@ -192,6 +269,11 @@ public class UserInventory extends Inventory {
                             throw new NoMoreRoomException();
                         }
                     }
+                    if (pc.getCases().length > 0) {
+                        if (pc.getCases()[0].getHDDCapacity() == pc.getHdds().length) {
+                            throw new NoMoreRoomException();
+                        }
+                    }
                     HardDiskDrive hdd = this.getHdds()[index];
                     pc.addItem(hdd);
                     this.deleteItem(hdd);
@@ -200,6 +282,8 @@ public class UserInventory extends Inventory {
         } catch (NoMoreRoomException e) {
             System.out.println("\n\033[1m\033[91mThere is no more room for that component!\n" +
                 "You must remove another component of that type first.\033[0m");
+        } catch (ComponentsDoNotMatchException e) {
+            System.out.println("\n\033[1m\033[91m" + e.getMessage() + "\033[0m");
         }
     }
 
