@@ -14,6 +14,44 @@ public class Computer extends Inventory {
         this.functional = false;
     }
 
+    public int getPowerConsumption() {
+        int powerConsumption = 0;
+        if (this.getMotherboards().length > 0) {
+            powerConsumption += this.getMotherboards()[0].getPowerConsumption();
+        }
+        if (this.getCpus().length > 0) {
+            for (CPU cpu : this.getCpus()) {
+                powerConsumption += cpu.getPowerConsumption();
+            }
+        }
+        if (this.getFans().length > 0) {
+            for (Fan fan : this.getFans()) {
+                powerConsumption += fan.getPowerConsumption();
+            }
+        }
+        if (this.getMemories().length > 0) {
+            for (Memory ram : this.getMemories()) {
+                powerConsumption += ram.getPowerConsumption();
+            }
+        }
+        if (this.getGpus().length > 0) {
+            for (GraphicsCard gpu : this.getGpus()) {
+                powerConsumption += gpu.getPowerConsumption();
+            }
+        }
+        if (this.getSsds().length > 0) {
+            for (SolidStateDrive ssd : this.getSsds()) {
+                powerConsumption += ssd.getPowerConsumption();
+            }
+        }
+        if (this.getHdds().length > 0) {
+            for (HardDiskDrive hdd : this.getHdds()) {
+                powerConsumption += hdd.getPowerConsumption();
+            }
+        }
+        return powerConsumption;
+    }
+
     public String details() {
         String theCase = "";
         if (this.getCases().length == 0) {
