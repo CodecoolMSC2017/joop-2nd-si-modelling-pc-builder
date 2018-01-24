@@ -18,6 +18,10 @@ public class ProcessingUnit extends Electronic {
         this.overclockable = overclockable;
     }
 
+    public void setTemperature(Temperature temperature) {
+        this.temperature = temperature;
+    }
+
     public Temperature getTemperature() {
         return temperature;
     }

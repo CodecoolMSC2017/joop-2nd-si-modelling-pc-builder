@@ -15,6 +15,142 @@ public class UserInventory extends Inventory {
         this.computers = new Computer[0];
     }
 
+    public void handleHome() {
+        if (this.getComputers().length == 0 || this.getAmountOfFunctionalPCs() == 0) {
+            System.out.println("\n\033[1mYou don't have any functional computers. Nothing to see here.\033[0m");
+            return;
+        }
+        while (true) {
+            System.out.println("\n\033[1mYour computers:\033[0m");
+            displayPCStats();
+            System.out.println("\nCommands: :back :turn [on/off] :mine\n");
+            String choice = this.getUserInput().nextLine().toLowerCase();
+            if (choice.equals(":back")) {
+                return;
+            }
+            try {
+                if (choice.equals(":turn on")) {
+                    int index = (int)selectPCByIndex();
+                    if (this.getComputers()[index].getIsTurnedOn()) {
+                        System.out.println("\n\033[91m\033[1mThis PC is already turned on.\033[0m");
+                        continue;
+                    }
+                    this.getComputers()[index].turnOn();
+                    for (int i = 0; i < this.getComputers().length; i++) {
+                        this.getComputers()[i].updateTemperature(false);
+                    }
+                } else
+                if (choice.equals(":turn off")) {
+                    int index = (int)selectPCByIndex();
+                    if (!this.getComputers()[index].getIsTurnedOn()) {
+                        System.out.println("\n\033[91m\033[1mThis PC is already turned off.\033[0m");
+                        continue;
+                    }
+                    this.getComputers()[index].turnOff();
+                    for (int i = 0; i < this.getComputers().length; i++) {
+                        this.getComputers()[i].updateTemperature(false);
+                    }
+                } else
+                if (choice.equals(":mine")) {
+                    if (getAmountOfPCsTurnedOn() == 0) {
+                        System.out.println("\n\033[91m\033[1mThere must be at least 1 PC turned on to mine.\033[0m");
+                        continue;
+                    }
+                    int moneyMined =  mine();
+                    System.out.println("\n\033[1m\033[92mYour computers have mined " + moneyMined + "$ in total.\033[0m");
+                    System.out.println("\033[1mYou have " + this.getMoney() + "$ now.\033[0m");
+                    this.manageMoney(moneyMined);
+                    for (int i = 0; i < this.getComputers().length; i++) {
+                        this.getComputers()[i].updateTemperature(true);
+                    }
+                } else
+                if (choice.equals(":turn")) {
+                    System.out.println("\n\033[91m\033[1mYou must specify to turn on (:turn on) or turn off (:turn off).\033[0m");
+                }
+            } catch (NullPointerException e) {
+                continue;
+            }
+        }
+    }
+
+    private int mine() {
+        int moneyMined = 0;
+        for (Computer pc : this.getComputers()) {
+            if (pc.getIsTurnedOn()) {
+                moneyMined += pc.getTotalFanciness() * pc.getTotalFanciness();
+            }
+        }
+        return moneyMined / 10;
+    }
+
+    private void displayPCStats() {
+        for (Computer computer : this.getComputers()) {
+            if (computer.getFunctional()) {
+                System.out.println("\n" + computer.getName());
+                System.out.print("   \033[1mTurned on: \033[0m");
+                if (computer.getIsTurnedOn()) {
+                    System.out.println("yes");
+                } else {
+                    System.out.println("no");
+                }
+                System.out.println("   \033[1mProcessor temperatures:\033[0m");
+                String temperature;
+                for (CPU cpu : computer.getCpus()) {
+                    temperature = colorTemperature(cpu.getTemperature());
+                    System.out.println("     " + cpu.getName() + ": " + temperature);
+                }
+                System.out.println("   \033[1mGraphics card temperatures:\033[0m");
+                for (GraphicsCard gpu : computer.getGpus()) {
+                    temperature = colorTemperature(gpu.getTemperature());
+                    System.out.println("     " + gpu.getName() + ": " + temperature);
+                }
+            }
+        }
+    }
+
+    private String colorTemperature(Temperature temperature) {
+        String colored = "";
+        switch (temperature) {
+            case AMBIENT:
+                colored = "\033[94m" + temperature.inDigits() + "\033[0mC";
+                break;
+            case IDLE:
+                colored = "\033[96m" + temperature.inDigits() + "\033[0mC";
+                break;
+            case UNDERLOAD:
+                colored = "\033[93m" + temperature.inDigits() + "\033[0mC";
+                break;
+            case OVERHEAT:
+                colored = "\033[91m" + temperature.inDigits() + "\033[0mC";
+                break;
+            default:
+                colored = "\033[91m" + temperature.inDigits() + "\033[0mC";
+        }
+        return colored;
+    }
+
+    private int getAmountOfFunctionalPCs() {
+        int amountOfFunctionalPCs = 0;
+
+        for (Computer computer : this.getComputers()) {
+            if (computer.getFunctional()) {
+                amountOfFunctionalPCs++;
+            }
+        }
+        return amountOfFunctionalPCs;
+    }
+
+    private int getAmountOfPCsTurnedOn() {
+        int amountOfPCsTurnedOn = 0;
+
+        for (Computer computer : this.getComputers()) {
+            if (computer.getIsTurnedOn()) {
+                amountOfPCsTurnedOn++;
+            }
+        }
+        return amountOfPCsTurnedOn;
+    }
+
     public void handleModify() {
         if (this.getComputers().length < 1) {
             System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
@@ -54,7 +190,7 @@ public class UserInventory extends Inventory {
             return;
         }
         System.out.println("\n\033[1mTo create a new PC you have to name it first:\033[0m\n");
-        String name = getUserInput().nextLine().toLowerCase();
+        String name = getUserInput().nextLine();
         this.addComputer(new Computer(name));
         System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
         System.out.println("\033[1mMay your framerates be high and temperatures low!\033[0m");
@@ -103,7 +239,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(aCase);
                     this.deleteItem(aCase);
-                    return;
+                    break;
                 case "1":
                     if (pc.getPsus().length > 0) {
                         throw new NoMoreRoomException();
@@ -114,7 +250,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(psu);
                     this.deleteItem(psu);
-                    return;
+                    break;
                 case "2":
                     if (pc.getMotherboards().length > 0) {
                         throw new NoMoreRoomException();
@@ -146,7 +282,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(motherboard);
                     this.deleteItem(motherboard);
-                    return;
+                    break;
                 case "3":
                     try {
                         if (pc.getCpus().length == pc.getMotherboards()[0].getAmountOfSockets()) {
@@ -177,7 +313,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(cpu);
                     this.deleteItem(cpu);
-                    return;
+                    break;
                 case "4":
                     try {
                         if (pc.getHeatsinks().length == pc.getMotherboards()[0].getAmountOfSockets()) {
@@ -196,7 +332,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(heatsink);
                     this.deleteItem(heatsink);
-                    return;
+                    break;
                 case "5":
                     try {
                         if (pc.getFans().length == pc.getCases()[0].getFrontFanCapacity() + pc.getCases()[0].getRearFanCapacity()) {
@@ -215,7 +351,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(fan);
                     this.deleteItem(fan);
-                    return;
+                    break;
                 case "6":
                     Memory memory = this.getMemories()[index];
                     try {
@@ -246,7 +382,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(memory);
                     this.deleteItem(memory);
-                    return;
+                    break;
                 case "7":
                     try {
                         if (pc.getMotherboards()[0].getAmountOfPCIESlots() == pc.getGpus().length) {
@@ -270,7 +406,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(gpu);
                     this.deleteItem(gpu);
-                    return;
+                    break;
                 case "8":
                     try {
                         if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
@@ -294,7 +430,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(ssd);
                     this.deleteItem(ssd);
-                    return;
+                    break;
                 case "9":
                     try {
                         if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
@@ -318,7 +454,7 @@ public class UserInventory extends Inventory {
                     }
                     pc.addItem(hdd);
                     this.deleteItem(hdd);
-                    return;
+                    break;
             }
         } catch (NoMoreRoomException e) {
             System.out.println("\n\033[1m\033[91mThere is no more room for that component!\n" +
@@ -348,53 +484,54 @@ public class UserInventory extends Inventory {
                 Case aCase = pc.getCases()[index];
                 pc.deleteItem(aCase);
                 this.addItem(aCase);
-                return;
+                break;
             case "1":
                 PowerSupply psu = pc.getPsus()[index];
                 pc.deleteItem(psu);
                 this.addItem(psu);
-                return;
+                break;
             case "2":
                 Motherboard motherboard = pc.getMotherboards()[index];
                 pc.deleteItem(motherboard);
                 this.addItem(motherboard);
-                return;
+                break;
             case "3":
                 CPU cpu = pc.getCpus()[index];
                 pc.deleteItem(cpu);
                 this.addItem(cpu);
-                return;
+                break;
             case "4":
                 Heatsink heatsink = pc.getHeatsinks()[index];
                 pc.deleteItem(heatsink);
                 this.addItem(heatsink);
-                return;
+                break;
             case "5":
                 Fan fan = pc.getFans()[index];
                 pc.deleteItem(fan);
                 this.addItem(fan);
-                return;
+                break;
             case "6":
                 Memory memory = pc.getMemories()[index];
                 pc.deleteItem(memory);
                 this.addItem(memory);
-                return;
+                break;
             case "7":
                 GraphicsCard gpu = pc.getGpus()[index];
                 pc.deleteItem(gpu);
                 this.addItem(gpu);
-                return;
+                break;
             case "8":
                 SolidStateDrive ssd = pc.getSsds()[index];
                 pc.deleteItem(ssd);
                 this.addItem(ssd);
-                return;
+                break;
             case "9":
                 HardDiskDrive hdd = pc.getHdds()[index];
                 pc.deleteItem(hdd);
                 this.addItem(hdd);
-                return;
+                break;
         }
+        pc.checkIfFunctional();
     }
 
     public void handleDisassemble() {

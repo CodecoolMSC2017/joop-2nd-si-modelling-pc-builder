@@ -16,6 +16,84 @@ public class Computer extends Inventory {
         this.isTurnedOn = false;
     }
 
+    public void updateTemperature(boolean isUnderLoad) {
+        if (isUnderLoad) {
+            if (isTurnedOn) {
+                for (int i = 0; i < this.getCpus().length; i++) {
+                    this.getCpus()[i].setTemperature(Temperature.valueOf("UNDERLOAD"));
+                }
+                for (int i = 0; i < this.getGpus().length; i++) {
+                    this.getGpus()[i].setTemperature(Temperature.valueOf("UNDERLOAD"));
+                }
+            }
+        } else {
+            if (isTurnedOn) {
+                for (int i = 0; i < this.getCpus().length; i++) {
+                    this.getCpus()[i].setTemperature(Temperature.valueOf("IDLE"));
+                }
+                for (int i = 0; i < this.getGpus().length; i++) {
+                    this.getGpus()[i].setTemperature(Temperature.valueOf("IDLE"));
+                }
+            } else {
+                for (int i = 0; i < this.getCpus().length; i++) {
+                    this.getCpus()[i].setTemperature(Temperature.valueOf("AMBIENT"));
+                }
+                for (int i = 0; i < this.getGpus().length; i++) {
+                    this.getGpus()[i].setTemperature(Temperature.valueOf("AMBIENT"));
+                }
+            }
+        }
+    }
+
+    public int getTotalFanciness() {
+        int fanciness = 0;
+        if (this.getCases().length > 0) {
+            fanciness += this.getCases()[0].getTier().getFanciness();
+        }
+        if (this.getPsus().length > 0) {
+            fanciness += this.getPsus()[0].getTier().getFanciness();
+        }
+        if (this.getMotherboards().length > 0) {
+            fanciness += this.getMotherboards()[0].getTier().getFanciness();
+        }
+        if (this.getCpus().length > 0) {
+            for (CPU cpu : this.getCpus()) {
+                fanciness += cpu.getTier().getFanciness();
+            }
+        }
+        if (this.getHeatsinks().length > 0) {
+            for (Heatsink heatsink : this.getHeatsinks()) {
+                fanciness += heatsink.getTier().getFanciness();
+            }
+        }
+        if (this.getFans().length > 0) {
+            for (Fan fan : this.getFans()) {
+                fanciness += fan.getTier().getFanciness();
+            }
+        }
+        if (this.getMemories().length > 0) {
+            for (Memory memory : this.getMemories()) {
+                fanciness += memory.getTier().getFanciness();
+            }
+        }
+        if (this.getGpus().length > 0) {
+            for (GraphicsCard gpu : this.getGpus()) {
+                fanciness += gpu.getTier().getFanciness();
+            }
+        }
+        if (this.getSsds().length > 0) {
+            for (SolidStateDrive ssd : this.getSsds()) {
+                fanciness += ssd.getTier().getFanciness();
+            }
+        }
+        if (this.getHdds().length > 0) {
+            for (HardDiskDrive hdd : this.getHdds()) {
+                fanciness += hdd.getTier().getFanciness();
+            }
+        }
+        return fanciness;
+    }
+
     public int getAmountOfFreeMemorySlots() throws ArrayIndexOutOfBoundsException {
         int amountOfSticks = 0;
         for (Memory ram : this.getMemories()) {
@@ -25,9 +103,9 @@ public class Computer extends Inventory {
     }
 
     public void checkIfFunctional() {
-        if (this.getCases().length > 0 || this.getPsus().length > 0 || this.getMotherboards().length > 0 ||
-        this.getCpus().length > 0 ||    this.getHeatsinks().length > 0 || this.getFans().length > 0 ||
-        this.getMemories().length > 0 || this.getGpus().length > 0 || this.getSsds().length +
+        if (this.getCases().length > 0 && this.getPsus().length > 0 && this.getMotherboards().length > 0 &&
+        this.getCpus().length > 0 &&    this.getHeatsinks().length > 0 && this.getFans().length > 0 &&
+        this.getMemories().length > 0 && this.getGpus().length > 0 && this.getSsds().length +
         this.getHdds().length > 0) {
             this.functional = true;
             return;

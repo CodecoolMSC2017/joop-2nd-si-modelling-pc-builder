@@ -30,7 +30,7 @@ public class Main {
                 exitMenu(inventory);
             } else 
             if (input.equals(":home")) {
-                homeMenu();
+                homeMenu(inventory);
             } else 
             if (input.equals(":store")) {
                 storeMenu(store, inventory);
@@ -64,8 +64,8 @@ public class Main {
         }
     }
 
-    static void homeMenu() {
-        System.out.println("home menu is in progress");
+    static void homeMenu(UserInventory inventory) {
+        inventory.handleHome();
     }
 
     static void storeMenu(Store store, UserInventory inventory) {
