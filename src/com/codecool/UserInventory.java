@@ -475,6 +475,7 @@ public class UserInventory extends Inventory {
         int counter = 0;
         for (Computer computer : computers) {
             System.out.println(counter + " " + computer);
+            counter++;
         }
         System.out.println();
     }
