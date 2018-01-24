@@ -2,7 +2,9 @@ package com.codecool;
 
 import java.util.Scanner;
 
-public class Inventory {
+public class Inventory  implements java.io.Serializable {
+
+    static final long serialVersionUID = 4301932672197899670L;
 
     private Case[] cases;
     private PowerSupply[] psus;
@@ -14,11 +16,12 @@ public class Inventory {
     private GraphicsCard[] gpus;
     private SolidStateDrive[] ssds;
     private HardDiskDrive[] hdds;
-    protected Scanner userInput;
+    protected transient Scanner userInput;
 
     public Inventory(Case[] cases, PowerSupply[] psus, Motherboard[] motherboards, CPU[] cpus,
         Heatsink[] heatsinks, Fan[] fans, Memory[] memories, GraphicsCard[] gpus,
         SolidStateDrive[] ssds, HardDiskDrive[] hdds) {
+        this();
         this.cases = cases;
         this.psus = psus;
         this.motherboards = motherboards;
@@ -29,7 +32,10 @@ public class Inventory {
         this.gpus = gpus;
         this.ssds = ssds;
         this.hdds = hdds;
-        this.userInput = new Scanner(System.in);
+    }
+
+    protected Inventory() {
+        userInput = new Scanner(System.in);
     }
 
     public String chooseCathegory(String menuTitle, Computer pc) {
@@ -63,7 +69,7 @@ public class Inventory {
         System.out.println("8 (" + this.getSsds().length + " items) Solid state drives");
         System.out.println("9 (" + this.getHdds().length + " items) Hard disk drives\n");
 
-        String cathegory = userInput.nextLine().toLowerCase();
+        String cathegory = getUserInput().nextLine().toLowerCase();
 
         checkValidCathegory(cathegory);
 
@@ -74,6 +80,13 @@ public class Inventory {
         displayCathegory(cathegory);
 
         return cathegory;
+    }
+
+    protected Scanner getUserInput() {
+        if (userInput == null) {
+            userInput = new Scanner(System.in);
+        }
+        return userInput;
     }
 
     private void checkValidCathegory(String cathegory) throws InvalidCathegoryException {
@@ -169,7 +182,7 @@ public class Inventory {
 
     public void showDetails(String cathegory) {
         System.out.print("\nSelect an item by it's number: ");
-        String input = userInput.nextLine().toLowerCase();
+        String input = getUserInput().nextLine().toLowerCase();
         int index = 0;
         try {
             index = Integer.parseInt(input);

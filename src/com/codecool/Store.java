@@ -12,7 +12,7 @@ public class Store extends Inventory {
 
     public void handlePurchase(UserInventory inventory, String cathegory) throws ArrayIndexOutOfBoundsException {
         System.out.print("\nSelect an item by it's number: ");
-        String input = userInput.nextLine().toLowerCase();
+        String input = getUserInput().nextLine().toLowerCase();
         int index = 0;
         try {
             index = Integer.parseInt(input);

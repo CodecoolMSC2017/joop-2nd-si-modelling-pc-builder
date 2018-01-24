@@ -2,7 +2,9 @@ package com.codecool;
 
 import java.util.Objects;
 
-public class PCComponent {
+public class PCComponent implements java.io.Serializable {
+
+    static final long serialVersionUID = 4301932672197829586L;
 
     private String name;
     private String manufacturer;

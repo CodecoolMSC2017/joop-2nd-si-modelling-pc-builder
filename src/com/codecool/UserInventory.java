@@ -1,5 +1,7 @@
 package com.codecool;
 
+import java.io.*;
+
 public class UserInventory extends Inventory {
 
     private int money;
@@ -25,7 +27,7 @@ public class UserInventory extends Inventory {
         while (true) {
             System.out.println(pc.details());
             System.out.println("\nCommands: :add :remove :back\n");
-            String action = userInput.nextLine().toLowerCase();
+            String action = getUserInput().nextLine().toLowerCase().toLowerCase();
 
             if (action.equals(":back")) {
                 break;
@@ -52,7 +54,7 @@ public class UserInventory extends Inventory {
             return;
         }
         System.out.println("\n\033[1mTo create a new PC you have to name it first:\033[0m\n");
-        String name = userInput.nextLine();
+        String name = getUserInput().nextLine().toLowerCase();
         this.addComputer(new Computer(name));
         System.out.println("\n\033[1m\033[92mYour new PC " + name + " has been created!\033[0m");
         System.out.println("\033[1mMay your framerates be high and temperatures low!\033[0m");
@@ -65,7 +67,7 @@ public class UserInventory extends Inventory {
             return;
         }
         System.out.print("\nSelect an item by it's number: ");
-        String input = userInput.nextLine().toLowerCase();
+        String input = getUserInput().nextLine().toLowerCase().toLowerCase();
         int index = 0;
         try {
             index = Integer.parseInt(input);
@@ -333,7 +335,7 @@ public class UserInventory extends Inventory {
             return;
         }
         System.out.print("\nSelect an item by it's number: ");
-        String input = userInput.nextLine().toLowerCase();
+        String input = getUserInput().nextLine().toLowerCase().toLowerCase();
         int index = 0;
         try {
             index = Integer.parseInt(input);
@@ -406,7 +408,7 @@ public class UserInventory extends Inventory {
         }
         System.out.println("\n\033[1mAll components will be returned to your inventory and the PC will be deleted.\n" +
             "\033[91mAre you sure you want to disassemble this PC? (y/n)\033[0m\n");
-        String choice = userInput.nextLine().toLowerCase();
+        String choice = getUserInput().nextLine().toLowerCase().toLowerCase();
         index = (int)index;
         String pcName = computers[index].getName();
         if (choice.equals("y")) {
@@ -424,7 +426,7 @@ public class UserInventory extends Inventory {
             System.out.println("\n\033[1mSelect a PC\033[0m");
             System.out.println("Commands: :back (or type the corresponding number)\n");
             this.displayComputers();
-            input = userInput.nextLine();
+            input = getUserInput().nextLine().toLowerCase();
             if (input.equals(":back")) {
                 return null;
             }
@@ -447,7 +449,7 @@ public class UserInventory extends Inventory {
             System.out.println("\n\033[1mSelect a PC\033[0m");
             System.out.println("Commands: :back (or type the corresponding number)\n");
             this.displayComputers();
-            input = userInput.nextLine();
+            input = getUserInput().nextLine().toLowerCase();
             if (input.equals(":back")) {
                 return null;
             }
@@ -479,7 +481,7 @@ public class UserInventory extends Inventory {
 
     public void handleSell(String cathegory) throws ArrayIndexOutOfBoundsException, EmptyCathegoryException {
         System.out.print("\nSelect an item by it's number: ");
-        String input = userInput.nextLine().toLowerCase();
+        String input = getUserInput().nextLine().toLowerCase().toLowerCase();
         int index = 0;
         try {
             index = Integer.parseInt(input);
@@ -655,6 +657,19 @@ public class UserInventory extends Inventory {
         }
         newArray[computers.length] = computer;
         computers = newArray;
+    }
+
+    public void save() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("../saves/save.ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+            System.out.println("\n\033[1m\033[92mGame saved.\033[0m\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

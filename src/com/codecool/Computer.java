@@ -158,7 +158,7 @@ public class Computer extends Inventory {
             "\033[1mSolid state drives:\033[0m\n" + ssds +
             "\033[1mHard disk drives:\033[0m\n" + hdds +
             "\n\033[1mFunctional: " + functional +
-            "\n\033[1mPower consumption: " + getPowerConsumption() + "\033[0m\n";
+            "\n\033[1mPower consumption: " + getPowerConsumption() + "W\033[0m\n";
     }
 
     public boolean getFunctional() {

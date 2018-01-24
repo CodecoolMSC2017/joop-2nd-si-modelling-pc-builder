@@ -1,21 +1,33 @@
 package com.codecool;
 
 import java.util.*;
+import java.io.*;
 
 public class Main {
 
     private static Scanner userInput = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+        System.out.println("\n\033[1mDo you want to load the last saved game? (y/n)\n\033[0m");
+        String choice = userInput.nextLine().toLowerCase();
+
         Store store = new Store();
-        UserInventory inventory = new UserInventory(1000);
+        UserInventory inventory;
+
+        if (choice.equals("y")) {
+            inventory = load();
+        } else {
+            inventory = new UserInventory(1000);
+            System.out.println("\n\033[1m\033[92mNew game started.\033[0m");
+        }
 
         while (true) {
             System.out.println("\n\033[1mMain Menu\033[0m\nCommands:" + 
                 " :home :store :build :find :inventory :save :help :exit\n");
             String input = userInput.nextLine().toLowerCase();
             if (input.equals(":exit")) {
-                exitMenu();
+                exitMenu(inventory);
             } else 
             if (input.equals(":home")) {
                 homeMenu();
@@ -33,7 +45,7 @@ public class Main {
                 inventoryMenu(inventory);
             } else
             if (input.equals(":save")) {
-                saveMenu();
+                saveMenu(inventory);
             } else
             if (input.equals(":help")) {
                 printHelp();
@@ -43,10 +55,11 @@ public class Main {
         }
     }
 
-    static void exitMenu() {
+    static void exitMenu(UserInventory inventory) {
         System.out.println("\n\033[1mDo you really want exit? (y/n)\033[0m\n");
         String choice = userInput.nextLine().toLowerCase();
         if (choice.equals("y")) {
+            inventory.save();
             System.exit(0);
         }
     }
@@ -154,8 +167,8 @@ public class Main {
         }
     }
 
-    static void saveMenu() {
-        System.out.println("save menu is in progress");
+    static void saveMenu(UserInventory inventory) {
+        inventory.save();
     }
 
     static void printHelp() {
@@ -168,6 +181,26 @@ public class Main {
         System.out.println("   :save      > saves your progress (saved game is loaded automatiaclly upon startup)");
         System.out.println("   :help      > displays this helpful description");
         System.out.println("   :exit      > after asking to save the game exits the program");
+    }
+
+    static UserInventory load() {
+        UserInventory inventory = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("../saves/save.ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            inventory = (UserInventory) in.readObject();
+            in.close();
+            fileIn.close();
+            System.out.println("\n\033[1m\033[92mGame loaded.\033[0m");
+            return inventory;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        return null;
     }
 
 }
