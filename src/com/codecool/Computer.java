@@ -6,12 +6,14 @@ public class Computer extends Inventory {
 
     private String name;
     private boolean functional;
+    private boolean isTurnedOn;
 
     public Computer(String name) {
         super(new Case[0], new PowerSupply[0], new Motherboard[0], new CPU[0], new Heatsink[0],
             new Fan[0], new Memory[0], new GraphicsCard[0], new SolidStateDrive[0], new HardDiskDrive[0]);
         this.name = name;
         this.functional = false;
+        this.isTurnedOn = false;
     }
 
     public int getAmountOfFreeMemorySlots() throws ArrayIndexOutOfBoundsException {
@@ -161,12 +163,24 @@ public class Computer extends Inventory {
             "\n\033[1mPower consumption: " + getPowerConsumption() + "W\033[0m\n";
     }
 
-    public boolean getFunctional() {
-        return functional;
+    public void turnOn() {
+        this.isTurnedOn = true;
+    }
+
+    public void turnOff() {
+        this.isTurnedOn = false;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean getFunctional() {
+        return functional;
+    }
+
+    public boolean getIsTurnedOn() {
+        return isTurnedOn;
     }
 
     @Override
