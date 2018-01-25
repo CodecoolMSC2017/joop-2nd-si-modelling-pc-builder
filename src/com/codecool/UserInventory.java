@@ -215,7 +215,7 @@ public class UserInventory extends Inventory {
             switch(cathegory) {
                 case "0":
                     if (pc.getCases().length > 0) {
-                        throw new NoMoreRoomException();
+                        throw new NoMoreRoomException("A PC can have only 1 case at a time.");
                     }
                     Case aCase = this.getCases()[index];
                     if (pc.getMotherboards().length != 0) {
@@ -242,7 +242,7 @@ public class UserInventory extends Inventory {
                     break;
                 case "1":
                     if (pc.getPsus().length > 0) {
-                        throw new NoMoreRoomException();
+                        throw new NoMoreRoomException("A PC can have only 1 power supply at a time.");
                     }
                     PowerSupply psu = this.getPsus()[index];
                     if (pc.getPowerConsumption() > psu.getPerformance()) {
@@ -253,7 +253,7 @@ public class UserInventory extends Inventory {
                     break;
                 case "2":
                     if (pc.getMotherboards().length > 0) {
-                        throw new NoMoreRoomException();
+                        throw new NoMoreRoomException("A PC can have only 1 motherboard at a time.");
                     }
                     Motherboard motherboard = this.getMotherboards()[index];
                     if (pc.getCases().length != 0) {
@@ -286,11 +286,11 @@ public class UserInventory extends Inventory {
                 case "3":
                     try {
                         if (pc.getCpus().length == pc.getMotherboards()[0].getAmountOfSockets()) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The motherboard has a cpu in all of it's sockets.");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getCpus().length == 1) {
-                            throw new NoMoreRoomException();
+                        if (pc.getCpus().length > 0) {
+                            throw new NoMoreRoomException("You can select only 1 cpu without a motherboard.");
                         }
                     }
                     CPU cpu = this.getCpus()[index];
@@ -317,11 +317,11 @@ public class UserInventory extends Inventory {
                 case "4":
                     try {
                         if (pc.getHeatsinks().length == pc.getMotherboards()[0].getAmountOfSockets()) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The motherboard has a heatsink on all of it's sockets.");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getHeatsinks().length == 1) {
-                            throw new NoMoreRoomException();
+                        if (pc.getHeatsinks().length > 0) {
+                            throw new NoMoreRoomException("You can select only 1 heatsink without a motherboard.");
                         }
                     }
                     Heatsink heatsink = this.getHeatsinks()[index];
@@ -336,11 +336,11 @@ public class UserInventory extends Inventory {
                 case "5":
                     try {
                         if (pc.getFans().length == pc.getCases()[0].getFrontFanCapacity() + pc.getCases()[0].getRearFanCapacity()) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("You cannot fit more fans on this case.");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getFans().length == 2) {
-                            throw new NoMoreRoomException();
+                        if (pc.getFans().length > 1) {
+                            throw new NoMoreRoomException("You can select only 2 fans without a case.");
                         }
                     }
                     Fan fan = this.getFans()[index];
@@ -356,11 +356,11 @@ public class UserInventory extends Inventory {
                     Memory memory = this.getMemories()[index];
                     try {
                         if (memory.getAmountOfSticks() > pc.getAmountOfFreeMemorySlots()) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The motherboard does not have enough empty memory slots for this memory.");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getMemories().length == 1) {
-                            throw new NoMoreRoomException();
+                        if (pc.getMemories().length > 0) {
+                            throw new NoMoreRoomException("You can select only 1 memory without a motherboard.");
                         }
                     }
                     if (pc.getMotherboards().length > 0) {
@@ -386,11 +386,11 @@ public class UserInventory extends Inventory {
                 case "7":
                     try {
                         if (pc.getMotherboards()[0].getAmountOfPCIESlots() == pc.getGpus().length) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The motherboard has no more empty PCI-e slots.");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getGpus().length == 1) {
-                            throw new NoMoreRoomException();
+                        if (pc.getGpus().length > 0) {
+                            throw new NoMoreRoomException("You can select only 1 graphics card without a motherboard.");
                         }
                     }
                     GraphicsCard gpu = this.getGpus()[index];
@@ -410,16 +410,16 @@ public class UserInventory extends Inventory {
                 case "8":
                     try {
                         if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The motherboard has no more empty SATA3 slots.");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getSsds().length + pc.getHdds().length == 1) {
-                            throw new NoMoreRoomException();
+                        if (pc.getSsds().length + pc.getHdds().length > 0) {
+                            throw new NoMoreRoomException("You can select only 1 storage device without a motherboard.");
                         }
                     }
                     if (pc.getCases().length > 0) {
                         if (pc.getCases()[0].getSSDCapacity() == pc.getSsds().length) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The case has no more empty slots for ssds.");
                         }
                     }
                     SolidStateDrive ssd = this.getSsds()[index];
@@ -434,16 +434,16 @@ public class UserInventory extends Inventory {
                 case "9":
                     try {
                         if (pc.getSsds().length + pc.getHdds().length == pc.getMotherboards()[0].getAmountOfSata()) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The motherboard has no more empty SATA3 slots.");
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        if (pc.getSsds().length + pc.getHdds().length == 2) {
-                            throw new NoMoreRoomException();
+                        if (pc.getSsds().length + pc.getHdds().length > 0) {
+                            throw new NoMoreRoomException("You can select only 1 storage device without a motherboard.");
                         }
                     }
                     if (pc.getCases().length > 0) {
                         if (pc.getCases()[0].getHDDCapacity() == pc.getHdds().length) {
-                            throw new NoMoreRoomException();
+                            throw new NoMoreRoomException("The case has no more empty slots for hdds.");
                         }
                     }
                     HardDiskDrive hdd = this.getHdds()[index];
@@ -457,8 +457,7 @@ public class UserInventory extends Inventory {
                     break;
             }
         } catch (NoMoreRoomException e) {
-            System.out.println("\n\033[1m\033[91mThere is no more room for that component!\n" +
-                "You must remove another component of that type first.\033[0m");
+            System.out.println("\n\033[1m\033[91m" + e.getMessage() + "\033[0m");
         } catch (ComponentsDoNotMatchException e) {
             System.out.println("\n\033[1m\033[91m" + e.getMessage() + "\033[0m");
         }
