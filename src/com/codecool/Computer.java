@@ -249,6 +249,10 @@ public class Computer extends Inventory {
         this.isTurnedOn = false;
     }
 
+    public void setName(String newName) {
+        this.name = newName;
+    }
+
     public String getName() {
         return name;
     }

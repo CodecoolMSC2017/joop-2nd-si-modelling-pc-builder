@@ -554,6 +554,22 @@ public class UserInventory extends Inventory {
         pc.checkIfFunctional();
     }
 
+    public void handleRename() {
+        if (this.getComputers().length < 1) {
+            System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
+            return;
+        }
+        Integer index = selectPCByIndex(false);
+        if (index == null) {
+            return;
+        }
+        String oldName = this.getComputers()[index].getName();
+        System.out.println("\n\033[1mType the new name of the PC:\033[0m\n");
+        String newName = getUserInput().nextLine();
+        this.getComputers()[index].setName(newName);
+        System.out.println("\n\033[1m\033[92mYour PC " + oldName + " has been renamed to " + newName + ".\033[0m");
+    }
+
     public void handleDisassemble() {
         if (this.getComputers().length < 1) {
             System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
