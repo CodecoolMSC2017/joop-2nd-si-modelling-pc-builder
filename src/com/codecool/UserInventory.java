@@ -20,6 +20,9 @@ public class UserInventory extends Inventory {
             System.out.println("\n\033[1mYou don't have any functional computers. Nothing to see here.\033[0m");
             return;
         }
+        for (int i = 0; i < this.getComputers().length; i++) {
+            this.getComputers()[i].updateTemperature(false);
+        }
         while (true) {
             System.out.println("\n\033[1mYour computers:\033[0m");
             displayPCStats();
@@ -30,23 +33,41 @@ public class UserInventory extends Inventory {
             }
             try {
                 if (choice.equals(":turn on")) {
-                    int index = (int)selectPCByIndex();
-                    if (this.getComputers()[index].getIsTurnedOn()) {
-                        System.out.println("\n\033[91m\033[1mThis PC is already turned on.\033[0m");
+                    int index = (int)selectPCByIndex(true);
+                    try {
+                        if (!this.getComputers()[index].getFunctional()) {
+                            System.out.println("\n\033[91m\033[1mThis PC is not functional.\033[0m");
+                            continue;
+                        }
+                        if (this.getComputers()[index].getIsTurnedOn()) {
+                            System.out.println("\n\033[91m\033[1mThis PC is already turned on.\033[0m");
+                            continue;
+                        }
+                        this.getComputers()[index].turnOn();
+                    } catch(ArrayIndexOutOfBoundsException e) {
+                        System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                         continue;
                     }
-                    this.getComputers()[index].turnOn();
                     for (int i = 0; i < this.getComputers().length; i++) {
                         this.getComputers()[i].updateTemperature(false);
                     }
                 } else
                 if (choice.equals(":turn off")) {
-                    int index = (int)selectPCByIndex();
-                    if (!this.getComputers()[index].getIsTurnedOn()) {
-                        System.out.println("\n\033[91m\033[1mThis PC is already turned off.\033[0m");
+                    int index = (int)selectPCByIndex(true);
+                    try {
+                        if (!this.getComputers()[index].getFunctional()) {
+                            System.out.println("\n\033[91m\033[1mThis PC is not functional.\033[0m");
+                            continue;
+                        }
+                        if (!this.getComputers()[index].getIsTurnedOn()) {
+                            System.out.println("\n\033[91m\033[1mThis PC is already turned off.\033[0m");
+                            continue;
+                        }
+                        this.getComputers()[index].turnOff();
+                    } catch(ArrayIndexOutOfBoundsException e) {
+                        System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
                         continue;
                     }
-                    this.getComputers()[index].turnOff();
                     for (int i = 0; i < this.getComputers().length; i++) {
                         this.getComputers()[i].updateTemperature(false);
                     }
@@ -538,7 +559,7 @@ public class UserInventory extends Inventory {
             System.out.println("\n\033[1m\033[91mYou don't have any PCs.\033[0m");
             return;
         }
-        Integer index = selectPCByIndex();
+        Integer index = selectPCByIndex(false);
         if (index == null) {
             return;
         }
@@ -561,7 +582,7 @@ public class UserInventory extends Inventory {
         while (true) {
             System.out.println("\n\033[1mSelect a PC\033[0m");
             System.out.println("Commands: :back (or type the corresponding number)\n");
-            this.displayComputers();
+            this.displayComputers(false);
             input = getUserInput().nextLine().toLowerCase();
             if (input.equals(":back")) {
                 return null;
@@ -579,12 +600,12 @@ public class UserInventory extends Inventory {
         }
     }
 
-    public Integer selectPCByIndex() {
+    public Integer selectPCByIndex(boolean onlyFunctional) {
         String input;
         while (true) {
             System.out.println("\n\033[1mSelect a PC\033[0m");
             System.out.println("Commands: :back (or type the corresponding number)\n");
-            this.displayComputers();
+            this.displayComputers(onlyFunctional);
             input = getUserInput().nextLine().toLowerCase();
             if (input.equals(":back")) {
                 return null;
@@ -594,15 +615,11 @@ public class UserInventory extends Inventory {
                 return index;
             } catch(NumberFormatException e) {
                 System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
-            } catch(ArrayIndexOutOfBoundsException e) {
-                System.out.println("\n\033[1m\033[91mIncorrect input!\033[0m");
-                continue;
             }
         }
     }
 
-    public void displayComputers() {
+    public void displayComputers(boolean onlyFunctional) {
         Computer[] computers = this.getComputers();
         if (computers.length < 1) {
             System.out.println("You don't have any PCs.");
@@ -610,8 +627,15 @@ public class UserInventory extends Inventory {
         }
         int counter = 0;
         for (Computer computer : computers) {
-            System.out.println(counter + " " + computer);
-            counter++;
+            if (onlyFunctional) {
+                if (computer.getFunctional()) {
+                    System.out.println(counter + " " + computer);
+                }
+                counter++;
+            } else {
+                System.out.println(counter + " " + computer);
+                counter++;
+            }
         }
         System.out.println();
     }
