@@ -47,3 +47,7 @@
     Add disassemble option for computers
     Compatibilty check when adding parts to computers
     Saving/loading to/from files
+
+### `Week 2`
+    Completed everything planned from last week.
+    Home is functional, the game can be played.
