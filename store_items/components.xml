@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Components>
+    <Cases>
+        <Case name="Z1" manufacturer="Zalman" value="30" tier="LOW" size="M" ssdCapacity="1" hddCapacity="4" frontFanCapacity="2" rearFanCapacity="1"/>
+        <Case name="Qs-183" manufacturer="Aerocool" value="30" tier="LOW" size="S" ssdCapacity="2" hddCapacity="2" frontFanCapacity="1" rearFanCapacity="1"/>
+        <Case name="MasterBox 5" manufacturer="Cooler Master" value="80" tier="MEDIUM" size="M" ssdCapacity="1" hddCapacity="2" frontFanCapacity="2" rearFanCapacity="1"/>
+        <Case name="S340 Elite" manufacturer="NZXT" value="110" tier="HIGH" size="L" ssdCapacity="3" hddCapacity="3" frontFanCapacity="2" rearFanCapacity="1"/>
+    </Cases>
+    <PowerSupplies>
+        <PowerSupply name="500W Redwing" manufacturer="Xilence" value="30" tier="LOW" powerConsumption="0" performance="500"/>
+        <PowerSupply name="700W Straight Power" manufacturer="Be quiet!" value="110" tier="MEDIUM" powerConsumption="0" performance="700"/>
+        <PowerSupply name="V1200 Platinum" manufacturer="Cooler Master" value="320" tier="HIGH" powerConsumption="0" performance="1200"/>
+    </PowerSupplies>
+    <Motherboards>
+        <Motherboard name="H110M-ITX" manufacturer="Asrock" value="55" tier="LOW" powerConsumption="35" size="S" socket="LGA 1151" amountOfSockets="1" memoryType="DDR4" amountOfMemorySlots="2" amountOfPCIESlots="1" amountOfSata="4"/>
+        <Motherboard name="B250M-Gaming 3" manufacturer="Gigabyte" value="80" tier="MEDIUM" powerConsumption="60" size="M" socket="LGA 1151" amountOfSockets="1" memoryType="DDR4" amountOfMemorySlots="4" amountOfPCIESlots="2" amountOfSata="6"/>
+        <Motherboard name="X99-E-10G" manufacturer="Asus" value="550" tier="HIGH" powerConsumption="80" size="L" socket="LGA 2011-v3" amountOfSockets="1" memoryType="DDR4" amountOfMemorySlots="8" amountOfPCIESlots="4" amountOfSata="10"/>
+    </Motherboards>
+    <Processors>
+        <Processor name="Core i3-6100" manufacturer="Intel" value="105" tier="LOW" powerConsumption="50" memoryType="DDR4" coreClock="3700" overclockable="false" socket="LGA 1151" threads="4" cores="2"/>
+        <Processor name="Core i3-4170" manufacturer="Intel" value="110" tier="LOW" powerConsumption="50" memoryType="DDR3" coreClock="3700" overclockable="false" socket="LGA 1150" threads="4" cores="2"/>
+        <Processor name="Core i5-6400" manufacturer="Intel" value="160" tier="MEDIUM" powerConsumption="65" memoryType="DDR4" coreClock="3700" overclockable="false" socket="LGA 1151" threads="4" cores="4"/>
+        <Processor name="Core i5-6600k" manufacturer="Intel" value="210" tier="MEDIUM" powerConsumption="90" memoryType="DDR4" coreClock="3900" overclockable="true" socket="LGA 1151" threads="4" cores="4"/>
+        <Processor name="Core i7-6700k" manufacturer="Intel" value="310" tier="HIGH" powerConsumption="90" memoryType="DDR4" coreClock="4000" overclockable="true" socket="LGA 1151" threads="8" cores="4"/>
+        <Processor name="Core i7-6900k" manufacturer="Intel" value="970" tier="HIGH" powerConsumption="140" memoryType="DDR4" coreClock="3200" overclockable="true" socket="LGA 2011-v3" threads="16" cores="8"/>
+    <Processors>
+    <Heatsinks>
+        <Heatsink name="AK-CC1101EP02" manufacturer="Akasa" value="15" tier="LOW" size="S"/>
+        <Heatsink name="Hyper 212 EVO" manufacturer="Cooler Master" value="30" tier="MEDIUM" size="M"/>
+        <Heatsink name="NH-D14" manufacturer="Noctua" value="70" tier="HIGH" size="L"/>
+    </Heatsinks>
+    <Fans>
+        <Fan name="AW-12A-BK" manufacturer="Akyga" value="3" tier="LOW" powerConsumption="5" rpm="1200" airflow="40"/>
+        <Fan name="F12 PWM Rev2" manufacturer="Arctic" value="5" tier="MEDIUM" powerConsumption="5" rpm="1350" airflow="50"/>
+        <Fan name="NF-S12A PWM" manufacturer="Noctua" value="10" tier="HIGH" powerConsumption="5" rpm="1200" airflow="65"/>
+    </Fans>
+    <Memories>
+        <Memory name="4GB DDR4 1333Mhz" manufacturer="Adata" value="50" tier="LOW" powerConsumption="5" speed="1333" capacity="4" type="DDR4" amountOfSticks="1"/>
+        <Memory name="2x4GB DDR3 1600Mhz" manufacturer="Corsair" value="90" tier="MEDIUM" powerConsumption="10" speed="1600" capacity="8" type="DDR3" amountOfSticks="2"/>
+        <Memory name="HyperX Fury 8GB DDR4 2133Mhz" manufacturer="Kingston" value="110" tier="MEDIUM" powerConsumption="5" speed="2133" capacity="8" type="DDR4" amountOfSticks="1"/>
+        <Memory name="Ballistix Elite 2x16GB DDR4 2400Mhz" manufacturer="Crucial" value="370" tier="HIGH" powerConsumption="10" speed="2400" capacity="32" type="DDR4" amountOfSticks="2"/>
+    </Memories>
+    <GraphicsCards>
+        <GraphicsCard name="GT 710 2GB DDR3 SilentFX" manufacturer="Gainward" value="40" tier="LOW" powerConsumption="40" memoryType="DDR3" coreClock="950" overclockable="false" vram="2" size="S"/>
+        <GraphicsCard name="GTX 960 4GB Windforce" manufacturer="Gigabyte" value="160" tier="MEDIUM" powerConsumption="90" memoryType="GDDR5" coreClock="1250" overclockable="true" vram="4" size="M"/>
+        <GraphicsCard name="Strix GTX 1080 8GB" manufacturer="Asus" value="600" tier="HIGH" powerConsumption="200" memoryType="GDDR5" coreClock="1930" overclockable="true" vram="8" size="L"/>
+        <GraphicsCard name="Quadro P6000 24GB" manufacturer="Nvidia" value="5800" tier="HIGH" powerConsumption="250" memoryType="GDDR5X" coreClock="1500" overclockable="true" vram="24" size="M"/>
+    </GraphicsCards>
+    <SolidStateDrives>
+        <SolidStateDrive name="60GB SSD" manufacturer="Kingston" value="40" tier="LOW" powerConsumption="5" capacity="60" transferSpeed="300"/>
+        <SolidStateDrive name="120GB Force SSD" manufacturer="Corsair" value="70" tier="MEDIUM" powerConsumption="5" capacity="120" transferSpeed="450"/>
+        <SolidStateDrive name="1TB 850 EVO" manufacturer="Samsung" value="290" tier="HIGH" powerConsumption="5" capacity="1024" transferSpeed="550"/>
+    </SolidStateDrives>
+    <HardDiskDrives>
+        <HardDiskDrive name="500GB 7200rmp SATA3" manufacturer="Toshiba" value="40" tier="LOW" powerConsumption="10" capacity="500" transferSpeed="140" rpm="7200"/>
+        <HardDiskDrive name="2TB 5400rmp SATA3" manufacturer="Western Digital" value="80" tier="MEDIUM" powerConsumption="15" capacity="2000" transferSpeed="170" rpm="5400"/>
+        <HardDiskDrive name="4TB 5400rmp SATA3" manufacturer="Seagate" value="110" tier="HIGH" powerConsumption="20" capacity="4000" transferSpeed="190" rpm="5400"/>
+    </HardDiskDrives>
+</Components>
