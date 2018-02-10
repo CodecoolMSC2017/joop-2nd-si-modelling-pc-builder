@@ -1,13 +1,25 @@
 package com.codecool;
 
 import java.io.*;
-import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class Store extends Inventory {
 
+    private static Element components = getComponentsFromFile();
+
     public Store() {
-        super(readCaseFile(), readPsuFile(), readMotherboardFile(), readCpuFile(), readHeatsinkFile(), 
-            readFanFile(), readMemoryFile(), readGpuFile(), readSsdFile(), readHddFile());
+        super(readCases(components), readPsus(components), readMotherboards(components),
+            readCpus(components), readHeatsinks(components), readFans(components),
+            readMemorys(components), readGpus(components), readSsds(components), readHdds(components));
     }
 
     public void handlePurchase(UserInventory inventory, String cathegory) throws ArrayIndexOutOfBoundsException {
@@ -110,188 +122,212 @@ public class Store extends Inventory {
         System.out.println("\n\033[1m\033[92mItem purchased!\033[0m");
     }
 
-    private static Case[] readCaseFile() {
-        String[] fileContent = getFileContent("../store_items/cases.csv");
-        Case[] result = new Case[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new Case(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Size.valueOf(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]),
-                Integer.parseInt(parts[7]), Integer.parseInt(parts[8]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static PowerSupply[] readPsuFile() {
-        String[] fileContent = getFileContent("../store_items/psus.csv");
-        PowerSupply[] result = new PowerSupply[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new PowerSupply(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-            Integer.parseInt(parts[4]), Integer.parseInt(parts[5]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static Motherboard[] readMotherboardFile() {
-        String[] fileContent = getFileContent("../store_items/motherboards.csv");
-        Motherboard[] result = new Motherboard[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new Motherboard(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), Size.valueOf(parts[5]), parts[6], Integer.parseInt(parts[7]), parts[8],
-                Integer.parseInt(parts[9]), Integer.parseInt(parts[10]), Integer.parseInt(parts[11]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static CPU[] readCpuFile() {
-        String[] fileContent = getFileContent("../store_items/cpus.csv");
-        CPU[] result = new CPU[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new CPU(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), parts[5], Integer.parseInt(parts[6]), Boolean.parseBoolean(parts[7]),
-                parts[8], Integer.parseInt(parts[9]), Integer.parseInt(parts[10]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static Heatsink[] readHeatsinkFile() {
-        String[] fileContent = getFileContent("../store_items/heatsinks.csv");
-        Heatsink[] result = new Heatsink[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new Heatsink(parts[0], parts[1], Integer.parseInt(parts[2]),
-                Tier.valueOf(parts[3]), Size.valueOf(parts[4]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static Fan[] readFanFile() {
-        String[] fileContent = getFileContent("../store_items/fans.csv");
-        Fan[] result = new Fan[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new Fan(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static Memory[] readMemoryFile() {
-        String[] fileContent = getFileContent("../store_items/rams.csv");
-        Memory[] result = new Memory[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new Memory(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]),
-                parts[7], Integer.parseInt(parts[8]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static GraphicsCard[] readGpuFile() {
-        String[] fileContent = getFileContent("../store_items/gpus.csv");
-        GraphicsCard[] result = new GraphicsCard[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new GraphicsCard(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), parts[5], Integer.parseInt(parts[6]), Boolean.parseBoolean(parts[7]),
-                Integer.parseInt(parts[8]), Size.valueOf(parts[9]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static SolidStateDrive[] readSsdFile() {
-        String[] fileContent = getFileContent("../store_items/ssds.csv");
-        SolidStateDrive[] result = new SolidStateDrive[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new SolidStateDrive(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static HardDiskDrive[] readHddFile() {
-        String[] fileContent = getFileContent("../store_items/hdds.csv");
-        HardDiskDrive[] result = new HardDiskDrive[fileContent.length];
-        int counter = 0;
-
-        for (String line : fileContent) {
-            String[] parts = line.split(";");
-            result[counter] = new HardDiskDrive(parts[0], parts[1], Integer.parseInt(parts[2]), Tier.valueOf(parts[3]),
-                Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6]),
-                Integer.parseInt(parts[7]));
-            counter++;
-        }
-        return result;
-    }
-
-    private static int getFileLength(File file) {
-        Scanner sc;
-        int fileLength = 0;
-
+    private static Element getComponentsFromFile() {
         try {
-            sc = new Scanner(file);
-
-            while (sc.hasNext()) {
-                fileLength++;
-                sc.nextLine();
-            }
-            sc.close();
-        } catch(FileNotFoundException e) {
+            DocumentBuilder docBuilder = DocumentBuilderFactory.newDefaultInstance().newDocumentBuilder();
+            return (Element) docBuilder.parse("../store_items/components.xml").getElementsByTagName("Components").item(0);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return fileLength;
+        return null;
     }
 
-    private static String[] getFileContent(String fileName) {
-        int fileLength = getFileLength(new File(fileName));
-        String[] content = new String[fileLength];
-        Scanner read;
-
-        try {
-            read = new Scanner(new File(fileName));
-            int counter = 0;
-
-            while (read.hasNext()) {
-                content[counter] = read.nextLine();
-                counter++;
-            }
-            read.close();
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
+    private static Case[] readCases(Element components) {
+        Element casesElement = (Element) components.getElementsByTagName("Cases").item(0);
+        NodeList cases = casesElement.getElementsByTagName("Case");
+        Case[] result = new Case[cases.getLength()];
+        Element current;
+        for (int i = 0; i < cases.getLength(); i++) {
+            current = (Element) cases.item(i);
+            result[i] = new Case(current.getAttribute("name"),
+                                 current.getAttribute("manufacturer"),
+                                 Integer.parseInt(current.getAttribute("value")),
+                                 Tier.valueOf(current.getAttribute("tier")),
+                                 Size.valueOf(current.getAttribute("size")),
+                                 Integer.parseInt(current.getAttribute("ssdCapacity")),
+                                 Integer.parseInt(current.getAttribute("hddCapacity")),
+                                 Integer.parseInt(current.getAttribute("frontFanCapacity")),
+                                 Integer.parseInt(current.getAttribute("rearFanCapacity")));
         }
-        return content;
+        return result;
+    }
+
+    private static PowerSupply[] readPsus(Element components) {
+        Element psusElement = (Element) components.getElementsByTagName("PowerSupplies").item(0);
+        NodeList psus = psusElement.getElementsByTagName("PowerSupply");
+        PowerSupply[] result = new PowerSupply[psus.getLength()];
+        Element current;
+        for (int i = 0; i < psus.getLength(); i++) {
+            current = (Element) psus.item(i);
+            result[i] = new PowerSupply(current.getAttribute("name"),
+                                        current.getAttribute("manufacturer"),
+                                        Integer.parseInt(current.getAttribute("value")),
+                                        Tier.valueOf(current.getAttribute("tier")),
+                                        Integer.parseInt(current.getAttribute("powerConsumption")),
+                                        Integer.parseInt(current.getAttribute("performance")));
+        }
+        return result;
+    }
+
+    private static Motherboard[] readMotherboards(Element components) {
+        Element motherboardsElement = (Element) components.getElementsByTagName("Motherboards").item(0);
+        NodeList motherboards = motherboardsElement.getElementsByTagName("Motherboard");
+        Motherboard[] result = new Motherboard[motherboards.getLength()];
+        Element current;
+        for (int i = 0; i < motherboards.getLength(); i++) {
+            current = (Element) motherboards.item(i);
+            result[i] = new Motherboard(current.getAttribute("name"),
+                                        current.getAttribute("manufacturer"),
+                                        Integer.parseInt(current.getAttribute("value")),
+                                        Tier.valueOf(current.getAttribute("tier")),
+                                        Integer.parseInt(current.getAttribute("powerConsumption")),
+                                        Size.valueOf(current.getAttribute("size")),
+                                        current.getAttribute("socket"),
+                                        Integer.parseInt(current.getAttribute("amountOfSockets")),
+                                        current.getAttribute("memoryType"),
+                                        Integer.parseInt(current.getAttribute("amountOfMemorySlots")),
+                                        Integer.parseInt(current.getAttribute("amountOfPCIESlots")),
+                                        Integer.parseInt(current.getAttribute("amountOfSata")));
+        }
+        return result;
+    }
+
+    private static CPU[] readCpus(Element components) {
+        Element cpusElement = (Element) components.getElementsByTagName("Processors").item(0);
+        NodeList cpus = cpusElement.getElementsByTagName("Processor");
+        CPU[] result = new CPU[cpus.getLength()];
+        Element current;
+        for (int i = 0; i < cpus.getLength(); i++) {
+            current = (Element) cpus.item(i);
+            result[i] = new CPU(current.getAttribute("name"),
+                                current.getAttribute("manufacturer"),
+                                Integer.parseInt(current.getAttribute("value")),
+                                Tier.valueOf(current.getAttribute("tier")),
+                                Integer.parseInt(current.getAttribute("powerConsumption")),
+                                current.getAttribute("memoryType"),
+                                Integer.parseInt(current.getAttribute("coreClock")),
+                                Boolean.parseBoolean(current.getAttribute("overclockable")),
+                                current.getAttribute("socket"),
+                                Integer.parseInt(current.getAttribute("threads")),
+                                Integer.parseInt(current.getAttribute("cores")));
+        }
+        return result;
+    }
+
+    private static Heatsink[] readHeatsinks(Element components) {
+        Element heatsinksElement = (Element) components.getElementsByTagName("Heatsinks").item(0);
+        NodeList heatsinks = heatsinksElement.getElementsByTagName("Heatsink");
+        Heatsink[] result = new Heatsink[heatsinks.getLength()];
+        Element current;
+        for (int i = 0; i < heatsinks.getLength(); i++) {
+            current = (Element) heatsinks.item(i);
+            result[i] = new Heatsink(current.getAttribute("name"),
+                                     current.getAttribute("manufacturer"),
+                                     Integer.parseInt(current.getAttribute("value")),
+                                     Tier.valueOf(current.getAttribute("tier")),
+                                     Size.valueOf(current.getAttribute("size")));
+        }
+        return result;
+    }
+
+    private static Fan[] readFans(Element components) {
+        Element fansElement = (Element) components.getElementsByTagName("Fans").item(0);
+        NodeList fans = fansElement.getElementsByTagName("Fan");
+        Fan[] result = new Fan[fans.getLength()];
+        Element current;
+        for (int i = 0; i < fans.getLength(); i++) {
+            current = (Element) fans.item(i);
+            result[i] = new Fan(current.getAttribute("name"),
+                                current.getAttribute("manufacturer"),
+                                Integer.parseInt(current.getAttribute("value")),
+                                Tier.valueOf(current.getAttribute("tier")),
+                                Integer.parseInt(current.getAttribute("powerConsumption")),
+                                Integer.parseInt(current.getAttribute("rpm")),
+                                Integer.parseInt(current.getAttribute("airflow")));
+        }
+        return result;
+    }
+
+    private static Memory[] readMemorys(Element components) {
+        Element memoriesElement = (Element) components.getElementsByTagName("Memories").item(0);
+        NodeList memories = memoriesElement.getElementsByTagName("Memory");
+        Memory[] result = new Memory[memories.getLength()];
+        Element current;
+        for (int i = 0; i < memories.getLength(); i++) {
+            current = (Element) memories.item(i);
+            result[i] = new Memory(current.getAttribute("name"),
+                                   current.getAttribute("manufacturer"),
+                                   Integer.parseInt(current.getAttribute("value")),
+                                   Tier.valueOf(current.getAttribute("tier")),
+                                   Integer.parseInt(current.getAttribute("powerConsumption")),
+                                   Integer.parseInt(current.getAttribute("speed")),
+                                   Integer.parseInt(current.getAttribute("capacity")),
+                                   current.getAttribute("type"),
+                                   Integer.parseInt(current.getAttribute("amountOfSticks")));
+        }
+        return result;
+    }
+
+    private static GraphicsCard[] readGpus(Element components) {
+        Element gpusElement = (Element) components.getElementsByTagName("GraphicsCards").item(0);
+        NodeList gpus = gpusElement.getElementsByTagName("GraphicsCard");
+        GraphicsCard[] result = new GraphicsCard[gpus.getLength()];
+        Element current;
+        for (int i = 0; i < gpus.getLength(); i++) {
+            current = (Element) gpus.item(i);
+            result[i] = new GraphicsCard(current.getAttribute("name"),
+                                         current.getAttribute("manufacturer"),
+                                         Integer.parseInt(current.getAttribute("value")),
+                                         Tier.valueOf(current.getAttribute("tier")),
+                                         Integer.parseInt(current.getAttribute("powerConsumption")),
+                                         current.getAttribute("memoryType"),
+                                         Integer.parseInt(current.getAttribute("coreClock")),
+                                         Boolean.parseBoolean(current.getAttribute("overclockable")),
+                                         Integer.parseInt(current.getAttribute("vram")),
+                                         Size.valueOf(current.getAttribute("size")));
+        }
+        return result;
+    }
+
+    private static SolidStateDrive[] readSsds(Element components) {
+        Element ssdsElement = (Element) components.getElementsByTagName("SolidStateDrives").item(0);
+        NodeList ssds = ssdsElement.getElementsByTagName("SolidStateDrive");
+        SolidStateDrive[] result = new SolidStateDrive[ssds.getLength()];
+        Element current;
+        for (int i = 0; i < ssds.getLength(); i++) {
+            current = (Element) ssds.item(i);
+            result[i] = new SolidStateDrive(current.getAttribute("name"),
+                                            current.getAttribute("manufacturer"),
+                                            Integer.parseInt(current.getAttribute("value")),
+                                            Tier.valueOf(current.getAttribute("tier")),
+                                            Integer.parseInt(current.getAttribute("powerConsumption")),
+                                            Integer.parseInt(current.getAttribute("capacity")),
+                                            Integer.parseInt(current.getAttribute("transferSpeed")));
+        }
+        return result;
+    }
+
+    private static HardDiskDrive[] readHdds(Element components) {
+        Element hddsElement = (Element) components.getElementsByTagName("HardDiskDrives").item(0);
+        NodeList hdds = hddsElement.getElementsByTagName("HardDiskDrive");
+        HardDiskDrive[] result = new HardDiskDrive[hdds.getLength()];
+        Element current;
+        for (int i = 0; i < hdds.getLength(); i++) {
+            current = (Element) hdds.item(i);
+            result[i] = new HardDiskDrive(current.getAttribute("name"),
+                                            current.getAttribute("manufacturer"),
+                                            Integer.parseInt(current.getAttribute("value")),
+                                            Tier.valueOf(current.getAttribute("tier")),
+                                            Integer.parseInt(current.getAttribute("powerConsumption")),
+                                            Integer.parseInt(current.getAttribute("capacity")),
+                                            Integer.parseInt(current.getAttribute("transferSpeed")),
+                                            Integer.parseInt(current.getAttribute("rpm")));
+        }
+        return result;
     }
 
 }
