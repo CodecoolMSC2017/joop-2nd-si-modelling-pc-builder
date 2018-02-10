@@ -23,7 +23,7 @@
         <Processor name="Core i5-6600k" manufacturer="Intel" value="210" tier="MEDIUM" powerConsumption="90" memoryType="DDR4" coreClock="3900" overclockable="true" socket="LGA 1151" threads="4" cores="4"/>
         <Processor name="Core i7-6700k" manufacturer="Intel" value="310" tier="HIGH" powerConsumption="90" memoryType="DDR4" coreClock="4000" overclockable="true" socket="LGA 1151" threads="8" cores="4"/>
         <Processor name="Core i7-6900k" manufacturer="Intel" value="970" tier="HIGH" powerConsumption="140" memoryType="DDR4" coreClock="3200" overclockable="true" socket="LGA 2011-v3" threads="16" cores="8"/>
-    <Processors>
+    </Processors>
     <Heatsinks>
         <Heatsink name="AK-CC1101EP02" manufacturer="Akasa" value="15" tier="LOW" size="S"/>
         <Heatsink name="Hyper 212 EVO" manufacturer="Cooler Master" value="30" tier="MEDIUM" size="M"/>

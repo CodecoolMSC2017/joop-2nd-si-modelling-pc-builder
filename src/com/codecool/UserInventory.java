@@ -224,7 +224,7 @@ public class UserInventory extends Inventory {
             return;
         }
         System.out.print("\nSelect an item by it's number: ");
-        String input = getUserInput().nextLine().toLowerCase().toLowerCase();
+        String input = getUserInput().nextLine().toLowerCase();
         int index = 0;
         try {
             index = Integer.parseInt(input);
