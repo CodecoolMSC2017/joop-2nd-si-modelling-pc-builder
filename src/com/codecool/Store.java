@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 
 public class Store extends Inventory {
 
-    private static Element components = getComponentsFromFile();
+    private static Element components = getComponentsFromFile("../store_items/components.xml");
 
     public Store() {
         super(readCases(components), readPsus(components), readMotherboards(components),
@@ -122,10 +122,10 @@ public class Store extends Inventory {
         System.out.println("\n\033[1m\033[92mItem purchased!\033[0m");
     }
 
-    private static Element getComponentsFromFile() {
+    private static Element getComponentsFromFile(String filePath) {
         try {
-            DocumentBuilder docBuilder = DocumentBuilderFactory.newDefaultInstance().newDocumentBuilder();
-            return (Element) docBuilder.parse("../store_items/components.xml").getElementsByTagName("Components").item(0);
+            DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            return (Element) docBuilder.parse(filePath).getElementsByTagName("Components").item(0);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -319,13 +319,13 @@ public class Store extends Inventory {
         for (int i = 0; i < hdds.getLength(); i++) {
             current = (Element) hdds.item(i);
             result[i] = new HardDiskDrive(current.getAttribute("name"),
-                                            current.getAttribute("manufacturer"),
-                                            Integer.parseInt(current.getAttribute("value")),
-                                            Tier.valueOf(current.getAttribute("tier")),
-                                            Integer.parseInt(current.getAttribute("powerConsumption")),
-                                            Integer.parseInt(current.getAttribute("capacity")),
-                                            Integer.parseInt(current.getAttribute("transferSpeed")),
-                                            Integer.parseInt(current.getAttribute("rpm")));
+                                          current.getAttribute("manufacturer"),
+                                          Integer.parseInt(current.getAttribute("value")),
+                                          Tier.valueOf(current.getAttribute("tier")),
+                                          Integer.parseInt(current.getAttribute("powerConsumption")),
+                                          Integer.parseInt(current.getAttribute("capacity")),
+                                          Integer.parseInt(current.getAttribute("transferSpeed")),
+                                          Integer.parseInt(current.getAttribute("rpm")));
         }
         return result;
     }
