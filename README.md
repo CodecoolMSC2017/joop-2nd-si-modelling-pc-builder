@@ -1,53 +1,29 @@
 # joop-2nd-si-modelling-pc-builder
 
-## `Compilation`
-    cd <repo>
-    cd src
-    javac com/codecool/*.java
+## `Compilation & Execution`
 
-## `Execution`
-    cd <repo>
-    cd src
-    java com.codecool.Main
-
+    Import the project in Intellij and run com.codecool.gui.Main
+    
 ## `Description`
 
-    This program will allow the user to build custom PCs and use them
-    for different task to make progress in the game.
+    This game is about building pcs from components purchased in the store.
+    You can then use them to mine cryptocurrency. If you reach $1 000 000 you win the game.
 
-## `Main menu commands`
+## `Main menu`
 
-### `:home`
-    This is where you can use your PCs.
-### `:store`
-    Enters the store menu where you can browse and buy components.
-### `:build`
-    Modify a PC you have already built or build a brand new one.
-### `:find`
-    Select one of your PCs to display it's specs.
-### `:inventory`
-    Displays the components you have bought but have not built in yet.
-### `:save`
-    Saves your progress (saved game is loaded automatiaclly upon startup).
-### `:help`
-    Displays this helpful description.
-### `:exit`
-    Exits the program after saving automatically.
-
-## `Progress`
-
-### `Week 1`
-    Started the project, created class hierarchy. The program has many
-    functional features, Store, Inventory and Find are completely
-    functional. Started implementing Build, new computers can be created,
-    parts can be built in but compatibility is not checked yet.
-
-    Plans for next week:
-    Make parts removable from computers
-    Add disassemble option for computers
-    Compatibilty check when adding parts to computers
-    Saving/loading to/from files
-
-### `Week 2`
-    Completed everything planned from last week.
-    Home is functional, the game can be played.
+### `Home`
+    Here you can use your pcs.
+### `Store`
+    Browse and buy components.
+### `Build`
+    Modify or create a pc.
+### `Computers`
+    Display your pcs and their components.
+### `Inventory`
+    Browse and sell your components that are not built in.
+### `Save`
+    Save the current state of the game.
+### `Help`
+    Display this tutorial.
+### `Exit`
+    Close the game after saving automatically.
