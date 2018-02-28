@@ -39,7 +39,11 @@ public class Main extends Application {
             System.exit(0);
         });
         this.primaryStage = primaryStage;
-        this.primaryStage.setScene(new LoadMenu(this).getMenu());
+        if (new File(System.getProperty("user.home") + "/pc-builder-save.ser").exists()) {
+            this.primaryStage.setScene(new LoadMenu(this).getMenu());
+        } else {
+            mainMenu();
+        }
         this.primaryStage.show();
     }
 
