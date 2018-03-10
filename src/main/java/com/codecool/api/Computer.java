@@ -55,7 +55,7 @@ public class Computer extends Inventory {
         return fanciness;
     }
 
-    public int getAmountOfFreeMemorySlots() throws IndexOutOfBoundsException {
+    private int getAmountOfFreeMemorySlots() throws IndexOutOfBoundsException {
         int amountOfSticks = 0;
         for (Memory ram : getMemories()) {
             amountOfSticks += ram.getAmountOfSticks();
@@ -63,7 +63,7 @@ public class Computer extends Inventory {
         return getMotherboards().get(0).getAmountOfMemorySlots() - amountOfSticks;
     }
 
-    public void checkIfFunctional() {
+    private void checkIfFunctional() {
         this.functional = (getCases().size() > 0 &&
                 getPsus().size() > 0 &&
                 getMotherboards().size() > 0 &&
@@ -177,8 +177,10 @@ public class Computer extends Inventory {
         if (getMotherboards().size() > 0) {
             throw new NoMoreRoomException("A PC can have only 1 motherboard at a time.");
         }
-        if (getCases().get(0).getSize().getValue() < item.getSize().getValue()) {
-            throw new ComponentsDoNotMatchException("The current case cannot fit this motherboard.");
+        if (getCases().size() > 0) {
+            if (getCases().get(0).getSize().getValue() < item.getSize().getValue()) {
+                throw new ComponentsDoNotMatchException("The current case cannot fit this motherboard.");
+            }
         }
         if (getCpus().size() > 0) {
             for (CPU cpu : getCpus()) {
