@@ -1,5 +1,6 @@
 package com.codecool.cmd;
 
+import com.codecool.api.Computer;
 import com.codecool.api.Inventory;
 import com.codecool.api.Store;
 import com.codecool.api.UserInventory;
@@ -184,7 +185,111 @@ public class CmdMenu {
     }
 
     private void buildMenu() {
+        String[] options = new String[]{
+                "new",
+                "modify",
+                "rename",
+                "disassemble",
+                "back"
+        };
+        while (true) {
+            showMenu("Build Menu", options);
+            String choice = getInput();
+            switch (choice) {
+                case "back":
+                    return;
+                case "new":
+                    createNewPc();
+                    break;
+                case "modify":
+                    modifyPc();
+                    break;
+                case "rename":
+                    renamePc();
+                    break;
+                case "disassemble":
+                    disassemblePc();
+                    break;
+                default:
+                    System.out.println("Unknown command: " + choice);
+            }
+        }
+    }
 
+    private void modifyPc() {
+
+    }
+
+    private void disassemblePc() {
+        Computer pc = choosePc();
+        if (pc == null) {
+            return;
+        }
+        System.out.println("Are you sure you want to disassemble " + pc.getName() + "? (y/n)");
+        String choice = getInput();
+        if (choice.equals("y")) {
+            inventory.getComputers().remove(pc);
+        }
+    }
+
+    private void renamePc() {
+        Computer pc = choosePc();
+        if (pc == null) {
+            return;
+        }
+        System.out.println("Type the new name of the pc: (or back)");
+        String newName = getInput();
+        if (newName.equals("back") || newName.equals("")) {
+            return;
+        }
+        pc.setName(newName);
+        System.out.println("Pc renamed!");
+    }
+
+    private Computer choosePc() {
+        List<Computer> computers = inventory.getComputers();
+        if (computers.size() == 0) {
+            System.out.println("You don't have Pcs!");
+            return null;
+        }
+        int counter;
+        while (true) {
+            System.out.println("Choose a pc by it's number (or back)");
+            counter = 0;
+            for (Computer computer : computers) {
+                System.out.println(counter + ") " + computer.getName());
+                counter++;
+            }
+            String choice = getInput();
+            if (choice.equals("back")) {
+                return null;
+            }
+            try {
+                int index = Integer.parseInt(choice);
+                return computers.get(index);
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                System.out.println("Wrong input!");
+            }
+        }
+    }
+
+    private void createNewPc() {
+        if (inventory.getComputers().size() > 2) {
+            System.out.println("You have the maximum number of Pcs!");
+            return;
+        }
+        System.out.println("Type the name of the new pc: (or back)");
+        String name = getInput();
+        if (name.equals("back") || name.equals("")) {
+            return;
+        }
+        if (inventory.checkIfNameExists(name)) {
+            System.out.println("This name already exists!");
+            return;
+        }
+        inventory.addComputer(new Computer(name));
+        System.out.println("Pc created!\n" +
+                "May your framerates be high and temperatures low!");
     }
 
     private void computersMenu() {
@@ -236,20 +341,24 @@ public class CmdMenu {
         }
     }
 
-    private void inventoryItemsMenu(List<? extends PCComponent> items) {
+    private void inventoryItemsMenu(List<? extends PCComponent> components) {
+        if (components.size() == 0) {
+            System.out.println("No items!");
+            return;
+        }
         String[] options = new String[]{"sell", "details", "back"};
         while (true) {
-            displayCategory(items);
+            displayCategory(components);
             showMenu("Money: " + inventory.getMoney(), options);
             String choice = getInput();
             switch (choice) {
                 case "back":
                     return;
                 case "sell":
-                    sellItem(items);
+                    sellItem(components);
                     break;
                 case "details":
-                    showDetails(items);
+                    showDetails(components);
                     break;
                 default:
                     System.out.println("Unknown command: " + choice);
@@ -351,11 +460,7 @@ public class CmdMenu {
 
     private void saveGame() {
         try {
-            FileOutputStream fileOut = new FileOutputStream(saveFilePath);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(inventory);
-            out.close();
-            fileOut.close();
+            inventory.save();
             System.out.println("Game saved!");
         } catch (IOException e) {
             e.printStackTrace();

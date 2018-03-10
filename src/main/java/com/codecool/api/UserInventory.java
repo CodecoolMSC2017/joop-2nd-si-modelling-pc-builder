@@ -1,5 +1,8 @@
 package com.codecool.api;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,4 +91,11 @@ public class UserInventory extends Inventory {
         computers.add(pc);
     }
 
+    public void save() throws IOException {
+        FileOutputStream fileOut = new FileOutputStream(System.getProperty("user.home") + "/pc-builder-save.ser");
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(this);
+        out.close();
+        fileOut.close();
+    }
 }

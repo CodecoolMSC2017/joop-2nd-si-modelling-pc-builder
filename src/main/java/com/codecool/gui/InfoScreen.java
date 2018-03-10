@@ -18,7 +18,6 @@ public class InfoScreen extends Menu {
     InfoScreen(Main main, String type) {
         this.main = main;
         this.type = type;
-        main.save();
         init();
     }
 

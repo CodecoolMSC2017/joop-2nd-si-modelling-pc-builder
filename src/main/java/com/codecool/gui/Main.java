@@ -88,6 +88,7 @@ public class Main extends Application {
     }
 
     public void saveMenu() {
+        save();
         primaryStage.setScene(new InfoScreen(this, "saved").getMenu());
     }
 
@@ -189,11 +190,7 @@ public class Main extends Application {
 
     public void save() {
         try {
-            FileOutputStream fileOut = new FileOutputStream(System.getProperty("user.home") + "/pc-builder-save.ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(inventory);
-            out.close();
-            fileOut.close();
+            inventory.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
