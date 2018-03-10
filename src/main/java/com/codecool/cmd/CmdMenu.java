@@ -5,6 +5,8 @@ import com.codecool.api.Inventory;
 import com.codecool.api.Store;
 import com.codecool.api.UserInventory;
 import com.codecool.api.components.PCComponent;
+import com.codecool.api.exceptions.ComponentsDoNotMatchException;
+import com.codecool.api.exceptions.NoMoreRoomException;
 
 import java.io.*;
 import java.util.List;
@@ -18,6 +20,7 @@ public class CmdMenu {
     private Store store = new Store();
 
     private Scanner userInput = new Scanner(System.in);
+    private String currentType;
 
     CmdMenu() {
         if (new File(saveFilePath).exists()) {
@@ -80,45 +83,10 @@ public class CmdMenu {
     }
 
     private void storeMenu() {
-        List<? extends PCComponent> items;
         while (true) {
-            String choice = chooseCategory(store);
-            switch (choice) {
-                case "back":
-                    return;
-                case "0":
-                    items = store.getCases();
-                    break;
-                case "1":
-                    items = store.getPsus();
-                    break;
-                case "2":
-                    items = store.getMotherboards();
-                    break;
-                case "3":
-                    items = store.getCpus();
-                    break;
-                case "4":
-                    items = store.getHeatsinks();
-                    break;
-                case "5":
-                    items = store.getFans();
-                    break;
-                case "6":
-                    items = store.getMemories();
-                    break;
-                case "7":
-                    items = store.getGpus();
-                    break;
-                case "8":
-                    items = store.getSsds();
-                    break;
-                case "9":
-                    items = store.getHdds();
-                    break;
-                default:
-                    System.out.println("Wrong input!");
-                    continue;
+            List<? extends PCComponent> items = chooseCategory(store);
+            if (items == null) {
+                return;
             }
             storeItemsMenu(items);
         }
@@ -202,7 +170,7 @@ public class CmdMenu {
                     createNewPc();
                     break;
                 case "modify":
-                    modifyPc();
+                    modifyMenu();
                     break;
                 case "rename":
                     renamePc();
@@ -216,8 +184,121 @@ public class CmdMenu {
         }
     }
 
-    private void modifyPc() {
+    private void modifyMenu() {
+        Computer pc = choosePc();
+        if (pc == null) {
+            return;
+        }
+        while (true) {
+            List<? extends PCComponent> components = chooseCategory(pc);
+            if (components == null) {
+                return;
+            }
+            pcItemsMenu(components, pc);
+        }
+    }
 
+    private void pcItemsMenu(List<? extends PCComponent> components, Computer pc) {
+        String[] options = new String[]{"add", "remove", "details", "back"};
+        while (true) {
+            displayCategory(components);
+            showMenu("", options);
+            String choice = getInput();
+            switch (choice) {
+                case "back":
+                    return;
+                case "add":
+                    addComponentToPc(pc, findInventoryListByType());
+                    break;
+                case "remove":
+                    removeComponent(pc);
+                    break;
+                case "details":
+                    showDetails(components);
+                    break;
+                default:
+                    System.out.println("Unknown command: " + choice);
+            }
+        }
+    }
+
+    private void removeComponent(Computer pc) {
+        PCComponent component = chooseItem(findComputerListByType(pc));
+        pc.removeItem(component);
+        inventory.addItem(component);
+        System.out.println("Component removed!");
+    }
+
+    private List<? extends PCComponent> findComputerListByType(Computer pc) {
+        switch (currentType) {
+            case "case":
+                return pc.getCases();
+            case "psu":
+                return pc.getPsus();
+            case "motherboard":
+                return pc.getMotherboards();
+            case "cpu":
+                return pc.getCpus();
+            case "heatsink":
+                return pc.getHeatsinks();
+            case "fan":
+                return pc.getFans();
+            case "memory":
+                return pc.getMemories();
+            case "gpu":
+                return pc.getGpus();
+            case "ssd":
+                return pc.getSsds();
+            case "hdd":
+                return pc.getHdds();
+            default:
+                return null;
+        }
+    }
+
+    private List<? extends PCComponent> findInventoryListByType() {
+        switch (currentType) {
+            case "case":
+                return inventory.getCases();
+            case "psu":
+                return inventory.getPsus();
+            case "motherboard":
+                return inventory.getMotherboards();
+            case "cpu":
+                return inventory.getCpus();
+            case "heatsink":
+                return inventory.getHeatsinks();
+            case "fan":
+                return inventory.getFans();
+            case "memory":
+                return inventory.getMemories();
+            case "gpu":
+                return inventory.getGpus();
+            case "ssd":
+                return inventory.getSsds();
+            case "hdd":
+                return inventory.getHdds();
+            default:
+                return null;
+        }
+    }
+
+    private void addComponentToPc(Computer pc, List<? extends PCComponent> components) {
+        if (components == null) {
+            System.out.println("Error with type " + currentType);
+            return;
+        }
+        PCComponent component = chooseItem(components);
+        if (component == null) {
+            return;
+        }
+        try {
+            pc.addComponent(component);
+            inventory.removeItem(component);
+            System.out.println("Component added!");
+        } catch (NoMoreRoomException | ComponentsDoNotMatchException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void disassemblePc() {
@@ -293,49 +374,20 @@ public class CmdMenu {
     }
 
     private void computersMenu() {
-
+        while (true) {
+            Computer pc = choosePc();
+            if (pc == null) {
+                return;
+            }
+            System.out.println(pc);
+        }
     }
 
     private void inventoryMenu() {
-        List<? extends PCComponent> items;
         while (true) {
-            String choice = chooseCategory(inventory);
-            switch (choice) {
-                case "back":
-                    return;
-                case "0":
-                    items = inventory.getCases();
-                    break;
-                case "1":
-                    items = inventory.getPsus();
-                    break;
-                case "2":
-                    items = inventory.getMotherboards();
-                    break;
-                case "3":
-                    items = inventory.getCpus();
-                    break;
-                case "4":
-                    items = inventory.getHeatsinks();
-                    break;
-                case "5":
-                    items = inventory.getFans();
-                    break;
-                case "6":
-                    items = inventory.getMemories();
-                    break;
-                case "7":
-                    items = inventory.getGpus();
-                    break;
-                case "8":
-                    items = inventory.getSsds();
-                    break;
-                case "9":
-                    items = inventory.getHdds();
-                    break;
-                default:
-                    System.out.println("Wrong input!");
-                    continue;
+            List<? extends PCComponent> items = chooseCategory(inventory);
+            if (items == null) {
+                return;
             }
             inventoryItemsMenu(items);
         }
@@ -397,6 +449,10 @@ public class CmdMenu {
     }
 
     private void displayCategory(List<? extends PCComponent> components) {
+        if (components.size() == 0) {
+            System.out.println("No items");
+            return;
+        }
         int counter = 0;
         System.out.println();
         for (PCComponent component : components) {
@@ -405,7 +461,62 @@ public class CmdMenu {
         }
     }
 
-    private String chooseCategory(Inventory inventory) {
+    private List<? extends PCComponent> chooseCategory(Inventory inventory) {
+        List<? extends PCComponent> items;
+        while (true) {
+            listCategories(inventory);
+            switch (getInput()) {
+                case "back":
+                    return null;
+                case "0":
+                    items = inventory.getCases();
+                    currentType = "case";
+                    break;
+                case "1":
+                    items = inventory.getPsus();
+                    currentType = "psu";
+                    break;
+                case "2":
+                    items = inventory.getMotherboards();
+                    currentType = "motherboard";
+                    break;
+                case "3":
+                    items = inventory.getCpus();
+                    currentType = "cpu";
+                    break;
+                case "4":
+                    items = inventory.getHeatsinks();
+                    currentType = "heatsink";
+                    break;
+                case "5":
+                    items = inventory.getFans();
+                    currentType = "fan";
+                    break;
+                case "6":
+                    items = inventory.getMemories();
+                    currentType = "memory";
+                    break;
+                case "7":
+                    items = inventory.getGpus();
+                    currentType = "gpu";
+                    break;
+                case "8":
+                    items = inventory.getSsds();
+                    currentType = "ssd";
+                    break;
+                case "9":
+                    items = inventory.getHdds();
+                    currentType = "hdd";
+                    break;
+                default:
+                    System.out.println("Wrong input!");
+                    continue;
+            }
+            return items;
+        }
+    }
+
+    private void listCategories(Inventory inventory) {
         System.out.println("\nCommands: back (or type a number)\n" +
                 "0) Cases (" + inventory.getCases().size() + ")\n" +
                 "1) Power supplies (" + inventory.getPsus().size() + ")\n" +
@@ -417,7 +528,6 @@ public class CmdMenu {
                 "7) Graphics cards (" + inventory.getGpus().size() + ")\n" +
                 "8) Solid state drives (" + inventory.getSsds().size() + ")\n" +
                 "9) Hard disk drives (" + inventory.getHdds().size() + ")");
-        return getInput();
     }
 
     private void showMenu(String title, String[] commands) {
