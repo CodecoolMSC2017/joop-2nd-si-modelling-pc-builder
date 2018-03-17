@@ -133,6 +133,7 @@ public class Computer extends Inventory {
         } else if (component instanceof HardDiskDrive) {
             addComponent((HardDiskDrive) component);
         }
+        checkIfFunctional();
     }
 
     private void addComponent(Case item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -159,7 +160,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(PowerSupply item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -170,7 +170,6 @@ public class Computer extends Inventory {
             throw new ComponentsDoNotMatchException("This power supply is not enough to power this beast of a system.");
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(Motherboard item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -202,7 +201,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(CPU item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -236,7 +234,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(Heatsink item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -255,7 +252,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(Fan item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -274,7 +270,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(Memory item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -305,7 +300,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(GraphicsCard item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -329,7 +323,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(SolidStateDrive item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -353,7 +346,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private void addComponent(HardDiskDrive item) throws NoMoreRoomException, ComponentsDoNotMatchException {
@@ -377,7 +369,6 @@ public class Computer extends Inventory {
             }
         }
         addItem(item);
-        checkIfFunctional();
     }
 
     private <T extends ProcessingUnit> String listProcessingUnits(List<T> items) {

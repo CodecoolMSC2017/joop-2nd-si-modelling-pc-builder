@@ -31,6 +31,16 @@ public class UserInventory extends Inventory {
         return moneyMined / 10;
     }
 
+    public List<Computer> getFunctionalPcs() {
+        List<Computer> functionalComputers = new ArrayList<>();
+        for (Computer computer : computers) {
+            if (computer.getFunctional()) {
+                functionalComputers.add(computer);
+            }
+        }
+        return functionalComputers;
+    }
+
     public int getAmountOfFunctionalPCs() {
         int amountOfFunctionalPCs = 0;
 

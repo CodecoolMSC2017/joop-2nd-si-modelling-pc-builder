@@ -79,7 +79,70 @@ public class CmdMenu {
     }
 
     private void homeMenu() {
+        if (inventory.getAmountOfFunctionalPCs() == 0) {
+            System.out.println("You don't have functional computers!");
+            return;
+        }
+        while (true) {
+            for (Computer computer : inventory.getFunctionalPcs()) {
+                System.out.println(computer.getHomeInfo());
+                System.out.println("----------");
+            }
+            String[] options = new String[]{"turn on", "turn off", "mine", "back"};
+            showMenu("Money: " + inventory.getMoney(), options);
+            String choice = getInput();
+            switch (choice) {
+                case "back":
+                    return;
+                case "turn on":
+                    turnOnPc();
+                    break;
+                case "turn off":
+                    turnOffPc();
+                    break;
+                case "mine":
+                    mine();
+                    break;
+                default:
+                    System.out.println("Unknown command: " + choice);
+            }
+        }
+    }
 
+    private void turnOffPc() {
+        Computer pc = choosePc(inventory.getFunctionalPcs());
+        if (pc == null) {
+            return;
+        }
+        if (!pc.isTurnedOn()) {
+            System.out.println("This pc is already turned off!\n");
+            return;
+        }
+        pc.turnOff();
+        System.out.println("Pc turned off!\n");
+    }
+
+    private void turnOnPc() {
+        Computer pc = choosePc(inventory.getFunctionalPcs());
+        if (pc == null) {
+            return;
+        }
+        if (pc.isTurnedOn()) {
+            System.out.println("This pc is already turned on!\n");
+            return;
+        }
+        pc.turnOn();
+        System.out.println("Pc turned on!\n");
+    }
+
+    private void mine() {
+        if (inventory.getAmountOfPCsTurnedOn() == 0) {
+            System.out.println("You have to have at least 1 pc turned on to mine!");
+            return;
+        }
+        int moneyMined = inventory.mine();
+        inventory.manageMoney(moneyMined);
+        System.out.println("You have mined $" + moneyMined);
     }
 
     private void storeMenu() {
@@ -185,7 +248,7 @@ public class CmdMenu {
     }
 
     private void modifyMenu() {
-        Computer pc = choosePc();
+        Computer pc = choosePc(inventory.getComputers());
         if (pc == null) {
             return;
         }
@@ -201,6 +264,7 @@ public class CmdMenu {
     private void pcItemsMenu(List<? extends PCComponent> components, Computer pc) {
         String[] options = new String[]{"add", "remove", "details", "back"};
         while (true) {
+            System.out.println("Components of " + pc.getName() + ":");
             displayCategory(components);
             showMenu("", options);
             String choice = getInput();
@@ -208,7 +272,7 @@ public class CmdMenu {
                 case "back":
                     return;
                 case "add":
-                    addComponentToPc(pc, findInventoryListByType());
+                    addComponentToPc(pc, getListByType(inventory));
                     break;
                 case "remove":
                     removeComponent(pc);
@@ -223,40 +287,13 @@ public class CmdMenu {
     }
 
     private void removeComponent(Computer pc) {
-        PCComponent component = chooseItem(findComputerListByType(pc));
+        PCComponent component = chooseItem(getListByType(pc));
         pc.removeItem(component);
         inventory.addItem(component);
         System.out.println("Component removed!");
     }
 
-    private List<? extends PCComponent> findComputerListByType(Computer pc) {
-        switch (currentType) {
-            case "case":
-                return pc.getCases();
-            case "psu":
-                return pc.getPsus();
-            case "motherboard":
-                return pc.getMotherboards();
-            case "cpu":
-                return pc.getCpus();
-            case "heatsink":
-                return pc.getHeatsinks();
-            case "fan":
-                return pc.getFans();
-            case "memory":
-                return pc.getMemories();
-            case "gpu":
-                return pc.getGpus();
-            case "ssd":
-                return pc.getSsds();
-            case "hdd":
-                return pc.getHdds();
-            default:
-                return null;
-        }
-    }
-
-    private List<? extends PCComponent> findInventoryListByType() {
+    private List<? extends PCComponent> getListByType(Inventory inventory) {
         switch (currentType) {
             case "case":
                 return inventory.getCases();
@@ -288,6 +325,7 @@ public class CmdMenu {
             System.out.println("Error with type " + currentType);
             return;
         }
+        System.out.println("Components in inventory:");
         PCComponent component = chooseItem(components);
         if (component == null) {
             return;
@@ -302,7 +340,7 @@ public class CmdMenu {
     }
 
     private void disassemblePc() {
-        Computer pc = choosePc();
+        Computer pc = choosePc(inventory.getComputers());
         if (pc == null) {
             return;
         }
@@ -314,7 +352,7 @@ public class CmdMenu {
     }
 
     private void renamePc() {
-        Computer pc = choosePc();
+        Computer pc = choosePc(inventory.getComputers());
         if (pc == null) {
             return;
         }
@@ -327,8 +365,7 @@ public class CmdMenu {
         System.out.println("Pc renamed!");
     }
 
-    private Computer choosePc() {
-        List<Computer> computers = inventory.getComputers();
+    private Computer choosePc(List<Computer> computers) {
         if (computers.size() == 0) {
             System.out.println("You don't have Pcs!");
             return null;
@@ -375,7 +412,7 @@ public class CmdMenu {
 
     private void computersMenu() {
         while (true) {
-            Computer pc = choosePc();
+            Computer pc = choosePc(inventory.getComputers());
             if (pc == null) {
                 return;
             }
@@ -450,7 +487,7 @@ public class CmdMenu {
 
     private void displayCategory(List<? extends PCComponent> components) {
         if (components.size() == 0) {
-            System.out.println("No items");
+            System.out.println("\nNo items!");
             return;
         }
         int counter = 0;
@@ -532,9 +569,9 @@ public class CmdMenu {
 
     private void showMenu(String title, String[] commands) {
         System.out.println("\n" + title);
-        System.out.print("Commands: ");
+        System.out.print("Commands: | ");
         for (String command : commands) {
-            System.out.print(command + " ");
+            System.out.print(command + " | ");
         }
         System.out.println();
     }
