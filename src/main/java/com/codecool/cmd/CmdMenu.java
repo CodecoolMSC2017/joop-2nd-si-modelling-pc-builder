@@ -120,6 +120,7 @@ public class CmdMenu {
         }
         pc.turnOff();
         System.out.println("Pc turned off!\n");
+        inventory.updateTemperatures(false);
     }
 
     private void turnOnPc() {
@@ -133,6 +134,7 @@ public class CmdMenu {
         }
         pc.turnOn();
         System.out.println("Pc turned on!\n");
+        inventory.updateTemperatures(false);
     }
 
     private void mine() {
@@ -143,6 +145,7 @@ public class CmdMenu {
         int moneyMined = inventory.mine();
         inventory.manageMoney(moneyMined);
         System.out.println("You have mined $" + moneyMined);
+        inventory.updateTemperatures(true);
     }
 
     private void storeMenu() {
